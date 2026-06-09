@@ -1,29 +1,47 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import { CartDrawer } from "@/components/CartDrawer";
+import { HeroSlider } from "@/components/HeroSlider";
+import { ProductGrid } from "@/components/ProductGrid";
+import { Reviews } from "@/components/Reviews";
+import { useCartSync } from "@/hooks/useCartSync";
+import { useTabTitle } from "@/hooks/useTabTitle";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Your App" },
-      { name: "description", content: "Replace this with a one-sentence description of your app." },
-      { property: "og:title", content: "Your App" },
-      { property: "og:description", content: "Replace this with a one-sentence description of your app." },
+      { title: "LOJA SOLZE — Sun-kissed essentials" },
+      {
+        name: "description",
+        content:
+          "Slow design, warm tones and everyday pieces for sunlit days. Shop the LOJA SOLZE summer edit.",
+      },
+      { property: "og:title", content: "LOJA SOLZE — Sun-kissed essentials" },
+      {
+        property: "og:description",
+        content:
+          "Slow design, warm tones and everyday pieces for sunlit days.",
+      },
     ],
   }),
-  component: Index,
+  component: HomePage,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function HomePage() {
+  useCartSync();
+  useTabTitle("LOJA SOLZE — Sun-kissed essentials");
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-background text-foreground">
+      <Header />
+      <main>
+        <HeroSlider />
+        <ProductGrid eyebrow="Super promotions" title="Limited-time picks" />
+        <Reviews />
+      </main>
+      <Footer />
+      <CartDrawer />
     </div>
   );
 }
