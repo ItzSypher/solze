@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { useCartStore } from "@/stores/cartStore";
+import logoAsset from "@/assets/solze-logo.png.asset.json";
 
 const NAV = [
   { label: "Mochilas Táticas", href: "#categorias" },
@@ -39,16 +40,12 @@ export function Header() {
           <Button variant="ghost" size="icon" className="md:hidden text-foreground">
             <Menu className="h-5 w-5" />
           </Button>
-          <Link to="/" className="flex items-center gap-2.5 shrink-0">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-accent text-accent-foreground font-display font-extrabold">
-              S
-            </span>
-            <span className="font-display text-xl font-extrabold tracking-tight">
-              SOLZE
-              <span className="ml-1.5 text-[10px] uppercase tracking-[0.2em] text-accent align-middle">
-                Tactical
-              </span>
-            </span>
+          <Link to="/" className="flex items-center shrink-0">
+            <img
+              src={logoAsset.url}
+              alt="Solze"
+              className="h-9 w-auto object-contain"
+            />
           </Link>
 
           <div className="flex-1 max-w-xl mx-auto hidden sm:block">

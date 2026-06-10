@@ -1,22 +1,13 @@
 import { Mail, Instagram, ShieldCheck } from "lucide-react";
+import logoAsset from "@/assets/solze-logo.png.asset.json";
 
 export function Footer() {
   return (
     <footer className="mt-32 border-t border-border bg-card/40">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-16 grid gap-10 md:grid-cols-5">
         <div className="md:col-span-2">
-          <div className="flex items-center gap-2.5">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-accent text-accent-foreground font-display font-extrabold">
-              S
-            </span>
-            <span className="font-display text-xl font-extrabold tracking-tight">
-              SOLZE
-              <span className="ml-1.5 text-[10px] uppercase tracking-[0.2em] text-accent align-middle">
-                Tactical
-              </span>
-            </span>
-          </div>
-          <p className="mt-4 text-sm text-muted-foreground max-w-sm leading-relaxed">
+          <img src={logoAsset.url} alt="Solze" className="h-9 w-auto object-contain" />
+          <p className="mt-5 text-sm text-muted-foreground max-w-sm leading-relaxed">
             Bolsas táticas e profissionais de alta performance. Projetadas no Brasil,
             testadas em campo, garantidas para a vida toda.
           </p>
