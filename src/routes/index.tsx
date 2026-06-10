@@ -3,6 +3,9 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
 import { HeroSlider } from "@/components/HeroSlider";
+import { Categories } from "@/components/Categories";
+import { Benefits } from "@/components/Benefits";
+import { Brands } from "@/components/Brands";
 import { ProductGrid } from "@/components/ProductGrid";
 import { Reviews } from "@/components/Reviews";
 import { useCartSync } from "@/hooks/useCartSync";
@@ -11,17 +14,17 @@ import { useTabTitle } from "@/hooks/useTabTitle";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "LOJA SOLZE — Sun-kissed essentials" },
+      { title: "SOLZE Construção — Materiais e ferramentas para sua obra" },
       {
         name: "description",
         content:
-          "Slow design, warm tones and everyday pieces for sunlit days. Shop the LOJA SOLZE summer edit.",
+          "Ferramentas, tintas, elétrica, hidráulica e materiais de construção com entrega rápida. Marcas pro e melhores preços.",
       },
-      { property: "og:title", content: "LOJA SOLZE — Sun-kissed essentials" },
+      { property: "og:title", content: "SOLZE Construção" },
       {
         property: "og:description",
         content:
-          "Slow design, warm tones and everyday pieces for sunlit days.",
+          "Tudo para sua obra com entrega rápida e parcelamento em até 12x.",
       },
     ],
   }),
@@ -30,14 +33,22 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   useCartSync();
-  useTabTitle("LOJA SOLZE — Sun-kissed essentials");
+  useTabTitle("SOLZE Construção — Tudo para sua obra");
 
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
       <main>
         <HeroSlider />
-        <ProductGrid eyebrow="Super promotions" title="Limited-time picks" />
+        <Categories />
+        <Benefits />
+        <ProductGrid eyebrow="Ofertas da semana" title="Promoções da obra" />
+        <Brands />
+        <ProductGrid
+          eyebrow="Mais vendidos"
+          title="Top de vendas"
+          limit={4}
+        />
         <Reviews />
       </main>
       <Footer />

@@ -5,25 +5,25 @@ import { Button } from "@/components/ui/button";
 
 const SLIDES = [
   {
-    eyebrow: "Summer Edit 2026",
-    title: "Sun-kissed essentials,\nmade to wear daily.",
-    sub: "Slow design and warm tones for the brighter season.",
-    cta: "Shop the edit",
-    bg: "from-amber-100 via-orange-50 to-rose-100",
+    eyebrow: "Mega ofertas da obra",
+    title: "Tudo para construir\ncom preço justo.",
+    sub: "Ferramentas, elétrica, hidráulica e mais. Entrega rápida na obra.",
+    cta: "Ver ofertas",
+    bg: "from-amber-100 via-orange-100 to-yellow-200",
   },
   {
-    eyebrow: "Limited drop",
-    title: "Linen, lightly\ntouched by the sun.",
-    sub: "Breathable pieces in just a few colorways. Once they're gone, they're gone.",
-    cta: "See the drop",
-    bg: "from-yellow-50 via-amber-100 to-orange-100",
+    eyebrow: "Marcas profissionais",
+    title: "Bosch, Makita, DeWalt\ncom até 40% OFF.",
+    sub: "Linha pro para quem leva a obra a sério. Estoque limitado.",
+    cta: "Conferir marcas",
+    bg: "from-stone-100 via-amber-50 to-orange-100",
   },
   {
-    eyebrow: "Free shipping",
-    title: "On every order\nover $80.",
-    sub: "Delivered fast, packaged kindly. No surprises at checkout.",
-    cta: "Start shopping",
-    bg: "from-stone-100 via-amber-50 to-yellow-100",
+    eyebrow: "Frete para a obra",
+    title: "Receba na obra\nem até 24h.",
+    sub: "Capitais e região metropolitana. Acima de R$ 300, o frete é por nossa conta.",
+    cta: "Começar a comprar",
+    bg: "from-yellow-50 via-orange-100 to-amber-200",
   },
 ];
 
