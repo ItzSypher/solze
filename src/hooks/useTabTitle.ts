@@ -1,10 +1,9 @@
 import { useEffect } from "react";
 
 const AWAY_TITLES = [
-  "Forgot something? 🛒",
-  "Come back! Your cart is waiting ✨",
-  "Don't miss out — your picks are still here ☀️",
-  "Psst… come check LOJA SOLZE",
+  "Ficou faltando algo? 🛒 | Solze",
+  "Sua missão está incompleta ⚡ | Solze",
+  "Volte e finalize sua compra | Solze",
 ];
 
 export function useTabTitle(originalTitle: string) {
