@@ -1,36 +1,37 @@
 import { motion } from "framer-motion";
 
-const BRANDS = [
-  "Bosch",
-  "Makita",
-  "DeWalt",
-  "Tramontina",
-  "Vonder",
-  "Tigre",
-  "Suvinil",
-  "Coral",
-  "Deca",
-  "Philips",
+const FEATURES = [
+  "CORDURA® 1000D",
+  "YKK® Zippers",
+  "MOLLE / PALS",
+  "Hypalon Reinforced",
+  "Duraflex® Buckles",
+  "Hydration Ready",
+  "Ballistic Compatible",
+  "IPX4 Weatherproof",
 ];
 
 export function Brands() {
   return (
-    <section className="mx-auto max-w-7xl px-4 sm:px-6 mt-20">
-      <p className="text-center text-xs uppercase tracking-[0.2em] text-muted-foreground">
-        As marcas que sua obra confia
+    <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-24">
+      <p className="text-center text-[11px] uppercase tracking-[0.24em] text-accent">
+        / Spec sheet
       </p>
-      <div className="mt-6 overflow-hidden">
+      <p className="mt-2 text-center text-sm text-muted-foreground">
+        Componentes de grau militar em cada peça
+      </p>
+      <div className="mt-8 overflow-hidden border-y border-white/5 py-6">
         <motion.div
-          className="flex gap-10 whitespace-nowrap"
+          className="flex gap-12 whitespace-nowrap"
           animate={{ x: ["0%", "-50%"] }}
-          transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
         >
-          {[...BRANDS, ...BRANDS].map((b, i) => (
+          {[...FEATURES, ...FEATURES].map((b, i) => (
             <span
               key={i}
-              className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground/40 hover:text-foreground/80 transition-colors"
+              className="font-display text-xl sm:text-2xl font-bold tracking-tight text-foreground/30 hover:text-accent transition-colors"
             >
-              {b}
+              {b} <span className="ml-12 text-accent/60">·</span>
             </span>
           ))}
         </motion.div>

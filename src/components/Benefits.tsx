@@ -1,49 +1,49 @@
 import { motion } from "framer-motion";
-import { Truck, ShieldCheck, CreditCard, Headphones } from "lucide-react";
+import { Truck, ShieldCheck, CreditCard, RotateCcw } from "lucide-react";
 
 const ITEMS = [
   {
     icon: Truck,
-    title: "Entrega para a obra",
-    sub: "Frete rápido em capitais e região metropolitana.",
+    title: "Expresso 24h",
+    sub: "Receba no dia seguinte em capitais.",
   },
   {
     icon: CreditCard,
-    title: "Parcelamento em 12x",
-    sub: "Sem juros no cartão em compras acima de R$ 300.",
+    title: "12x sem juros",
+    sub: "Em todo o site, acima de R$ 199.",
   },
   {
     icon: ShieldCheck,
-    title: "Garantia de fábrica",
-    sub: "Produtos originais com nota fiscal e garantia.",
+    title: "Garantia vitalícia",
+    sub: "Reparo ou troca pra sempre.",
   },
   {
-    icon: Headphones,
-    title: "Atendimento técnico",
-    sub: "Especialistas para te ajudar a escolher o material certo.",
+    icon: RotateCcw,
+    title: "30 dias de teste",
+    sub: "Não gostou? Devolução sem custo.",
   },
 ];
 
 export function Benefits() {
   return (
-    <section className="mx-auto max-w-7xl px-4 sm:px-6 mt-16">
+    <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-20">
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {ITEMS.map(({ icon: Icon, title, sub }, i) => (
           <motion.div
             key={title}
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.4, delay: i * 0.05 }}
-            whileHover={{ y: -2 }}
-            className="flex items-start gap-3 rounded-2xl border border-border bg-card p-4"
+            transition={{ duration: 0.5, delay: i * 0.06 }}
+            whileHover={{ y: -4, scale: 1.02 }}
+            className="flex items-start gap-4 rounded-2xl border border-white/5 bg-card p-5 hover:border-accent/40 transition-colors"
           >
-            <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/15 text-accent-foreground">
+            <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent/15 text-accent">
               <Icon className="h-5 w-5" />
             </span>
             <div>
-              <p className="text-sm font-semibold">{title}</p>
-              <p className="mt-0.5 text-xs text-muted-foreground leading-snug">
+              <p className="font-display text-sm font-bold tracking-tight">{title}</p>
+              <p className="mt-1 text-xs text-muted-foreground leading-snug">
                 {sub}
               </p>
             </div>
