@@ -72,10 +72,10 @@ export function Categories() {
             whileHover={{ y: -6, scale: 1.02 }}
             whileTap={{ scale: 0.97 }}
             transition={{ type: "spring", stiffness: 300, damping: 22 }}
-            className="group relative flex flex-col gap-4 rounded-2xl border border-white/5 bg-card p-5 overflow-hidden hover:border-accent/40 transition-colors"
+            className="group relative flex flex-col gap-4 rounded-2xl border border-border bg-card p-5 overflow-hidden hover:border-accent/40 transition-colors"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-transparent to-transparent group-hover:from-accent/10 group-hover:to-accent/5 transition-all" />
-            <span className="relative inline-flex h-11 w-11 items-center justify-center rounded-xl bg-white/5 text-foreground/80 group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
+            <span className="relative inline-flex h-11 w-11 items-center justify-center rounded-xl bg-secondary/60 text-foreground/80 group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
               <Icon className="h-5 w-5" strokeWidth={1.75} />
             </span>
             <span className="relative font-display text-sm font-bold leading-tight text-foreground">

@@ -21,7 +21,7 @@ export function Header() {
   const setOpen = useCartStore((s) => s.setOpen);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-white/5 bg-background/80 backdrop-blur-xl">
+    <header className="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur-xl">
       <div className="hidden md:flex h-9 items-center justify-between max-w-[1400px] mx-auto px-4 sm:px-6 text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
         <div className="flex items-center gap-5">
           <span className="inline-flex items-center gap-1.5">
@@ -34,7 +34,7 @@ export function Header() {
         <span>Frete grátis acima de R$ 399</span>
       </div>
 
-      <div className="border-t border-white/5">
+      <div className="border-t border-border">
         <div className="mx-auto flex h-16 max-w-[1400px] items-center gap-4 px-4 sm:px-6">
           <Button variant="ghost" size="icon" className="md:hidden text-foreground">
             <Menu className="h-5 w-5" />
@@ -56,7 +56,7 @@ export function Header() {
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Buscar bolsas, mochilas, MOLLE..."
-                className="pl-10 h-10 rounded-full bg-secondary/60 border-white/10 focus-visible:ring-accent"
+                className="pl-10 h-10 rounded-full bg-secondary/60 border-border focus-visible:ring-accent"
               />
             </div>
           </div>
@@ -68,7 +68,7 @@ export function Header() {
             <Button
               variant="ghost"
               size="icon"
-              className="relative hover:bg-white/5"
+              className="relative hover:bg-secondary/60"
               onClick={() => setOpen(true)}
               aria-label="Abrir carrinho"
             >
@@ -82,7 +82,7 @@ export function Header() {
           </div>
         </div>
 
-        <nav className="hidden md:flex h-11 items-center gap-7 max-w-[1400px] mx-auto px-4 sm:px-6 text-[13px] font-medium text-muted-foreground border-t border-white/5 overflow-x-auto">
+        <nav className="hidden md:flex h-11 items-center gap-7 max-w-[1400px] mx-auto px-4 sm:px-6 text-[13px] font-medium text-muted-foreground border-t border-border overflow-x-auto">
           {NAV.map((n) => (
             <a
               key={n.label}

@@ -2,7 +2,7 @@ import { Mail, Instagram, ShieldCheck } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="mt-32 border-t border-white/5 bg-card/40">
+    <footer className="mt-32 border-t border-border bg-card/40">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-16 grid gap-10 md:grid-cols-5">
         <div className="md:col-span-2">
           <div className="flex items-center gap-2.5">
@@ -62,7 +62,7 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="border-t border-white/5 py-5 text-center text-xs text-muted-foreground tracking-wider">
+      <div className="border-t border-border py-5 text-center text-xs text-muted-foreground tracking-wider">
         © {new Date().getFullYear()} SOLZE Tactical. Engineered in Brazil.
       </div>
     </footer>
