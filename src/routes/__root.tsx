@@ -78,17 +78,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "LOJA SOLZE — Sun-kissed essentials" },
+      { title: "Solze — Bolsas táticas e profissionais premium" },
       {
         name: "description",
         content:
-          "Slow design, warm tones and everyday pieces for sunlit days. Shop the LOJA SOLZE summer edit.",
+          "Bolsas táticas e profissionais de alta performance. Design premium, construção militar, garantia vitalícia.",
       },
-      { name: "author", content: "LOJA SOLZE" },
-      { property: "og:title", content: "LOJA SOLZE" },
+      { name: "author", content: "Solze" },
+      { property: "og:title", content: "Solze — Tactical Grade" },
       {
         property: "og:description",
-        content: "Slow design and warm tones for sunlit days.",
+        content: "Bolsas táticas premium para profissionais que não aceitam menos.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -96,9 +96,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Montserrat:wght@300;400;500;600;700&display=swap",
       },
     ],
   }),
@@ -110,11 +111,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <head>
         <HeadContent />
       </head>
-      <body className="font-sans antialiased" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
+      <body className="antialiased">
         {children}
         <Scripts />
       </body>

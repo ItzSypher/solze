@@ -1,65 +1,69 @@
-import { MapPin, Phone, Mail } from "lucide-react";
+import { Mail, Instagram, ShieldCheck } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="mt-24 border-t border-border/60 bg-secondary/40">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-12 grid gap-8 md:grid-cols-5">
+    <footer className="mt-32 border-t border-white/5 bg-card/40">
+      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-16 grid gap-10 md:grid-cols-5">
         <div className="md:col-span-2">
-          <div className="flex items-center gap-2">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground font-bold">
+          <div className="flex items-center gap-2.5">
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-accent text-accent-foreground font-display font-extrabold">
               S
             </span>
-            <span className="text-lg font-semibold">
-              SOLZE <span className="text-accent-foreground/80">Construção</span>
+            <span className="font-display text-xl font-extrabold tracking-tight">
+              SOLZE
+              <span className="ml-1.5 text-[10px] uppercase tracking-[0.2em] text-accent align-middle">
+                Tactical
+              </span>
             </span>
           </div>
-          <p className="mt-3 text-sm text-muted-foreground max-w-sm">
-            Materiais de construção, ferramentas e acabamento com preço justo e
-            entrega rápida na sua obra.
+          <p className="mt-4 text-sm text-muted-foreground max-w-sm leading-relaxed">
+            Bolsas táticas e profissionais de alta performance. Projetadas no Brasil,
+            testadas em campo, garantidas para a vida toda.
           </p>
-          <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-            <li className="flex items-center gap-2">
-              <Phone className="h-4 w-4" /> 0800 000 0000
-            </li>
-            <li className="flex items-center gap-2">
-              <Mail className="h-4 w-4" /> contato@solze.com.br
-            </li>
-            <li className="flex items-center gap-2">
-              <MapPin className="h-4 w-4" /> Entrega em todo Brasil
-            </li>
+          <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 text-xs text-accent">
+            <ShieldCheck className="h-3.5 w-3.5" /> Garantia vitalícia em toda linha
+          </div>
+        </div>
+        <div>
+          <h4 className="font-display text-sm font-bold mb-4 uppercase tracking-wider">
+            Coleções
+          </h4>
+          <ul className="space-y-2.5 text-sm text-muted-foreground">
+            <li className="hover:text-accent cursor-pointer transition-colors">Operator</li>
+            <li className="hover:text-accent cursor-pointer transition-colors">EDC</li>
+            <li className="hover:text-accent cursor-pointer transition-colors">Range</li>
+            <li className="hover:text-accent cursor-pointer transition-colors">MOLLE</li>
           </ul>
         </div>
         <div>
-          <h4 className="text-sm font-semibold mb-3">Categorias</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>Ferramentas</li>
-            <li>Elétrica</li>
-            <li>Hidráulica</li>
-            <li>Tintas</li>
-            <li>Construção</li>
+          <h4 className="font-display text-sm font-bold mb-4 uppercase tracking-wider">
+            Suporte
+          </h4>
+          <ul className="space-y-2.5 text-sm text-muted-foreground">
+            <li className="hover:text-accent cursor-pointer transition-colors">Garantia</li>
+            <li className="hover:text-accent cursor-pointer transition-colors">Trocas</li>
+            <li className="hover:text-accent cursor-pointer transition-colors">Rastrear pedido</li>
+            <li className="hover:text-accent cursor-pointer transition-colors">FAQ</li>
           </ul>
         </div>
         <div>
-          <h4 className="text-sm font-semibold mb-3">Atendimento</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>Central de ajuda</li>
-            <li>Trocas e devoluções</li>
-            <li>Rastrear pedido</li>
-            <li>Fale conosco</li>
+          <h4 className="font-display text-sm font-bold mb-4 uppercase tracking-wider">
+            Solze
+          </h4>
+          <ul className="space-y-2.5 text-sm text-muted-foreground">
+            <li className="hover:text-accent cursor-pointer transition-colors">Sobre</li>
+            <li className="hover:text-accent cursor-pointer transition-colors">Field Tests</li>
+            <li className="hover:text-accent cursor-pointer transition-colors">B2B / Pro</li>
+            <li className="hover:text-accent cursor-pointer transition-colors">Imprensa</li>
           </ul>
-        </div>
-        <div>
-          <h4 className="text-sm font-semibold mb-3">Institucional</h4>
-          <ul className="space-y-2 text-sm text-muted-foreground">
-            <li>Sobre a SOLZE</li>
-            <li>Trabalhe conosco</li>
-            <li>Política de privacidade</li>
-            <li>Termos de uso</li>
-          </ul>
+          <div className="flex gap-3 mt-5 text-muted-foreground">
+            <Instagram className="h-4 w-4 hover:text-accent cursor-pointer transition-colors" />
+            <Mail className="h-4 w-4 hover:text-accent cursor-pointer transition-colors" />
+          </div>
         </div>
       </div>
-      <div className="border-t border-border/60 py-4 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} SOLZE Construção. Todos os direitos reservados.
+      <div className="border-t border-white/5 py-5 text-center text-xs text-muted-foreground tracking-wider">
+        © {new Date().getFullYear()} SOLZE Tactical. Engineered in Brazil.
       </div>
     </footer>
   );

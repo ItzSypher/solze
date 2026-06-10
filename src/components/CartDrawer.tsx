@@ -14,12 +14,26 @@ import {
   Trash2,
   ExternalLink,
   Loader2,
+  Plus as PlusIcon,
+  Zap,
 } from "lucide-react";
+import { motion } from "framer-motion";
 import { useCartStore } from "@/stores/cartStore";
+
+function formatBRL(amount: number) {
+  try {
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(amount);
+  } catch {
+    return `R$ ${amount.toFixed(2)}`;
+  }
+}
 
 function formatPrice(amount: number, currency: string) {
   try {
-    return new Intl.NumberFormat(undefined, {
+    return new Intl.NumberFormat(currency === "BRL" ? "pt-BR" : undefined, {
       style: "currency",
       currency,
     }).format(amount);
@@ -27,6 +41,12 @@ function formatPrice(amount: number, currency: string) {
     return `${currency} ${amount.toFixed(2)}`;
   }
 }
+
+const ORDER_BUMPS = [
+  { name: "Cinto Tático Operator", price: 19.9, tag: "+ AOV" },
+  { name: "Porta-Carregador MOLLE", price: 29.9, tag: "Pro" },
+  { name: "Patch Velcro Solze", price: 9.9, tag: "Free gift" },
+];
 
 export function CartDrawer() {
   const {
@@ -46,7 +66,7 @@ export function CartDrawer() {
   }, [isOpen, syncCart]);
 
   const totalItems = items.reduce((s, i) => s + i.quantity, 0);
-  const currency = items[0]?.price.currencyCode || "USD";
+  const currency = items[0]?.price.currencyCode || "BRL";
   const totalPrice = items.reduce(
     (s, i) => s + parseFloat(i.price.amount) * i.quantity,
     0,
@@ -62,13 +82,16 @@ export function CartDrawer() {
 
   return (
     <Sheet open={isOpen} onOpenChange={setOpen}>
-      <SheetContent className="w-full sm:max-w-md flex flex-col h-full p-0">
+      <SheetContent className="w-full sm:max-w-md flex flex-col h-full p-0 bg-card border-l border-white/5">
         <SheetHeader className="px-6 pt-6">
-          <SheetTitle className="text-xl">Your bag</SheetTitle>
-          <SheetDescription>
+          <SheetTitle className="font-display text-2xl font-extrabold tracking-tight flex items-center gap-2">
+            <Zap className="h-5 w-5 text-accent" />
+            Seu equipamento
+          </SheetTitle>
+          <SheetDescription className="text-xs uppercase tracking-[0.2em]">
             {totalItems === 0
-              ? "Your bag is empty"
-              : `${totalItems} item${totalItems !== 1 ? "s" : ""}`}
+              ? "Nenhum item ainda"
+              : `${totalItems} ${totalItems === 1 ? "item" : "itens"} no carrinho`}
           </SheetDescription>
         </SheetHeader>
 
@@ -78,7 +101,7 @@ export function CartDrawer() {
               <div className="text-center">
                 <ShoppingBag className="h-10 w-10 text-muted-foreground/60 mx-auto mb-3" />
                 <p className="text-sm text-muted-foreground">
-                  Nothing here yet — start adding pieces.
+                  Comece a montar seu loadout.
                 </p>
               </div>
             </div>
@@ -89,7 +112,12 @@ export function CartDrawer() {
                   const img =
                     item.product.node.images?.edges?.[0]?.node?.url;
                   return (
-                    <div key={item.variantId} className="flex gap-4">
+                    <motion.div
+                      key={item.variantId}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="flex gap-4"
+                    >
                       <div className="w-20 h-20 rounded-xl bg-secondary overflow-hidden flex-shrink-0">
                         {img && (
                           <img
@@ -100,18 +128,18 @@ export function CartDrawer() {
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="text-sm font-medium truncate">
+                        <h4 className="font-display text-sm font-bold truncate">
                           {item.product.node.title}
                         </h4>
                         {item.selectedOptions.length > 0 && (
                           <p className="text-xs text-muted-foreground">
                             {item.selectedOptions
                               .map((o) => o.value)
-                              .join(" • ")}
+                              .join(" · ")}
                           </p>
                         )}
                         <div className="mt-2 flex items-center justify-between">
-                          <div className="flex items-center gap-1 rounded-full border border-border">
+                          <div className="flex items-center gap-1 rounded-full border border-white/10 bg-secondary/40">
                             <Button
                               variant="ghost"
                               size="icon"
@@ -122,7 +150,7 @@ export function CartDrawer() {
                             >
                               <Minus className="h-3 w-3" />
                             </Button>
-                            <span className="w-6 text-center text-sm">
+                            <span className="w-6 text-center text-sm font-semibold">
                               {item.quantity}
                             </span>
                             <Button
@@ -136,7 +164,7 @@ export function CartDrawer() {
                               <Plus className="h-3 w-3" />
                             </Button>
                           </div>
-                          <span className="text-sm font-semibold">
+                          <span className="font-display text-sm font-bold">
                             {formatPrice(
                               parseFloat(item.price.amount) * item.quantity,
                               item.price.currencyCode,
@@ -147,46 +175,75 @@ export function CartDrawer() {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-7 w-7 text-muted-foreground"
+                        className="h-7 w-7 text-muted-foreground hover:text-destructive"
                         onClick={() => removeItem(item.variantId)}
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                       </Button>
-                    </div>
+                    </motion.div>
                   );
                 })}
 
-                <div className="mt-6 rounded-2xl bg-secondary/60 p-4">
-                  <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                    You might also like
+                {/* Order Bump */}
+                <div className="mt-6 rounded-2xl border border-accent/30 bg-accent/5 p-4">
+                  <p className="text-[11px] uppercase tracking-[0.22em] text-accent flex items-center gap-1.5">
+                    <Zap className="h-3 w-3" /> Adicione agora
                   </p>
-                  <p className="mt-2 text-sm text-foreground/80">
-                    Complete the look with a complementary piece — browse picks
-                    on your way to checkout.
+                  <p className="mt-1 font-display text-sm font-bold">
+                    Complete seu loadout
                   </p>
+                  <div className="mt-3 space-y-2">
+                    {ORDER_BUMPS.map((b) => (
+                      <motion.button
+                        key={b.name}
+                        whileHover={{ x: 2 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="w-full flex items-center justify-between gap-3 rounded-xl bg-card border border-white/5 p-3 hover:border-accent/40 transition-colors text-left group"
+                      >
+                        <span className="flex items-center gap-2.5 min-w-0">
+                          <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
+                            <PlusIcon className="h-4 w-4" />
+                          </span>
+                          <span className="min-w-0">
+                            <span className="block text-sm font-medium truncate">
+                              {b.name}
+                            </span>
+                            <span className="block text-[10px] uppercase tracking-wider text-muted-foreground">
+                              {b.tag}
+                            </span>
+                          </span>
+                        </span>
+                        <span className="font-display text-sm font-bold text-accent">
+                          + {formatBRL(b.price)}
+                        </span>
+                      </motion.button>
+                    ))}
+                  </div>
                 </div>
               </div>
 
-              <div className="border-t border-border px-6 py-4 space-y-3 bg-background">
+              <div className="border-t border-white/5 px-6 py-5 space-y-3 bg-card">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Subtotal</span>
-                  <span className="text-lg font-semibold">
+                  <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                    Subtotal
+                  </span>
+                  <span className="font-display text-2xl font-extrabold tracking-tight">
                     {formatPrice(totalPrice, currency)}
                   </span>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Shipping and taxes calculated at checkout.
+                  Frete e impostos calculados no checkout.
                 </p>
                 <Button
                   onClick={handleCheckout}
-                  className="w-full rounded-full h-12 bg-foreground text-background hover:bg-foreground/90"
+                  className="w-full rounded-full h-12 bg-accent text-accent-foreground hover:bg-accent/90 font-semibold glow-accent"
                   disabled={items.length === 0 || isLoading || isSyncing}
                 >
                   {isLoading || isSyncing ? (
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
                     <>
-                      Checkout
+                      Finalizar compra
                       <ExternalLink className="ml-2 h-4 w-4" />
                     </>
                   )}

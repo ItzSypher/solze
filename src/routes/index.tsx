@@ -14,17 +14,16 @@ import { useTabTitle } from "@/hooks/useTabTitle";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "SOLZE Construção — Materiais e ferramentas para sua obra" },
+      { title: "Solze — Bolsas táticas e profissionais premium" },
       {
         name: "description",
         content:
-          "Ferramentas, tintas, elétrica, hidráulica e materiais de construção com entrega rápida. Marcas pro e melhores preços.",
+          "Bolsas táticas de alta performance. CORDURA® 1000D, sistema MOLLE, garantia vitalícia. Frete expresso em 24h.",
       },
-      { property: "og:title", content: "SOLZE Construção" },
+      { property: "og:title", content: "Solze — Tactical Grade" },
       {
         property: "og:description",
-        content:
-          "Tudo para sua obra com entrega rápida e parcelamento em até 12x.",
+        content: "Equipamento de alta performance para profissionais.",
       },
     ],
   }),
@@ -33,7 +32,7 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   useCartSync();
-  useTabTitle("SOLZE Construção — Tudo para sua obra");
+  useTabTitle("Solze — Tactical Grade");
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -42,11 +41,11 @@ function HomePage() {
         <HeroSlider />
         <Categories />
         <Benefits />
-        <ProductGrid eyebrow="Ofertas da semana" title="Promoções da obra" />
+        <ProductGrid eyebrow="/ Drop atual" title="Operator Series" />
         <Brands />
         <ProductGrid
-          eyebrow="Mais vendidos"
-          title="Top de vendas"
+          eyebrow="/ Bestsellers"
+          title="Mais escolhidas em campo"
           limit={4}
         />
         <Reviews />
