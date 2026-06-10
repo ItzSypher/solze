@@ -36,7 +36,7 @@ export function Benefits() {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.06 }}
             whileHover={{ y: -4, scale: 1.02 }}
-            className="flex items-start gap-4 rounded-2xl border border-white/5 bg-card p-5 hover:border-accent/40 transition-colors"
+            className="flex items-start gap-4 rounded-2xl border border-border bg-card p-5 hover:border-accent/40 transition-colors"
           >
             <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent/15 text-accent">
               <Icon className="h-5 w-5" />

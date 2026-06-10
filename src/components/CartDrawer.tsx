@@ -82,7 +82,7 @@ export function CartDrawer() {
 
   return (
     <Sheet open={isOpen} onOpenChange={setOpen}>
-      <SheetContent className="w-full sm:max-w-md flex flex-col h-full p-0 bg-card border-l border-white/5">
+      <SheetContent className="w-full sm:max-w-md flex flex-col h-full p-0 bg-card border-l border-border">
         <SheetHeader className="px-6 pt-6">
           <SheetTitle className="font-display text-2xl font-extrabold tracking-tight flex items-center gap-2">
             <Zap className="h-5 w-5 text-accent" />
@@ -139,7 +139,7 @@ export function CartDrawer() {
                           </p>
                         )}
                         <div className="mt-2 flex items-center justify-between">
-                          <div className="flex items-center gap-1 rounded-full border border-white/10 bg-secondary/40">
+                          <div className="flex items-center gap-1 rounded-full border border-border bg-secondary/40">
                             <Button
                               variant="ghost"
                               size="icon"
@@ -198,7 +198,7 @@ export function CartDrawer() {
                         key={b.name}
                         whileHover={{ x: 2 }}
                         whileTap={{ scale: 0.98 }}
-                        className="w-full flex items-center justify-between gap-3 rounded-xl bg-card border border-white/5 p-3 hover:border-accent/40 transition-colors text-left group"
+                        className="w-full flex items-center justify-between gap-3 rounded-xl bg-card border border-border p-3 hover:border-accent/40 transition-colors text-left group"
                       >
                         <span className="flex items-center gap-2.5 min-w-0">
                           <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
@@ -222,7 +222,7 @@ export function CartDrawer() {
                 </div>
               </div>
 
-              <div className="border-t border-white/5 px-6 py-5 space-y-3 bg-card">
+              <div className="border-t border-border px-6 py-5 space-y-3 bg-card">
                 <div className="flex justify-between items-center">
                   <span className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
                     Subtotal

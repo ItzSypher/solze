@@ -249,7 +249,7 @@ function ProductPage() {
           })}
 
           {/* Shipping calculator */}
-          <div className="mt-8 rounded-2xl border border-white/5 bg-card p-5">
+          <div className="mt-8 rounded-2xl border border-border bg-card p-5">
             <div className="flex items-center gap-2 mb-3">
               <Truck className="h-4 w-4 text-accent" />
               <p className="font-display text-sm font-bold uppercase tracking-wider">
@@ -261,12 +261,12 @@ function ProductPage() {
                 value={postalCode}
                 onChange={(e) => setPostalCode(e.target.value)}
                 placeholder="Digite seu CEP"
-                className="rounded-full bg-secondary/60 border-white/10"
+                className="rounded-full bg-secondary/60 border-border"
               />
               <Button
                 variant="outline"
                 onClick={() => setShippingShown(postalCode.trim().length > 0)}
-                className="rounded-full border-white/10 hover:border-accent hover:text-accent"
+                className="rounded-full border-border hover:border-accent hover:text-accent"
               >
                 Calcular
               </Button>
@@ -287,7 +287,7 @@ function ProductPage() {
                   </span>
                   <span className="font-display font-bold">R$ 24,90</span>
                 </div>
-                <div className="flex justify-between items-center rounded-xl bg-secondary/40 px-4 py-3 border border-white/5">
+                <div className="flex justify-between items-center rounded-xl bg-secondary/40 px-4 py-3 border border-border">
                   <span className="flex items-center gap-2">
                     <Truck className="h-3.5 w-3.5" />
                     <span>
@@ -325,7 +325,7 @@ function ProductPage() {
       </main>
 
       {/* Sticky mobile add to cart */}
-      <div className="md:hidden fixed bottom-0 inset-x-0 z-30 border-t border-white/10 bg-background/95 backdrop-blur-xl px-4 py-3">
+      <div className="md:hidden fixed bottom-0 inset-x-0 z-30 border-t border-border bg-background/95 backdrop-blur-xl px-4 py-3">
         <Button
           onClick={handleAdd}
           disabled={isAdding || !variant?.availableForSale}
