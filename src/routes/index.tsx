@@ -203,16 +203,100 @@ function Header() {
         </div>
 
         {/* Departments green nav */}
-        <nav style={{ backgroundColor: OLIVE }} className="text-white">
-          <div className="mx-auto max-w-[1400px] px-4 sm:px-6 flex items-center gap-1 h-12 overflow-x-auto">
-            <button className="inline-flex items-center gap-2 font-display uppercase tracking-wider text-[13px] px-4 h-full bg-black/15 hover:bg-black/25">
-              <Menu className="h-4 w-4" /> Todos os departamentos
-            </button>
+        <nav style={{ backgroundColor: OLIVE }} className="text-white relative">
+          <div className="mx-auto max-w-[1400px] px-4 sm:px-6 flex items-center gap-1 h-12 overflow-visible">
+            {/* Mega menu trigger */}
+            <div className="relative h-full group">
+              <button className="inline-flex items-center gap-2 font-display uppercase tracking-wider text-[13px] px-4 h-full bg-black/15 group-hover:bg-black/30 transition-colors">
+                <Menu className="h-4 w-4" /> Departamentos
+              </button>
+              {/* Mega menu panel */}
+              <div
+                className="absolute left-0 top-full z-50 pt-0 w-[680px] max-w-[92vw]
+                  opacity-0 invisible translate-y-2
+                  group-hover:opacity-100 group-hover:visible group-hover:translate-y-0
+                  transition-all duration-300 ease-out"
+              >
+                <div className="bg-white text-foreground shadow-2xl rounded-b-[20px] overflow-hidden border border-border grid grid-cols-[1fr_240px]">
+                  <div className="p-6">
+                    <p className="text-[11px] uppercase tracking-[0.22em] text-muted-foreground mb-4">
+                      Navegue por categoria
+                    </p>
+                    <ul className="grid grid-cols-2 gap-x-6 gap-y-1">
+                      {[
+                        { label: "Bolsas", count: "32 itens" },
+                        { label: "Mochilas", count: "28 itens" },
+                        { label: "Cintos", count: "14 itens" },
+                        { label: "Estojos", count: "19 itens" },
+                        { label: "MOLLE", count: "22 itens" },
+                        { label: "Acessórios", count: "41 itens" },
+                      ].map((c) => (
+                        <li key={c.label}>
+                          <a
+                            href="#"
+                            className="group/item flex items-center justify-between py-2.5 border-b border-border/60 hover:border-transparent"
+                          >
+                            <span className="font-display uppercase tracking-wider text-[13px] group-hover/item:text-[color:var(--accent)] transition-colors">
+                              {c.label}
+                            </span>
+                            <span className="text-[11px] text-muted-foreground">
+                              {c.count}
+                            </span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                    <a
+                      href="#"
+                      className="inline-flex items-center gap-2 mt-5 font-display uppercase tracking-wider text-[12px]"
+                      style={{ color: RED }}
+                    >
+                      Ver todos os departamentos <ArrowRight className="h-3.5 w-3.5" />
+                    </a>
+                  </div>
+                  {/* Featured */}
+                  <a
+                    href="#"
+                    className="relative block bg-secondary/60 group/feat overflow-hidden"
+                  >
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        background:
+                          "linear-gradient(160deg,#1f2a18 0%,#4A5A3B 65%,#6b7a55 100%)",
+                      }}
+                    />
+                    <div className="relative h-full p-5 flex flex-col justify-between text-white">
+                      <div>
+                        <p className="text-[10px] uppercase tracking-[0.22em] opacity-80">
+                          Destaque
+                        </p>
+                        <h4 className="font-display uppercase text-lg leading-tight mt-1">
+                          Mochila Operator 45L
+                        </h4>
+                      </div>
+                      <div className="self-end h-24 w-24 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center text-3xl transition-transform duration-500 group-hover/feat:scale-110">
+                        🎒
+                      </div>
+                      <div>
+                        <p className="font-display text-2xl" style={{ color: GOLD }}>
+                          R$ 899
+                        </p>
+                        <span className="inline-flex items-center gap-1 text-[11px] uppercase tracking-wider mt-1 opacity-90">
+                          Comprar <ArrowRight className="h-3 w-3" />
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+
             {DEPARTMENTS.map((d) => (
               <a
                 key={d}
                 href="#"
-                className="font-display uppercase tracking-wider text-[12.5px] px-4 h-full inline-flex items-center hover:bg-black/15 whitespace-nowrap"
+                className="font-display uppercase tracking-wider text-[12.5px] px-4 h-full inline-flex items-center hover:bg-black/15 whitespace-nowrap transition-colors"
               >
                 {d}
               </a>
