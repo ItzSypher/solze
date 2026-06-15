@@ -5,19 +5,21 @@ import { motion } from "framer-motion";
 import {
   ChevronLeft,
   Loader2,
-  PlayCircle,
-  RotateCw,
-  ShoppingBag,
   Truck,
+  ShieldCheck,
+  RefreshCcw,
+  Check,
+  X,
+  Plus,
+  Star,
+  Play,
+  Minus,
   Package,
-  Zap,
+  Award,
+  Heart,
 } from "lucide-react";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { Header, Subfooter, Footer } from "@/routes/index";
 import { CartDrawer } from "@/components/CartDrawer";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { fetchProduct } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { useCartSync } from "@/hooks/useCartSync";
@@ -36,23 +38,32 @@ export const Route = createFileRoute("/product/$handle")({
   component: ProductPage,
 });
 
-function formatPrice(amount: string, currency: string) {
+const OLIVE = "#4A5A3B";
+const RED = "#E63946";
+const GOLD = "#C6A87C";
+
+function formatBRL(amount: string) {
   const n = parseFloat(amount);
-  try {
-    return new Intl.NumberFormat(currency === "BRL" ? "pt-BR" : undefined, {
-      style: "currency",
-      currency,
-    }).format(n);
-  } catch {
-    return `${currency} ${n.toFixed(2)}`;
-  }
+  return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(n);
 }
+
+const fade = (delay = 0) => ({
+  initial: { opacity: 0, y: 24 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-80px" },
+  transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] as const },
+});
+
+const fadeIn = (delay = 0) => ({
+  initial: { opacity: 0, y: 18 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] as const },
+});
 
 function ProductPage() {
   const { handle } = Route.useParams();
   useCartSync();
   useTabTitle(`${handle} — Solze Tactical`);
-
 
   const { data: product, isLoading } = useQuery({
     queryKey: ["product", handle],
@@ -64,7 +75,8 @@ function ProductPage() {
 
   const [imgIdx, setImgIdx] = useState(0);
   const [selected, setSelected] = useState<Record<string, string>>({});
-  const [postalCode, setPostalCode] = useState("");
+  const [qty, setQty] = useState(1);
+  const [cep, setCep] = useState("");
   const [shippingShown, setShippingShown] = useState(false);
 
   const variant = useMemo(() => {
@@ -78,138 +90,157 @@ function ProductPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-white">
         <Header />
         <div className="flex items-center justify-center py-32">
-          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+          <Loader2 className="h-6 w-6 animate-spin text-neutral-400" />
         </div>
       </div>
     );
   }
 
-  if (!product) {
-    throw notFound();
-  }
+  if (!product) throw notFound();
 
   const images = product.node.images.edges;
   const price = variant?.price ?? product.node.priceRange.minVariantPrice;
   const compareAt = variant?.compareAtPrice;
   const onSale =
     compareAt && parseFloat(compareAt.amount) > parseFloat(price.amount);
+  const discountPct = onSale
+    ? Math.round((1 - parseFloat(price.amount) / parseFloat(compareAt!.amount)) * 100)
+    : 0;
+
+  const installment = (parseFloat(price.amount) / 10).toFixed(2);
 
   const handleAdd = async () => {
     if (!variant) return;
-    await addItem({
-      product,
-      variantId: variant.id,
-      variantTitle: variant.title,
-      price: variant.price,
-      quantity: 1,
-      selectedOptions: variant.selectedOptions || [],
-    });
+    for (let i = 0; i < qty; i++) {
+      await addItem({
+        product,
+        variantId: variant.id,
+        variantTitle: variant.title,
+        price: variant.price,
+        quantity: 1,
+        selectedOptions: variant.selectedOptions || [],
+      });
+    }
   };
 
-  return (
-    <div className="min-h-screen bg-background text-foreground pb-32 md:pb-12">
-      <Header />
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 pt-6">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground"
-        >
-          <ChevronLeft className="h-4 w-4" />
-          Back to shop
-        </Link>
-      </div>
+  const firstImage = images[0]?.node;
+  const heroImg = images[imgIdx]?.node ?? firstImage;
 
-      <main className="mx-auto max-w-7xl px-4 sm:px-6 mt-6 grid gap-10 lg:grid-cols-2">
+  return (
+    <div className="min-h-screen bg-white text-neutral-900 font-sans pb-24">
+      <Header />
+
+      {/* Breadcrumb */}
+      <motion.div {...fadeIn(0)} className="mx-auto max-w-[1400px] px-4 sm:px-6 pt-6">
+        <Link to="/" className="inline-flex items-center gap-1 text-xs text-neutral-500 hover:text-neutral-900 uppercase tracking-wider font-display">
+          <ChevronLeft className="h-3.5 w-3.5" /> Voltar para a loja
+        </Link>
+      </motion.div>
+
+      {/* ============ SECTION 1: BUY BOX ============ */}
+      <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-6 grid gap-10 lg:grid-cols-2">
         {/* Gallery */}
-        <div>
-          <motion.div
-            key={imgIdx}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.4 }}
-            className="relative aspect-square overflow-hidden rounded-3xl bg-secondary"
-          >
-            {images[imgIdx]?.node ? (
-              <img
-                src={images[imgIdx].node.url}
-                alt={images[imgIdx].node.altText ?? product.node.title}
-                className="h-full w-full object-cover"
+        <motion.div {...fadeIn(0.05)}>
+          <div className="relative aspect-square overflow-hidden rounded-[20px] bg-neutral-50 border border-neutral-200">
+            {heroImg ? (
+              <motion.img
+                key={imgIdx}
+                src={heroImg.url}
+                alt={heroImg.altText ?? product.node.title}
+                initial={{ opacity: 0, scale: 1.02 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4 }}
+                className="h-full w-full object-contain p-8"
               />
             ) : (
-              <div className="flex h-full w-full items-center justify-center text-muted-foreground">
-                No image
+              <div className="flex h-full w-full items-center justify-center text-neutral-400 text-sm">
+                Sem imagem
               </div>
             )}
-
-            <div className="absolute bottom-4 left-4 flex gap-2">
-              <Badge
-                variant="outline"
-                className="bg-background/80 backdrop-blur rounded-full gap-1 border-accent/40 text-accent"
+            {onSale && (
+              <span
+                className="absolute left-4 top-4 rounded-[20px] px-3 py-1.5 text-xs font-display font-bold uppercase tracking-wider text-white"
+                style={{ backgroundColor: RED }}
               >
-                <PlayCircle className="h-3.5 w-3.5" />
-                Vídeo em breve
-              </Badge>
-              <Badge
-                variant="outline"
-                className="bg-background/80 backdrop-blur rounded-full gap-1 border-accent/40 text-accent"
-              >
-                <RotateCw className="h-3.5 w-3.5" />
-                360° view
-              </Badge>
-            </div>
-
-          </motion.div>
+                -{discountPct}% OFF
+              </span>
+            )}
+            <button className="absolute right-4 top-4 h-10 w-10 rounded-full bg-white border border-neutral-200 hover:border-neutral-400 flex items-center justify-center transition-colors">
+              <Heart className="h-4 w-4" />
+            </button>
+          </div>
 
           {images.length > 1 && (
             <div className="mt-3 grid grid-cols-5 gap-2">
-              {images.map((img, i) => (
+              {images.slice(0, 5).map((img, i) => (
                 <button
                   key={i}
                   onClick={() => setImgIdx(i)}
-                  className={`aspect-square overflow-hidden rounded-xl bg-secondary transition ${
-                    i === imgIdx
-                      ? "ring-2 ring-foreground"
-                      : "opacity-70 hover:opacity-100"
+                  className={`aspect-square overflow-hidden rounded-[20px] bg-neutral-50 border-2 transition ${
+                    i === imgIdx ? "border-neutral-900" : "border-neutral-200 hover:border-neutral-400"
                   }`}
                 >
-                  <img
-                    src={img.node.url}
-                    alt=""
-                    className="h-full w-full object-cover"
-                  />
+                  <img src={img.node.url} alt="" className="h-full w-full object-contain p-2" />
                 </button>
               ))}
             </div>
           )}
-        </div>
+        </motion.div>
 
         {/* Info */}
-        <div>
-          <p className="text-[11px] uppercase tracking-[0.24em] text-accent">
+        <motion.div {...fadeIn(0.15)}>
+          <p className="text-[11px] font-display uppercase tracking-[0.25em]" style={{ color: OLIVE }}>
             / SOLZE TACTICAL
           </p>
-          <h1 className="font-display mt-3 text-4xl sm:text-5xl font-extrabold tracking-tight text-balance">
+          <h1 className="font-display uppercase mt-3 text-4xl sm:text-5xl font-bold leading-[1.05] text-balance">
             {product.node.title}
           </h1>
 
-          <div className="mt-5 flex items-baseline gap-3">
-            <span className="font-display text-3xl font-extrabold">
-              {formatPrice(price.amount, price.currencyCode)}
+          {/* rating row */}
+          <div className="mt-4 flex items-center gap-3 text-sm">
+            <div className="flex items-center gap-0.5" style={{ color: GOLD }}>
+              {[1, 2, 3, 4, 5].map((s) => (
+                <Star key={s} className="h-4 w-4 fill-current" />
+              ))}
+            </div>
+            <span className="font-display font-bold">4.9</span>
+            <span className="text-neutral-500">(287 avaliações)</span>
+            <span className="text-neutral-300">|</span>
+            <span className="inline-flex items-center gap-1 text-neutral-500">
+              <Package className="h-3.5 w-3.5" /> Em estoque
             </span>
-            {onSale && (
-              <span className="text-base text-muted-foreground line-through">
-                {formatPrice(compareAt!.amount, compareAt!.currencyCode)}
-              </span>
-            )}
           </div>
 
-          <p className="mt-6 text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
-            {product.node.description || "Equipamento de alta performance, testado em campo."}
-          </p>
-
+          {/* Price block */}
+          <div className="mt-6 rounded-[20px] border border-neutral-200 bg-neutral-50 p-6">
+            {onSale && (
+              <p className="text-sm text-neutral-500 line-through">
+                De {formatBRL(compareAt!.amount)}
+              </p>
+            )}
+            <div className="flex items-baseline gap-3">
+              <span className="font-display text-5xl font-bold" style={{ color: RED }}>
+                {formatBRL(price.amount)}
+              </span>
+              {onSale && (
+                <span
+                  className="font-display text-sm font-bold rounded-[20px] px-2 py-1 text-white"
+                  style={{ backgroundColor: RED }}
+                >
+                  -{discountPct}%
+                </span>
+              )}
+            </div>
+            <p className="text-sm text-neutral-600 mt-1">
+              ou <strong className="font-display">10x de R$ {installment}</strong> sem juros
+            </p>
+            <p className="text-xs mt-1" style={{ color: OLIVE }}>
+              <strong>5% OFF</strong> no PIX — {formatBRL((parseFloat(price.amount) * 0.95).toString())}
+            </p>
+          </div>
 
           {/* Variant selectors */}
           {product.node.options.map((opt) => {
@@ -219,25 +250,18 @@ function ProductPage() {
               variant?.selectedOptions.find((o) => o.name === opt.name)?.value;
             return (
               <div key={opt.name} className="mt-6">
-                <p className="text-sm font-medium mb-2">
-                  {opt.name}
-                  {current && (
-                    <span className="ml-2 text-muted-foreground font-normal">
-                      {current}
-                    </span>
-                  )}
+                <p className="font-display uppercase tracking-wider text-xs font-bold mb-2">
+                  {opt.name}: <span className="text-neutral-500">{current}</span>
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {opt.values.map((val) => (
                     <button
                       key={val}
-                      onClick={() =>
-                        setSelected((p) => ({ ...p, [opt.name]: val }))
-                      }
-                      className={`min-w-12 rounded-full border px-4 py-2 text-sm transition ${
+                      onClick={() => setSelected((p) => ({ ...p, [opt.name]: val }))}
+                      className={`min-w-12 rounded-[20px] border-2 px-4 py-2 text-sm font-display uppercase tracking-wider transition ${
                         current === val
-                          ? "border-foreground bg-foreground text-background"
-                          : "border-border bg-background hover:border-foreground/40"
+                          ? "border-neutral-900 bg-neutral-900 text-white"
+                          : "border-neutral-200 bg-white hover:border-neutral-400"
                       }`}
                     >
                       {val}
@@ -248,103 +272,494 @@ function ProductPage() {
             );
           })}
 
+          {/* Quantity */}
+          <div className="mt-6">
+            <p className="font-display uppercase tracking-wider text-xs font-bold mb-2">Quantidade</p>
+            <div className="inline-flex items-center rounded-[20px] border-2 border-neutral-200">
+              <button
+                onClick={() => setQty((q) => Math.max(1, q - 1))}
+                className="h-12 w-12 flex items-center justify-center hover:bg-neutral-50 rounded-l-[18px]"
+              >
+                <Minus className="h-4 w-4" />
+              </button>
+              <span className="font-display text-lg font-bold w-12 text-center">{qty}</span>
+              <button
+                onClick={() => setQty((q) => q + 1)}
+                className="h-12 w-12 flex items-center justify-center hover:bg-neutral-50 rounded-r-[18px]"
+              >
+                <Plus className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <button
+            onClick={handleAdd}
+            disabled={isAdding || !variant?.availableForSale}
+            className="mt-6 w-full h-16 rounded-[20px] font-display uppercase tracking-wider text-lg font-bold text-white transition-transform hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2"
+            style={{ backgroundColor: RED }}
+          >
+            {isAdding ? <Loader2 className="h-5 w-5 animate-spin" /> : <>🛒 COMPRAR AGORA</>}
+          </button>
+          <button
+            onClick={handleAdd}
+            disabled={isAdding || !variant?.availableForSale}
+            className="mt-3 w-full h-12 rounded-[20px] border-2 border-neutral-900 bg-white text-neutral-900 font-display uppercase tracking-wider text-sm font-bold hover:bg-neutral-900 hover:text-white transition-colors"
+          >
+            Adicionar ao carrinho
+          </button>
+
           {/* Shipping calculator */}
-          <div className="mt-8 rounded-2xl border border-border bg-card p-5">
+          <div className="mt-6 rounded-[20px] border border-neutral-200 p-5">
             <div className="flex items-center gap-2 mb-3">
-              <Truck className="h-4 w-4 text-accent" />
-              <p className="font-display text-sm font-bold uppercase tracking-wider">
-                Calcular frete
+              <Truck className="h-4 w-4" style={{ color: OLIVE }} />
+              <p className="font-display uppercase tracking-wider text-sm font-bold">
+                Calcular frete e prazo
               </p>
             </div>
             <div className="flex gap-2">
-              <Input
-                value={postalCode}
-                onChange={(e) => setPostalCode(e.target.value)}
+              <input
+                value={cep}
+                onChange={(e) => setCep(e.target.value)}
                 placeholder="Digite seu CEP"
-                className="rounded-full bg-secondary/60 border-border"
+                className="flex-1 h-11 rounded-[20px] border border-neutral-200 px-4 text-sm focus:outline-none focus:border-neutral-400"
               />
-              <Button
-                variant="outline"
-                onClick={() => setShippingShown(postalCode.trim().length > 0)}
-                className="rounded-full border-border hover:border-accent hover:text-accent"
+              <button
+                onClick={() => setShippingShown(cep.trim().length > 0)}
+                className="h-11 px-5 rounded-[20px] font-display uppercase tracking-wider text-xs text-white"
+                style={{ backgroundColor: OLIVE }}
               >
                 Calcular
-              </Button>
+              </button>
             </div>
             {shippingShown && (
               <motion.div
                 initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mt-4 space-y-2 text-sm"
+                className="mt-3 space-y-2 text-sm"
               >
-                <div className="flex justify-between items-center rounded-xl border border-accent/40 bg-accent/10 px-4 py-3">
-                  <span className="flex items-center gap-2">
-                    <Zap className="h-3.5 w-3.5 text-accent" />
-                    <span>
-                      <strong className="font-display">Expresso</strong>
-                      <span className="text-muted-foreground"> · 1 dia útil</span>
-                    </span>
-                  </span>
+                <div className="flex justify-between rounded-[20px] bg-neutral-50 px-4 py-3 border border-neutral-200">
+                  <span><strong className="font-display">SEDEX</strong> · 1 dia útil</span>
                   <span className="font-display font-bold">R$ 24,90</span>
                 </div>
-                <div className="flex justify-between items-center rounded-xl bg-secondary/40 px-4 py-3 border border-border">
-                  <span className="flex items-center gap-2">
-                    <Truck className="h-3.5 w-3.5" />
-                    <span>
-                      <strong className="font-display">Padrão</strong>
-                      <span className="text-muted-foreground"> · 7 dias úteis</span>
-                    </span>
-                  </span>
-                  <span className="font-display font-bold text-accent">Grátis</span>
+                <div className="flex justify-between rounded-[20px] px-4 py-3 border" style={{ backgroundColor: `${OLIVE}10`, borderColor: `${OLIVE}40` }}>
+                  <span><strong className="font-display">PAC</strong> · 7 dias úteis</span>
+                  <span className="font-display font-bold" style={{ color: OLIVE }}>GRÁTIS</span>
                 </div>
               </motion.div>
             )}
-            <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
-              <Package className="h-3.5 w-3.5" />
-              30 dias para devolução · Garantia vitalícia
+          </div>
+
+          {/* trust row */}
+          <div className="mt-6 grid grid-cols-3 gap-3 text-center">
+            {[
+              { i: ShieldCheck, t: "Garantia\nvitalícia" },
+              { i: RefreshCcw, t: "30 dias\npara troca" },
+              { i: Truck, t: "Frete grátis\nacima R$399" },
+            ].map((b, i) => (
+              <div key={i} className="rounded-[20px] border border-neutral-200 p-3">
+                <b.i className="h-5 w-5 mx-auto" style={{ color: OLIVE }} />
+                <p className="text-[11px] font-display uppercase tracking-wider mt-2 whitespace-pre-line">
+                  {b.t}
+                </p>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ============ SECTION 2: IDEAL PARA + COMPARATIVO ============ */}
+      <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-24">
+        <motion.div {...fade()} className="grid lg:grid-cols-2 gap-6">
+          {/* Ideal Para */}
+          <div className="rounded-[20px] p-8 text-white" style={{ background: `linear-gradient(135deg, ${OLIVE} 0%, #2a3520 100%)` }}>
+            <p className="font-display uppercase tracking-[0.25em] text-xs mb-2" style={{ color: GOLD }}>
+              Feita para você
+            </p>
+            <h2 className="font-display uppercase text-3xl lg:text-4xl font-bold">IDEAL PARA</h2>
+            <p className="text-white/80 text-sm mt-3 mb-6 max-w-md">
+              Projetada para profissionais e entusiastas que exigem resistência, organização e estilo no dia a dia.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {[
+                "Eletricistas",
+                "Obra Pesada",
+                "Bombeiros",
+                "Forças Especiais",
+                "Tiro Esportivo",
+                "Aventureiros",
+                "Mecânicos",
+                "Field Tech",
+              ].map((t) => (
+                <span
+                  key={t}
+                  className="rounded-[20px] border border-white/20 bg-white/10 backdrop-blur px-4 py-2 text-sm font-display uppercase tracking-wider hover:bg-white/20 transition-colors"
+                >
+                  {t}
+                </span>
+              ))}
             </div>
           </div>
 
-          {/* Desktop add to cart */}
-          <Button
+          {/* Comparativo */}
+          <div className="rounded-[20px] border-2 border-neutral-200 p-8">
+            <p className="font-display uppercase tracking-[0.25em] text-xs mb-2 text-neutral-500">
+              Por que escolher Solze
+            </p>
+            <h2 className="font-display uppercase text-3xl lg:text-4xl font-bold">COMPARATIVO</h2>
+            <div className="mt-6 grid grid-cols-[1fr_auto_auto] gap-y-3 gap-x-4 text-sm">
+              <div></div>
+              <div className="text-center font-display uppercase tracking-wider text-xs font-bold" style={{ color: OLIVE }}>
+                Solze
+              </div>
+              <div className="text-center font-display uppercase tracking-wider text-xs text-neutral-400">
+                Concorrência
+              </div>
+              {[
+                ["Fundo Rígido reforçado", true, false],
+                ["Tecido Lona Premium 1000D", true, false],
+                ["Costura dupla militar", true, false],
+                ["Garantia Vitalícia", true, false],
+                ["Sistema MOLLE oficial", true, false],
+                ["Zíperes YKK®", true, false],
+                ["Fundo de Tecido fino", false, true],
+                ["Nylon comum 600D", false, true],
+              ].map(([label, s, c], i) => (
+                <div key={i} className="contents">
+                  <div className="border-t border-neutral-100 pt-3 text-neutral-700">{label}</div>
+                  <div className="border-t border-neutral-100 pt-3 flex justify-center">
+                    {s ? <Check className="h-5 w-5" style={{ color: OLIVE }} /> : <X className="h-5 w-5 text-neutral-300" />}
+                  </div>
+                  <div className="border-t border-neutral-100 pt-3 flex justify-center">
+                    {c ? <Check className="h-5 w-5 text-neutral-400" /> : <X className="h-5 w-5" style={{ color: RED }} />}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ============ SECTION 3: COMPRE JUNTO ============ */}
+      <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-24">
+        <motion.div {...fade()}>
+          <p className="font-display uppercase tracking-[0.25em] text-xs mb-2" style={{ color: RED }}>
+            Economize comprando o kit
+          </p>
+          <h2 className="font-display uppercase text-3xl lg:text-4xl font-bold">COMPRE JUNTO</h2>
+
+          <div className="mt-8 rounded-[20px] border-2 border-neutral-200 p-6 lg:p-10">
+            <div className="grid lg:grid-cols-[1fr_auto_1fr_auto_1fr_auto_auto] items-center gap-4 lg:gap-6">
+              {/* Main */}
+              <BundleItem
+                img={firstImage?.url}
+                title={product.node.title}
+                price={formatBRL(price.amount)}
+                main
+              />
+              <Plus className="h-6 w-6 text-neutral-400 mx-auto" />
+              <BundleItem
+                title="Organizador MOLLE"
+                price="R$ 149"
+                emoji="🎒"
+              />
+              <Plus className="h-6 w-6 text-neutral-400 mx-auto" />
+              <BundleItem
+                title="Cinto Tático Solze"
+                price="R$ 199"
+                emoji="🪢"
+              />
+              <div className="h-px lg:h-24 lg:w-px bg-neutral-200 mx-auto" />
+              {/* Total */}
+              <div className="text-center lg:text-left">
+                <p className="text-xs font-display uppercase tracking-wider text-neutral-500">Total do kit</p>
+                <p className="text-sm line-through text-neutral-400">
+                  {formatBRL((parseFloat(price.amount) + 348).toString())}
+                </p>
+                <p className="font-display text-3xl font-bold" style={{ color: RED }}>
+                  {formatBRL((parseFloat(price.amount) + 348 - 80).toString())}
+                </p>
+                <p className="text-[11px] font-display uppercase tracking-wider mt-1" style={{ color: OLIVE }}>
+                  Economize R$ 80
+                </p>
+              </div>
+            </div>
+            <button
+              className="mt-8 w-full h-14 rounded-[20px] font-display uppercase tracking-wider text-lg font-bold text-white transition-transform hover:scale-[1.01]"
+              style={{ backgroundColor: RED }}
+            >
+              ADICIONAR KIT AO CARRINHO
+            </button>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ============ SECTION 4: DESCRIPTION + VIDEO ============ */}
+      <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-24">
+        <motion.div {...fade()} className="grid lg:grid-cols-2 gap-10 items-center">
+          <div>
+            <p className="font-display uppercase tracking-[0.25em] text-xs mb-2" style={{ color: OLIVE }}>
+              Engenharia Solze
+            </p>
+            <h2 className="font-display uppercase text-4xl lg:text-5xl font-bold leading-[1.05]">
+              CONSTRUÍDA<br />PARA NÃO FALHAR<br /><span style={{ color: RED }}>QUANDO IMPORTA.</span>
+            </h2>
+            <p className="text-neutral-600 leading-relaxed mt-6">
+              Cada costura, cada zíper, cada milímetro de tecido foi pensado para suportar as condições mais brutais.
+              Desenvolvida em parceria com profissionais que confiam suas vidas ao equipamento, a {product.node.title} é mais
+              do que uma bolsa — é uma ferramenta de combate ao caos do dia a dia.
+            </p>
+            <ul className="mt-6 space-y-3">
+              {[
+                "Lona militar Cordura® 1000D impermeabilizada",
+                "Fundo rígido removível em polietileno HDPE",
+                "Alças ergonômicas com reforço em couro legítimo",
+                "Compartimentos modulares MOLLE compatíveis",
+                "Zíperes YKK® com proteção contra água",
+              ].map((s) => (
+                <li key={s} className="flex items-start gap-3 text-sm">
+                  <Check className="h-5 w-5 mt-0.5 shrink-0" style={{ color: OLIVE }} />
+                  <span className="text-neutral-700">{s}</span>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-8 inline-flex items-center gap-3 rounded-[20px] border border-neutral-200 px-5 py-3">
+              <Award className="h-5 w-5" style={{ color: GOLD }} />
+              <span className="text-sm">
+                <strong className="font-display uppercase tracking-wider">Field-tested</strong>
+                <span className="text-neutral-500"> em mais de 30 operações reais</span>
+              </span>
+            </div>
+          </div>
+
+          {/* Video / lifestyle */}
+          <div className="relative aspect-[4/5] rounded-[20px] overflow-hidden group cursor-pointer">
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(160deg, #1a1f12 0%, #4A5A3B 60%, #6b7a55 100%)",
+              }}
+            />
+            <div className="absolute inset-0 flex items-center justify-center text-9xl opacity-30">
+              🎒
+            </div>
+            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
+            <button className="absolute inset-0 flex items-center justify-center">
+              <div className="h-24 w-24 rounded-full bg-white/95 backdrop-blur flex items-center justify-center shadow-2xl transition-transform group-hover:scale-110">
+                <Play className="h-10 w-10 ml-1" style={{ color: RED }} fill={RED} />
+              </div>
+            </button>
+            <div className="absolute bottom-6 left-6 right-6 text-white">
+              <p className="font-display uppercase tracking-wider text-xs opacity-80">Field test</p>
+              <p className="font-display uppercase text-2xl font-bold mt-1">VEJA EM AÇÃO — 3 MIN</p>
+            </div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ============ SECTION 5: REVIEWS + INSTAGRAM ============ */}
+      <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-24">
+        <motion.div {...fade()} className="rounded-[20px] border border-neutral-200 p-8 lg:p-12 grid lg:grid-cols-[280px_1fr] gap-10">
+          {/* Score */}
+          <div className="text-center lg:text-left border-b lg:border-b-0 lg:border-r border-neutral-200 lg:pr-10 pb-8 lg:pb-0">
+            <p className="font-display uppercase tracking-[0.25em] text-xs text-neutral-500">Avaliações</p>
+            <p className="font-display text-7xl font-bold leading-none mt-2">4.9</p>
+            <div className="flex items-center justify-center lg:justify-start gap-0.5 mt-3" style={{ color: GOLD }}>
+              {[1, 2, 3, 4, 5].map((s) => (
+                <Star key={s} className="h-5 w-5 fill-current" />
+              ))}
+            </div>
+            <p className="text-sm text-neutral-500 mt-2">Baseado em 287 avaliações</p>
+            <div className="mt-6 space-y-2">
+              {[
+                [5, 92],
+                [4, 6],
+                [3, 1],
+                [2, 0],
+                [1, 1],
+              ].map(([s, p]) => (
+                <div key={s} className="flex items-center gap-2 text-xs">
+                  <span className="w-3 font-display font-bold">{s}</span>
+                  <Star className="h-3 w-3" style={{ color: GOLD }} fill={GOLD} />
+                  <div className="flex-1 h-1.5 rounded-full bg-neutral-100 overflow-hidden">
+                    <div className="h-full rounded-full" style={{ width: `${p}%`, backgroundColor: OLIVE }} />
+                  </div>
+                  <span className="w-8 text-right text-neutral-500">{p}%</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Reviews list */}
+          <div className="space-y-6">
+            {[
+              {
+                name: "Rafael M.",
+                role: "Eletricista Industrial",
+                t: "Uso essa bolsa todo dia há 8 meses. Carrega alicate, multímetro, ferramentas pesadas — nem um arranhão. Vale cada centavo.",
+                d: "Há 2 semanas",
+              },
+              {
+                name: "Cap. Eduardo S.",
+                role: "Forças Especiais",
+                t: "Equipamento sério. Saí em operação na chuva, fundo rígido salvou meus equipamentos eletrônicos. Garantia vitalícia é real.",
+                d: "Há 1 mês",
+              },
+              {
+                name: "Bruno K.",
+                role: "Bombeiro Civil",
+                t: "Comparei com outras 3 marcas. A diferença na qualidade do tecido e do fundo é absurda. Recomendo de olhos fechados.",
+                d: "Há 1 mês",
+              },
+            ].map((r, i) => (
+              <motion.div
+                key={i}
+                {...fade(i * 0.1)}
+                className="border-b border-neutral-100 last:border-0 pb-6 last:pb-0"
+              >
+                <div className="flex items-center gap-3">
+                  <div
+                    className="h-11 w-11 rounded-full flex items-center justify-center text-white font-display font-bold"
+                    style={{ backgroundColor: OLIVE }}
+                  >
+                    {r.name[0]}
+                  </div>
+                  <div>
+                    <p className="font-display uppercase tracking-wider text-sm font-bold">{r.name}</p>
+                    <p className="text-xs text-neutral-500">{r.role} · {r.d}</p>
+                  </div>
+                  <div className="ml-auto flex items-center gap-0.5" style={{ color: GOLD }}>
+                    {[1, 2, 3, 4, 5].map((s) => (
+                      <Star key={s} className="h-3.5 w-3.5 fill-current" />
+                    ))}
+                  </div>
+                </div>
+                <p className="text-neutral-700 mt-3 text-sm leading-relaxed">"{r.t}"</p>
+              </motion.div>
+            ))}
+            <button className="w-full h-12 rounded-[20px] border-2 border-neutral-900 font-display uppercase tracking-wider text-sm font-bold hover:bg-neutral-900 hover:text-white transition-colors">
+              Ver todas as 287 avaliações
+            </button>
+          </div>
+        </motion.div>
+
+        {/* Instagram UGC */}
+        <motion.div {...fade()} className="mt-16">
+          <div className="flex items-end justify-between mb-6">
+            <div>
+              <p className="font-display uppercase tracking-[0.25em] text-xs" style={{ color: RED }}>
+                Comunidade Solze
+              </p>
+              <h2 className="font-display uppercase text-3xl lg:text-4xl font-bold mt-1">
+                #SOUFORTECOMOSOLZE
+              </h2>
+            </div>
+            <a href="#" className="font-display uppercase tracking-wider text-xs hover:underline" style={{ color: OLIVE }}>
+              Ver no Instagram →
+            </a>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <motion.div
+                key={i}
+                {...fade(i * 0.05)}
+                className="aspect-square rounded-[20px] overflow-hidden relative group cursor-pointer"
+                style={{
+                  background: `linear-gradient(${135 + i * 20}deg, ${i % 2 ? OLIVE : "#1f2a18"} 0%, ${i % 2 ? "#6b7a55" : OLIVE} 100%)`,
+                }}
+              >
+                <div className="absolute inset-0 flex items-center justify-center text-5xl opacity-40">
+                  {["🎒", "🪖", "🔧", "🥾", "⚙️", "🧰"][i]}
+                </div>
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                  <Heart className="h-6 w-6 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
+
+      {/* ============ SUBFOOTER + FOOTER (reused) ============ */}
+      <Subfooter />
+      <Footer />
+
+      {/* ============ STICKY BUY BAR ============ */}
+      <div className="fixed bottom-0 inset-x-0 z-40 bg-white border-t border-neutral-200 shadow-[0_-8px_30px_rgba(0,0,0,0.08)]">
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 h-20 flex items-center gap-4">
+          {firstImage && (
+            <div className="h-14 w-14 rounded-[20px] bg-neutral-50 border border-neutral-200 overflow-hidden shrink-0 hidden sm:block">
+              <img src={firstImage.url} alt="" className="h-full w-full object-contain p-1" />
+            </div>
+          )}
+          <div className="flex-1 min-w-0">
+            <p className="font-display uppercase text-sm font-bold truncate">{product.node.title}</p>
+            <div className="flex items-baseline gap-2">
+              <span className="font-display text-xl font-bold" style={{ color: RED }}>
+                {formatBRL(price.amount)}
+              </span>
+              <span className="text-xs text-neutral-500 hidden sm:inline">
+                ou 10x R$ {installment}
+              </span>
+            </div>
+          </div>
+          <button
             onClick={handleAdd}
             disabled={isAdding || !variant?.availableForSale}
-            size="lg"
-            className="mt-8 hidden md:inline-flex rounded-full bg-accent text-accent-foreground hover:bg-accent/90 h-13 px-8 font-semibold glow-accent transition-transform hover:scale-[1.02] active:scale-[0.98]"
+            className="h-12 px-6 sm:px-10 rounded-[20px] font-display uppercase tracking-wider text-sm font-bold text-white transition-transform hover:scale-[1.02] disabled:opacity-50 inline-flex items-center gap-2"
+            style={{ backgroundColor: RED }}
           >
-            {isAdding ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <>
-                <ShoppingBag className="mr-2 h-4 w-4" />
-                Adicionar ao carrinho — {formatPrice(price.amount, price.currencyCode)}
-              </>
-            )}
-          </Button>
+            {isAdding ? <Loader2 className="h-4 w-4 animate-spin" /> : "COMPRAR AGORA"}
+          </button>
         </div>
-      </main>
-
-      {/* Sticky mobile add to cart */}
-      <div className="md:hidden fixed bottom-0 inset-x-0 z-30 border-t border-border bg-background/95 backdrop-blur-xl px-4 py-3">
-        <Button
-          onClick={handleAdd}
-          disabled={isAdding || !variant?.availableForSale}
-          className="w-full rounded-full bg-accent text-accent-foreground hover:bg-accent/90 h-12 font-semibold"
-        >
-          {isAdding ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <>
-              <ShoppingBag className="mr-2 h-4 w-4" />
-              Adicionar — {formatPrice(price.amount, price.currencyCode)}
-            </>
-          )}
-        </Button>
       </div>
 
-
-      <Footer />
       <CartDrawer />
+    </div>
+  );
+}
+
+/* ============ Bundle helper ============ */
+function BundleItem({
+  img,
+  title,
+  price,
+  emoji,
+  main,
+}: {
+  img?: string;
+  title: string;
+  price: string;
+  emoji?: string;
+  main?: boolean;
+}) {
+  return (
+    <div className="text-center">
+      <div
+        className={`relative aspect-square rounded-[20px] mb-3 flex items-center justify-center overflow-hidden ${
+          main ? "border-2" : "border border-neutral-200 bg-neutral-50"
+        }`}
+        style={main ? { borderColor: RED } : undefined}
+      >
+        {img ? (
+          <img src={img} alt={title} className="h-full w-full object-contain p-3" />
+        ) : (
+          <span className="text-6xl">{emoji}</span>
+        )}
+        {main && (
+          <span
+            className="absolute top-2 left-2 rounded-[20px] px-2 py-0.5 text-[10px] font-display uppercase tracking-wider text-white"
+            style={{ backgroundColor: RED }}
+          >
+            Este
+          </span>
+        )}
+      </div>
+      <p className="font-display uppercase tracking-wider text-xs font-bold line-clamp-2 min-h-8">
+        {title}
+      </p>
+      <p className="font-display text-lg font-bold mt-1">{price}</p>
     </div>
   );
 }

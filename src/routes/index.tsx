@@ -119,7 +119,7 @@ function HomePage() {
 }
 
 /* ============ HEADER ============ */
-function Header() {
+export function Header() {
   const totalItems = useCartStore((s) =>
     s.items.reduce((sum, i) => sum + i.quantity, 0),
   );
@@ -744,7 +744,7 @@ function InstagramFeed() {
 }
 
 /* ============ SUBFOOTER ============ */
-function Subfooter() {
+export function Subfooter() {
   return (
     <section className="mt-20 bg-neutral-900 text-white">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-14 grid lg:grid-cols-2 gap-10 items-center">
@@ -815,7 +815,7 @@ function Subfooter() {
 }
 
 /* ============ FOOTER ============ */
-function Footer() {
+export function Footer() {
   const cols = [
     {
       title: "Institucional",
