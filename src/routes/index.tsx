@@ -119,7 +119,7 @@ function HomePage() {
 }
 
 /* ============ HEADER ============ */
-function Header() {
+export function Header() {
   const totalItems = useCartStore((s) =>
     s.items.reduce((sum, i) => sum + i.quantity, 0),
   );
