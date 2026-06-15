@@ -148,3 +148,29 @@
 @utility glow-accent {
   box-shadow: 0 0 60px -10px color-mix(in oklab, var(--accent) 60%, transparent);
 }
+
+@utility text-conversion {
+  color: #E63946;
+}
+@utility bg-conversion {
+  background-color: #E63946;
+  color: #ffffff;
+}
+@utility bg-conversion-hover {
+  background-color: #c92d3a;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@utility animate-fade-up {
+  animation: fadeInUp 0.7s cubic-bezier(0.22,1,0.36,1) both;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@utility animate-marquee {
+  animation: marquee 30s linear infinite;
+}
