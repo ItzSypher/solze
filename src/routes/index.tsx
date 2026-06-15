@@ -815,7 +815,7 @@ export function Subfooter() {
 }
 
 /* ============ FOOTER ============ */
-function Footer() {
+export function Footer() {
   const cols = [
     {
       title: "Institucional",
