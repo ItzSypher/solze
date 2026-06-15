@@ -46,7 +46,7 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 
-  --font-display: "Sora", system-ui, sans-serif;
+  --font-display: "Oswald", system-ui, sans-serif;
   --font-sans: "Inter", system-ui, sans-serif;
 }
 
@@ -59,13 +59,13 @@
   --card-foreground: oklch(0.18 0.01 60);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.18 0.01 60);
-  --primary: oklch(0.22 0.02 60);
+  --primary: oklch(0.42 0.04 125);  /* #4A5A3B olive */
   --primary-foreground: oklch(0.99 0 0);
   --secondary: oklch(0.955 0.008 80);
   --secondary-foreground: oklch(0.22 0.02 60);
   --muted: oklch(0.955 0.008 80);
   --muted-foreground: oklch(0.48 0.015 60);
-  --accent: oklch(0.66 0.19 38);
+  --accent: oklch(0.75 0.08 70);  /* #C6A87C gold */
   --accent-foreground: oklch(0.99 0 0);
   --destructive: oklch(0.6 0.22 25);
   --destructive-foreground: oklch(0.99 0 0);
@@ -147,4 +147,30 @@
 
 @utility glow-accent {
   box-shadow: 0 0 60px -10px color-mix(in oklab, var(--accent) 60%, transparent);
+}
+
+@utility text-conversion {
+  color: #E63946;
+}
+@utility bg-conversion {
+  background-color: #E63946;
+  color: #ffffff;
+}
+@utility bg-conversion-hover {
+  background-color: #c92d3a;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@utility animate-fade-up {
+  animation: fadeInUp 0.7s cubic-bezier(0.22,1,0.36,1) both;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@utility animate-marquee {
+  animation: marquee 30s linear infinite;
 }

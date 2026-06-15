@@ -1,15 +1,33 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import {
+  Search,
+  ShoppingBag,
+  User,
+  Heart,
+  Menu,
+  Phone,
+  Truck,
+  RefreshCcw,
+  ShieldCheck,
+  CreditCard,
+  ChevronLeft,
+  ChevronRight,
+  MapPin,
+  Mail,
+  Instagram,
+  Facebook,
+  Youtube,
+  ArrowRight,
+  Loader2,
+} from "lucide-react";
 import { CartDrawer } from "@/components/CartDrawer";
-import { HeroSlider } from "@/components/HeroSlider";
-import { Categories } from "@/components/Categories";
-import { Benefits } from "@/components/Benefits";
-import { Brands } from "@/components/Brands";
-import { ProductGrid } from "@/components/ProductGrid";
-import { Reviews } from "@/components/Reviews";
 import { useCartSync } from "@/hooks/useCartSync";
 import { useTabTitle } from "@/hooks/useTabTitle";
+import { useCartStore } from "@/stores/cartStore";
+import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
+import logoAsset from "@/assets/solze-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -18,40 +36,798 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Bolsas táticas de alta performance. CORDURA® 1000D, sistema MOLLE, garantia vitalícia. Frete expresso em 24h.",
-      },
-      { property: "og:title", content: "Solze — Tactical Grade" },
-      {
-        property: "og:description",
-        content: "Equipamento de alta performance para profissionais.",
+          "Loja oficial Solze. Bolsas táticas, mochilas operacionais e acessórios profissionais. Frete rápido, garantia vitalícia.",
       },
     ],
   }),
   component: HomePage,
 });
 
+const OLIVE = "#4A5A3B";
+const RED = "#E63946";
+const GOLD = "#C6A87C";
+
+const DEPARTMENTS = [
+  "Mochilas Táticas",
+  "Operator",
+  "EDC",
+  "MOLLE",
+  "Range Bags",
+  "Acessórios",
+  "Vestuário",
+  "Coldres",
+  "Outlet",
+];
+
+const HERO_SLIDES = [
+  {
+    eyebrow: "Coleção Operator",
+    title: "MOCHILAS TÁTICAS\nCONSTRUÍDAS PARA DURAR",
+    cta: "COMPRAR AGORA",
+    bg: "linear-gradient(120deg,#1f2a18 0%,#4A5A3B 60%,#6b7a55 100%)",
+  },
+  {
+    eyebrow: "Frete grátis acima de R$ 399",
+    title: "EQUIPAMENTO\nDE ALTA PERFORMANCE",
+    cta: "VER COLEÇÃO",
+    bg: "linear-gradient(120deg,#0f0f0f 0%,#2a2a2a 60%,#4A5A3B 100%)",
+  },
+  {
+    eyebrow: "Garantia vitalícia",
+    title: "CORDURA® 1000D\nMOLLE OFICIAL",
+    cta: "EXPLORAR",
+    bg: "linear-gradient(120deg,#2a1a0e 0%,#5a3a1f 60%,#C6A87C 100%)",
+  },
+];
+
+function formatBRL(amount: string) {
+  const n = parseFloat(amount);
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(n);
+}
+
 function HomePage() {
   useCartSync();
   useTabTitle("Solze — Tactical Grade");
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground font-sans">
       <Header />
-      <main>
-        <HeroSlider />
-        <Categories />
-        <Benefits />
-        <ProductGrid eyebrow="/ Drop atual" title="Operator Series" />
-        <Brands />
-        <ProductGrid
-          eyebrow="/ Bestsellers"
-          title="Mais escolhidas em campo"
-          limit={4}
+      <main className="pb-20">
+        <Hero />
+        <BentoCollections />
+        <ProductsCarousel
+          title="MAIS VENDIDOS"
+          eyebrow="Top da semana"
+          limit={8}
         />
-        <Reviews />
+        <ProductsCarousel
+          title="LANÇAMENTOS"
+          eyebrow="Acabou de chegar"
+          limit={8}
+          query="tag:new"
+        />
+        <InstagramFeed />
       </main>
+      <Subfooter />
       <Footer />
       <CartDrawer />
     </div>
+  );
+}
+
+/* ============ HEADER ============ */
+function Header() {
+  const totalItems = useCartStore((s) =>
+    s.items.reduce((sum, i) => sum + i.quantity, 0),
+  );
+  const setOpen = useCartStore((s) => s.setOpen);
+
+  return (
+    <header className="sticky top-0 z-40 w-full">
+      {/* Utility bar */}
+      <div className="bg-neutral-900 text-white text-[12px]">
+        <div className="mx-auto flex h-9 max-w-[1400px] items-center justify-between px-4 sm:px-6">
+          <div className="hidden md:flex items-center gap-5 tracking-wide">
+            <span className="inline-flex items-center gap-1.5">
+              <Truck className="h-3.5 w-3.5" style={{ color: GOLD }} /> FRETE GRÁTIS ACIMA DE R$ 399
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <ShieldCheck className="h-3.5 w-3.5" style={{ color: GOLD }} /> GARANTIA VITALÍCIA
+            </span>
+          </div>
+          <div className="flex items-center gap-4 ml-auto text-white/80">
+            <a href="#" className="hover:text-white">Atendimento</a>
+            <a href="#" className="hover:text-white">Rastrear pedido</a>
+            <a href="#" className="hover:text-white inline-flex items-center gap-1">
+              <Phone className="h-3 w-3" /> (11) 4002-8922
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Main header */}
+      <div className="bg-white border-b border-neutral-200">
+        <div className="mx-auto flex h-20 max-w-[1400px] items-center gap-6 px-4 sm:px-6">
+          <button className="md:hidden text-neutral-900">
+            <Menu className="h-6 w-6" />
+          </button>
+          <Link to="/" className="shrink-0">
+            <img src={logoAsset.url} alt="Solze" className="h-10 w-auto object-contain" />
+          </Link>
+
+          <div className="flex-1 max-w-2xl mx-auto hidden sm:block">
+            <div className="relative">
+              <input
+                placeholder="Buscar produtos, marcas, categorias..."
+                className="w-full h-12 rounded-[20px] border border-neutral-200 bg-neutral-50 pl-5 pr-12 text-sm focus:outline-none focus:border-neutral-400"
+              />
+              <button
+                className="absolute right-1.5 top-1.5 h-9 w-9 rounded-[20px] flex items-center justify-center text-white"
+                style={{ backgroundColor: OLIVE }}
+                aria-label="Buscar"
+              >
+                <Search className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-1 ml-auto text-neutral-700">
+            <button className="hidden md:flex flex-col items-center px-3 hover:text-neutral-900">
+              <User className="h-5 w-5" />
+              <span className="text-[10px] font-display uppercase tracking-wider mt-0.5">Conta</span>
+            </button>
+            <button className="hidden md:flex flex-col items-center px-3 hover:text-neutral-900">
+              <Heart className="h-5 w-5" />
+              <span className="text-[10px] font-display uppercase tracking-wider mt-0.5">Favoritos</span>
+            </button>
+            <button
+              onClick={() => setOpen(true)}
+              className="relative flex flex-col items-center px-3 hover:text-neutral-900"
+              aria-label="Abrir carrinho"
+            >
+              <ShoppingBag className="h-5 w-5" />
+              <span className="text-[10px] font-display uppercase tracking-wider mt-0.5">Carrinho</span>
+              {totalItems > 0 && (
+                <span
+                  className="absolute top-0 right-1 h-5 min-w-5 rounded-full px-1 text-[10px] font-display font-bold flex items-center justify-center text-white"
+                  style={{ backgroundColor: RED }}
+                >
+                  {totalItems}
+                </span>
+              )}
+            </button>
+          </div>
+        </div>
+
+        {/* Departments green nav */}
+        <nav style={{ backgroundColor: OLIVE }} className="text-white">
+          <div className="mx-auto max-w-[1400px] px-4 sm:px-6 flex items-center gap-1 h-12 overflow-x-auto">
+            <button className="inline-flex items-center gap-2 font-display uppercase tracking-wider text-[13px] px-4 h-full bg-black/15 hover:bg-black/25">
+              <Menu className="h-4 w-4" /> Todos os departamentos
+            </button>
+            {DEPARTMENTS.map((d) => (
+              <a
+                key={d}
+                href="#"
+                className="font-display uppercase tracking-wider text-[12.5px] px-4 h-full inline-flex items-center hover:bg-black/15 whitespace-nowrap"
+              >
+                {d}
+              </a>
+            ))}
+            <a
+              href="#"
+              className="ml-auto font-display uppercase tracking-wider text-[12.5px] px-4 h-full inline-flex items-center"
+              style={{ color: GOLD }}
+            >
+              ★ Ofertas da semana
+            </a>
+          </div>
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+/* ============ HERO ============ */
+function Hero() {
+  const [idx, setIdx] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setIdx((i) => (i + 1) % HERO_SLIDES.length), 5000);
+    return () => clearInterval(t);
+  }, []);
+
+  const slide = HERO_SLIDES[idx];
+
+  return (
+    <section className="mx-auto max-w-[1400px] px-4 sm:px-6 pt-6">
+      <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
+        {/* Big slider */}
+        <div
+          key={idx}
+          className="relative aspect-[16/9] lg:aspect-auto lg:h-[460px] rounded-[20px] overflow-hidden text-white animate-fade-up"
+          style={{ background: slide.bg }}
+        >
+          <div className="absolute inset-0 p-8 lg:p-14 flex flex-col justify-end">
+            <p
+              className="font-display uppercase tracking-[0.25em] text-xs mb-3"
+              style={{ color: GOLD }}
+            >
+              {slide.eyebrow}
+            </p>
+            <h1 className="font-display uppercase text-4xl lg:text-6xl leading-[0.95] whitespace-pre-line">
+              {slide.title}
+            </h1>
+            <div className="mt-6">
+              <button
+                className="bg-conversion hover:bg-conversion-hover transition-colors font-display uppercase tracking-wider text-sm px-7 h-12 rounded-[20px] inline-flex items-center gap-2"
+              >
+                {slide.cta} <ArrowRight className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* Controls */}
+          <button
+            onClick={() => setIdx((i) => (i - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)}
+            className="absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-[20px] bg-white/15 hover:bg-white/25 backdrop-blur flex items-center justify-center"
+            aria-label="Anterior"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            onClick={() => setIdx((i) => (i + 1) % HERO_SLIDES.length)}
+            className="absolute right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-[20px] bg-white/15 hover:bg-white/25 backdrop-blur flex items-center justify-center"
+            aria-label="Próximo"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+          <div className="absolute bottom-5 right-6 flex gap-1.5">
+            {HERO_SLIDES.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setIdx(i)}
+                className={`h-1.5 rounded-full transition-all ${
+                  i === idx ? "w-8 bg-white" : "w-3 bg-white/40"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Stacked promos */}
+        <div className="grid grid-rows-2 gap-4">
+          <div
+            className="rounded-[20px] p-7 flex flex-col justify-between text-white animate-fade-up"
+            style={{
+              animationDelay: "120ms",
+              background: `linear-gradient(135deg,${OLIVE} 0%,#2a3322 100%)`,
+            }}
+          >
+            <div>
+              <p className="font-display uppercase tracking-[0.25em] text-[10px]" style={{ color: GOLD }}>
+                Frete expresso
+              </p>
+              <h3 className="font-display uppercase text-2xl leading-tight mt-2">
+                ENTREGA EM<br />24 HORAS
+              </h3>
+            </div>
+            <a href="#" className="font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
+              Saiba mais <ArrowRight className="h-3 w-3" />
+            </a>
+          </div>
+          <div
+            className="rounded-[20px] p-7 flex flex-col justify-between text-white animate-fade-up"
+            style={{
+              animationDelay: "220ms",
+              background: `linear-gradient(135deg,#1a1a1a 0%,#3a3a3a 100%)`,
+            }}
+          >
+            <div>
+              <p className="font-display uppercase tracking-[0.25em] text-[10px]" style={{ color: RED }}>
+                Outlet Solze
+              </p>
+              <h3 className="font-display uppercase text-2xl leading-tight mt-2">
+                ATÉ <span style={{ color: RED }}>50% OFF</span><br />EM SELECIONADOS
+              </h3>
+            </div>
+            <a href="#" className="font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
+              Aproveitar <ArrowRight className="h-3 w-3" />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Trust strip */}
+      <div className="mt-4 rounded-[20px] bg-neutral-50 border border-neutral-200 grid grid-cols-2 md:grid-cols-4 gap-px overflow-hidden">
+        {[
+          { icon: Truck, t: "Frete grátis", s: "Acima de R$ 399" },
+          { icon: CreditCard, t: "Até 10x", s: "Sem juros" },
+          { icon: RefreshCcw, t: "Troca fácil", s: "Em até 30 dias" },
+          { icon: ShieldCheck, t: "Garantia", s: "Vitalícia em toda linha" },
+        ].map((b, i) => (
+          <div key={i} className="bg-white p-5 flex items-center gap-3">
+            <div
+              className="h-11 w-11 rounded-[20px] flex items-center justify-center shrink-0"
+              style={{ backgroundColor: OLIVE }}
+            >
+              <b.icon className="h-5 w-5 text-white" />
+            </div>
+            <div className="min-w-0">
+              <p className="font-display uppercase text-sm tracking-wider leading-tight">{b.t}</p>
+              <p className="text-xs text-neutral-500">{b.s}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ============ BENTO ============ */
+function BentoCollections() {
+  return (
+    <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-12">
+      <div className="flex items-end justify-between mb-5">
+        <div>
+          <p className="font-display uppercase tracking-[0.25em] text-xs text-neutral-500">
+            Nossas coleções
+          </p>
+          <h2 className="font-display uppercase text-3xl lg:text-4xl mt-1">
+            COMPRE POR ESTILO
+          </h2>
+        </div>
+        <a
+          href="#"
+          className="hidden md:inline-flex font-display uppercase tracking-wider text-xs items-center gap-1.5"
+          style={{ color: OLIVE }}
+        >
+          Ver todas as coleções <ArrowRight className="h-3.5 w-3.5" />
+        </a>
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-3 lg:grid-rows-2 lg:h-[480px]">
+        <BentoCard
+          className="lg:col-span-2 lg:row-span-2 animate-fade-up"
+          eyebrow="Destaque"
+          title="LINHA OPERATOR"
+          subtitle="Mochilas táticas profissionais"
+          bg={`linear-gradient(135deg,${OLIVE} 0%,#1a1f12 100%)`}
+          large
+        />
+        <BentoCard
+          className="animate-fade-up"
+          style={{ animationDelay: "120ms" }}
+          eyebrow="EDC"
+          title="EVERY DAY CARRY"
+          subtitle="O essencial no seu bolso"
+          bg="linear-gradient(135deg,#2a2a2a 0%,#0a0a0a 100%)"
+        />
+        <BentoCard
+          className="animate-fade-up"
+          style={{ animationDelay: "200ms" }}
+          eyebrow="Acessórios"
+          title="MOLLE & CORDURA"
+          subtitle="Customize seu setup"
+          bg={`linear-gradient(135deg,#3a2a1a 0%,${GOLD} 120%)`}
+        />
+      </div>
+    </section>
+  );
+}
+
+function BentoCard({
+  eyebrow,
+  title,
+  subtitle,
+  bg,
+  large = false,
+  className = "",
+  style,
+}: {
+  eyebrow: string;
+  title: string;
+  subtitle: string;
+  bg: string;
+  large?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <a
+      href="#"
+      className={`group relative rounded-[20px] overflow-hidden text-white p-7 flex flex-col justify-end transition-transform hover:-translate-y-1 ${className}`}
+      style={{ background: bg, ...style }}
+    >
+      <p
+        className="font-display uppercase tracking-[0.25em] text-[10px] mb-2"
+        style={{ color: GOLD }}
+      >
+        {eyebrow}
+      </p>
+      <h3
+        className={`font-display uppercase leading-[0.95] ${
+          large ? "text-5xl lg:text-7xl" : "text-2xl lg:text-3xl"
+        }`}
+      >
+        {title}
+      </h3>
+      <p className="text-sm text-white/80 mt-2">{subtitle}</p>
+      <span className="mt-4 inline-flex items-center gap-1.5 font-display uppercase text-xs tracking-wider">
+        Explorar <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+      </span>
+    </a>
+  );
+}
+
+/* ============ PRODUCTS CAROUSEL ============ */
+function ProductsCarousel({
+  title,
+  eyebrow,
+  limit = 8,
+  query,
+}: {
+  title: string;
+  eyebrow: string;
+  limit?: number;
+  query?: string;
+}) {
+  const { data: products = [], isLoading } = useQuery({
+    queryKey: ["products", { query, limit }],
+    queryFn: () => fetchProducts(limit, query),
+  });
+
+  return (
+    <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-14">
+      <div className="flex items-end justify-between mb-5">
+        <div>
+          <p className="font-display uppercase tracking-[0.25em] text-xs text-neutral-500">
+            {eyebrow}
+          </p>
+          <h2 className="font-display uppercase text-3xl lg:text-4xl mt-1">{title}</h2>
+        </div>
+        <a
+          href="#"
+          className="hidden md:inline-flex font-display uppercase tracking-wider text-xs items-center gap-1.5"
+          style={{ color: OLIVE }}
+        >
+          Ver todos <ArrowRight className="h-3.5 w-3.5" />
+        </a>
+      </div>
+
+      {isLoading ? (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="aspect-[3/4] rounded-[20px] bg-neutral-100 animate-pulse" />
+          ))}
+        </div>
+      ) : products.length === 0 ? (
+        <div className="rounded-[20px] border border-dashed border-neutral-300 bg-neutral-50 py-16 text-center">
+          <p className="font-display uppercase text-lg">Nenhum produto encontrado</p>
+          <p className="text-sm text-neutral-500 mt-2">
+            Adicione produtos na sua loja para vê-los aqui.
+          </p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {products.map((p, i) => (
+            <ProductCardRetail key={p.node.id} product={p} index={i} />
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
+
+function ProductCardRetail({
+  product,
+  index,
+}: {
+  product: ShopifyProduct;
+  index: number;
+}) {
+  const addItem = useCartStore((s) => s.addItem);
+  const isLoading = useCartStore((s) => s.isLoading);
+  const variant = product.node.variants.edges[0]?.node;
+  const image = product.node.images.edges[0]?.node;
+  const price = product.node.priceRange.minVariantPrice;
+  const compareAt = variant?.compareAtPrice;
+  const onSale = compareAt && parseFloat(compareAt.amount) > parseFloat(price.amount);
+  const discount = onSale
+    ? Math.round((1 - parseFloat(price.amount) / parseFloat(compareAt!.amount)) * 100)
+    : 0;
+
+  return (
+    <div
+      className="group rounded-[20px] border border-neutral-200 bg-white overflow-hidden flex flex-col animate-fade-up hover:shadow-lg transition-shadow"
+      style={{ animationDelay: `${index * 60}ms` }}
+    >
+      <Link
+        to="/product/$handle"
+        params={{ handle: product.node.handle }}
+        className="relative aspect-square bg-neutral-50 flex items-center justify-center p-4"
+      >
+        {onSale && (
+          <span
+            className="absolute top-3 left-3 px-2.5 h-7 rounded-[20px] text-white font-display uppercase text-xs flex items-center"
+            style={{ backgroundColor: RED }}
+          >
+            -{discount}%
+          </span>
+        )}
+        {image ? (
+          <img
+            src={image.url}
+            alt={image.altText ?? product.node.title}
+            className="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+          />
+        ) : (
+          <div className="text-neutral-400 text-sm">Sem imagem</div>
+        )}
+      </Link>
+      <div className="p-4 flex flex-col gap-2 flex-1">
+        <h3 className="text-sm text-neutral-800 line-clamp-2 min-h-[2.5rem]">
+          {product.node.title}
+        </h3>
+        <div className="mt-1">
+          {onSale && (
+            <p className="text-xs text-neutral-400 line-through font-display">
+              {formatBRL(compareAt!.amount)}
+            </p>
+          )}
+          <p
+            className="font-display text-2xl lg:text-3xl leading-none"
+            style={{ color: RED }}
+          >
+            {formatBRL(price.amount)}
+          </p>
+          <p className="text-[11px] text-neutral-500 mt-0.5">
+            ou 10x de {formatBRL((parseFloat(price.amount) / 10).toFixed(2))} sem juros
+          </p>
+        </div>
+        <button
+          disabled={isLoading || !variant}
+          onClick={() => {
+            if (!variant) return;
+            addItem({
+              product,
+              variantId: variant.id,
+              variantTitle: variant.title,
+              price: variant.price,
+              quantity: 1,
+              selectedOptions: variant.selectedOptions || [],
+            });
+          }}
+          className="bg-conversion hover:bg-conversion-hover transition-colors mt-auto h-11 rounded-[20px] font-display uppercase tracking-wider text-sm inline-flex items-center justify-center gap-2 disabled:opacity-70"
+        >
+          {isLoading ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <>
+              <ShoppingBag className="h-4 w-4" /> Comprar agora
+            </>
+          )}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ============ INSTAGRAM ============ */
+function InstagramFeed() {
+  const imgs = [
+    "https://images.unsplash.com/photo-1622260614153-03223fb72052?w=600",
+    "https://images.unsplash.com/photo-1547949003-9792a18a2601?w=600",
+    "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=600",
+    "https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?w=600",
+    "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600",
+  ];
+  return (
+    <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-16">
+      <div className="text-center mb-6">
+        <p className="font-display uppercase tracking-[0.25em] text-xs text-neutral-500">
+          Comunidade Solze no Instagram
+        </p>
+        <h2 className="font-display uppercase text-3xl lg:text-4xl mt-1">
+          #SOUFORTECOMOSOLZE
+        </h2>
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+        {imgs.map((src, i) => (
+          <a
+            key={i}
+            href="#"
+            className="group relative aspect-square rounded-[20px] overflow-hidden animate-fade-up"
+            style={{ animationDelay: `${i * 80}ms` }}
+          >
+            <img
+              src={src}
+              alt={`Solze Instagram ${i + 1}`}
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+              <Instagram className="h-7 w-7 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ============ SUBFOOTER ============ */
+function Subfooter() {
+  return (
+    <section className="mt-20 bg-neutral-900 text-white">
+      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-14 grid lg:grid-cols-2 gap-10 items-center">
+        <div>
+          <p
+            className="font-display uppercase tracking-[0.25em] text-xs mb-3"
+            style={{ color: GOLD }}
+          >
+            Newsletter Solze
+          </p>
+          <h3 className="font-display uppercase text-3xl lg:text-4xl leading-tight">
+            ENTRE NO PELOTÃO E GANHE<br />
+            <span style={{ color: RED }}>10% OFF</span> NA PRIMEIRA COMPRA
+          </h3>
+          <p className="text-white/70 text-sm mt-3 max-w-md">
+            Cadastre seu e-mail e receba ofertas exclusivas, lançamentos e drops antes de todo mundo.
+          </p>
+
+          <form
+            onSubmit={(e) => e.preventDefault()}
+            className="mt-6 flex flex-col sm:flex-row gap-3 max-w-xl"
+          >
+            <input
+              type="email"
+              required
+              placeholder="Seu melhor e-mail"
+              className="flex-1 h-12 rounded-[20px] bg-white text-neutral-900 px-5 text-sm focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="bg-conversion hover:bg-conversion-hover transition-colors h-12 px-7 rounded-[20px] font-display uppercase tracking-wider text-sm"
+            >
+              Quero receber
+            </button>
+          </form>
+          <p className="text-[11px] text-white/50 mt-3">
+            Ao se cadastrar, você concorda com nossa Política de Privacidade.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          {[
+            { icon: Truck, t: "Entrega garantida", s: "Para todo o Brasil" },
+            { icon: RefreshCcw, t: "Troca fácil", s: "Até 30 dias" },
+            { icon: ShieldCheck, t: "Compra segura", s: "Ambiente protegido" },
+            { icon: CreditCard, t: "Parcele em 10x", s: "Sem juros no cartão" },
+          ].map((b, i) => (
+            <div
+              key={i}
+              className="rounded-[20px] border border-white/10 bg-white/5 p-5 flex items-start gap-3"
+            >
+              <div
+                className="h-11 w-11 rounded-[20px] flex items-center justify-center shrink-0"
+                style={{ backgroundColor: OLIVE }}
+              >
+                <b.icon className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <p className="font-display uppercase tracking-wider text-sm">{b.t}</p>
+                <p className="text-xs text-white/60 mt-0.5">{b.s}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============ FOOTER ============ */
+function Footer() {
+  const cols = [
+    {
+      title: "Institucional",
+      items: ["Sobre a Solze", "Field Tests", "Imprensa", "Trabalhe conosco", "Lojas físicas"],
+    },
+    {
+      title: "Atendimento",
+      items: ["Central de ajuda", "Trocas e devoluções", "Rastrear pedido", "Garantia vitalícia", "FAQ"],
+    },
+    {
+      title: "Categorias",
+      items: ["Mochilas Táticas", "Operator", "EDC", "MOLLE & Acessórios", "Outlet"],
+    },
+  ];
+
+  return (
+    <footer className="bg-white border-t border-neutral-200 text-neutral-700">
+      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-14 grid gap-10 md:grid-cols-4">
+        <div>
+          <img src={logoAsset.url} alt="Solze" className="h-10 w-auto object-contain" />
+          <p className="text-sm text-neutral-500 mt-4 leading-relaxed">
+            Bolsas e equipamentos táticos premium, engenheirados no Brasil para profissionais que exigem o máximo.
+          </p>
+          <div className="flex gap-2 mt-5">
+            {[Instagram, Facebook, Youtube].map((I, i) => (
+              <a
+                key={i}
+                href="#"
+                className="h-10 w-10 rounded-[20px] border border-neutral-200 flex items-center justify-center hover:text-white transition-colors"
+                style={{ borderColor: "#e5e5e5" }}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = OLIVE)}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "transparent")}
+              >
+                <I className="h-4 w-4" />
+              </a>
+            ))}
+          </div>
+        </div>
+
+        {cols.map((c) => (
+          <div key={c.title}>
+            <h4 className="font-display uppercase tracking-wider text-sm text-neutral-900 mb-4">
+              {c.title}
+            </h4>
+            <ul className="space-y-2.5 text-sm">
+              {c.items.map((it) => (
+                <li key={it}>
+                  <a href="#" className="hover:text-neutral-900 transition-colors">
+                    {it}
+                  </a>
+                </li>
+              ))}
+            </ul>
+            {c.title === "Atendimento" && (
+              <div className="mt-5 space-y-2 text-sm">
+                <p className="inline-flex items-center gap-2">
+                  <Phone className="h-4 w-4" style={{ color: OLIVE }} /> (11) 4002-8922
+                </p>
+                <p className="inline-flex items-center gap-2">
+                  <Mail className="h-4 w-4" style={{ color: OLIVE }} /> sac@solze.com.br
+                </p>
+                <p className="inline-flex items-start gap-2">
+                  <MapPin className="h-4 w-4 mt-0.5" style={{ color: OLIVE }} /> Av. Paulista, 1000 — São Paulo/SP
+                </p>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Payment + CNPJ strip */}
+      <div className="border-t border-neutral-200">
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2 flex-wrap">
+            {["VISA", "MASTER", "ELO", "AMEX", "PIX", "BOLETO"].map((p) => (
+              <span
+                key={p}
+                className="h-8 px-3 rounded-[20px] bg-neutral-100 border border-neutral-200 text-[11px] font-display uppercase tracking-wider flex items-center"
+              >
+                {p}
+              </span>
+            ))}
+          </div>
+          <div className="flex items-center gap-3 text-xs text-neutral-500">
+            <ShieldCheck className="h-4 w-4" style={{ color: OLIVE }} />
+            Site protegido • SSL 256 bits
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-neutral-900 text-white/70 text-[12px]">
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-2">
+          <p>© {new Date().getFullYear()} Solze Tactical. Todos os direitos reservados.</p>
+          <p>SOLZE EQUIPAMENTOS LTDA — CNPJ 00.000.000/0001-00</p>
+        </div>
+      </div>
+    </footer>
   );
 }
