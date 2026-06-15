@@ -224,16 +224,17 @@ export function Header() {
                     </p>
                     <ul className="grid grid-cols-2 gap-x-6 gap-y-1">
                       {[
-                        { label: "Bolsas", count: "32 itens" },
-                        { label: "Mochilas", count: "28 itens" },
-                        { label: "Cintos", count: "14 itens" },
-                        { label: "Estojos", count: "19 itens" },
-                        { label: "MOLLE", count: "22 itens" },
-                        { label: "Acessórios", count: "41 itens" },
+                        { label: "Bolsas", handle: "bolsas", count: "32 itens" },
+                        { label: "Mochilas", handle: "mochilas", count: "28 itens" },
+                        { label: "Cintos", handle: "cintos", count: "14 itens" },
+                        { label: "Estojos", handle: "estojos", count: "19 itens" },
+                        { label: "MOLLE", handle: "bolsas", count: "22 itens" },
+                        { label: "Acessórios", handle: "bolsas", count: "41 itens" },
                       ].map((c) => (
                         <li key={c.label}>
-                          <a
-                            href="#"
+                          <Link
+                            to="/collection/$handle"
+                            params={{ handle: c.handle }}
                             className="group/item flex items-center justify-between py-2.5 border-b border-border/60 hover:border-transparent"
                           >
                             <span className="font-display uppercase tracking-wider text-[13px] group-hover/item:text-[color:var(--accent)] transition-colors">
@@ -242,7 +243,7 @@ export function Header() {
                             <span className="text-[11px] text-muted-foreground">
                               {c.count}
                             </span>
-                          </a>
+                          </Link>
                         </li>
                       ))}
                     </ul>
