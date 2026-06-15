@@ -1,0 +1,174 @@
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Flame, Clock, Zap } from "lucide-react";
+import { Header, Subfooter, Footer } from "./index";
+import { CartDrawer } from "@/components/CartDrawer";
+
+export const Route = createFileRoute("/ofertas")({
+  head: () => ({
+    meta: [
+      { title: "★ Ofertas da Semana — Solze" },
+      { name: "description", content: "Promoções imperdíveis em bolsas e mochilas táticas Solze. Descontos por tempo limitado." },
+    ],
+  }),
+  component: OfertasPage,
+});
+
+const RED = "#E63946";
+
+type Offer = {
+  id: number;
+  title: string;
+  oldPrice: number;
+  newPrice: number;
+  discount: number;
+  emoji: string;
+  tag: string;
+};
+
+const OFFERS: Offer[] = [
+  { id: 1, title: "Mochila Operator 45L", oldPrice: 1299, newPrice: 899, discount: 30, emoji: "🎒", tag: "MAIS VENDIDA" },
+  { id: 2, title: "Bolsa Tática EDC Compact", oldPrice: 599, newPrice: 359, discount: 40, emoji: "👜", tag: "ÚLTIMAS UNIDADES" },
+  { id: 3, title: "Cinto Tático Reforçado", oldPrice: 249, newPrice: 149, discount: 40, emoji: "🪖", tag: "OFERTA RELÂMPAGO" },
+  { id: 4, title: "Estojo MOLLE Modular", oldPrice: 189, newPrice: 119, discount: 37, emoji: "🧰", tag: "EXCLUSIVO ONLINE" },
+  { id: 5, title: "Mochila Range Bag Pro", oldPrice: 1499, newPrice: 999, discount: 33, emoji: "🎒", tag: "TOP VENDAS" },
+  { id: 6, title: "Bolsa Transversal Recon", oldPrice: 449, newPrice: 269, discount: 40, emoji: "👜", tag: "FRETE GRÁTIS" },
+  { id: 7, title: "Organizador MOLLE Kit", oldPrice: 159, newPrice: 89, discount: 44, emoji: "📦", tag: "PROMOÇÃO" },
+  { id: 8, title: "Mochila Tactical 25L", oldPrice: 799, newPrice: 549, discount: 31, emoji: "🎒", tag: "QUEIMA DE ESTOQUE" },
+];
+
+function useCountdown(target: Date) {
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => {
+    const i = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(i);
+  }, []);
+  const diff = Math.max(0, target.getTime() - now);
+  const d = Math.floor(diff / 86400000);
+  const h = Math.floor((diff % 86400000) / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
+  return { d, h, m, s };
+}
+
+function brl(n: number) {
+  return n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+}
+
+function OfertasPage() {
+  const target = new Date(Date.now() + 1000 * 60 * 60 * 24 * 3 + 1000 * 60 * 60 * 12 + 1000 * 60 * 45);
+  const { d, h, m, s } = useCountdown(target);
+  const pad = (n: number) => n.toString().padStart(2, "0");
+
+  return (
+    <div className="bg-background min-h-screen">
+      <Header />
+      <CartDrawer />
+
+      {/* Promo Hero */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-black via-[#3a0a0e] to-[#7a0e18] text-white">
+        <div className="absolute inset-0 opacity-20" style={{ backgroundImage: "repeating-linear-gradient(45deg,#fff 0 2px,transparent 2px 24px)" }} />
+        <div className="relative mx-auto max-w-[1400px] px-4 sm:px-6 py-16 md:py-24 text-center">
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur px-4 py-1.5 mb-6 text-xs uppercase tracking-[0.3em] border border-white/20">
+            <Flame className="h-3.5 w-3.5" style={{ color: RED }} /> Promoção por tempo limitado
+          </motion.div>
+          <motion.h1 initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6 }}
+            className="font-display uppercase font-bold tracking-tight text-[clamp(3rem,9vw,8rem)] leading-[0.85]">
+            ★ Ofertas <span style={{ color: RED }}>da Semana</span>
+          </motion.h1>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
+            className="mt-6 text-lg text-white/80 max-w-2xl mx-auto">
+            Até <span className="font-bold text-white">44% OFF</span> em bolsas táticas premium. Estoque limitado.
+          </motion.p>
+
+          {/* Countdown */}
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
+            className="mt-10 inline-flex flex-col items-center gap-3 rounded-[20px] bg-black/40 backdrop-blur border border-white/10 px-8 py-6">
+            <div className="flex items-center gap-2 text-xs uppercase tracking-[0.3em] text-white/70">
+              <Clock className="h-3.5 w-3.5" /> Termina em
+            </div>
+            <div className="flex items-center gap-3 md:gap-5 font-display">
+              {[
+                { v: d, l: "Dias" },
+                { v: h, l: "Horas" },
+                { v: m, l: "Min" },
+                { v: s, l: "Seg" },
+              ].map((u) => (
+                <div key={u.l} className="flex flex-col items-center">
+                  <div className="text-4xl md:text-6xl font-bold tabular-nums leading-none" style={{ color: RED }}>{pad(u.v)}</div>
+                  <div className="text-[10px] uppercase tracking-widest text-white/60 mt-2">{u.l}</div>
+                </div>
+              )).reduce<React.ReactNode[]>((acc, el, i, arr) => {
+                acc.push(el);
+                if (i < arr.length - 1) acc.push(<div key={`sep-${i}`} className="text-3xl md:text-5xl text-white/40 font-bold">:</div>);
+                return acc;
+              }, [])}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Offer grid */}
+      <section className="mx-auto max-w-[1400px] px-4 sm:px-6 py-16">
+        <div className="flex items-end justify-between mb-8">
+          <div>
+            <h2 className="font-display uppercase text-3xl md:text-4xl font-bold">Aproveite agora</h2>
+            <p className="text-muted-foreground mt-1">{OFFERS.length} produtos em promoção</p>
+          </div>
+          <div className="hidden md:flex items-center gap-2 text-sm font-display uppercase tracking-wider px-4 py-2 rounded-full text-white" style={{ background: RED }}>
+            <Zap className="h-4 w-4" /> Estoque limitado
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+          {OFFERS.map((o, i) => (
+            <motion.div
+              key={o.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: i * 0.05 }}
+            >
+              <Link to="/product/$handle" params={{ handle: String(o.id) }} className="group block">
+                <div className="relative rounded-[20px] bg-card border border-border overflow-hidden hover:shadow-2xl transition-all hover:-translate-y-1">
+                  {/* Discount badge */}
+                  <div className="absolute top-3 left-3 z-10 rounded-full text-white font-display font-bold text-sm px-3 py-1.5 shadow-lg animate-pulse"
+                    style={{ background: RED }}>
+                    -{o.discount}% OFF
+                  </div>
+                  <div className="absolute top-3 right-3 z-10 rounded-full bg-black/80 text-white text-[10px] uppercase tracking-wider px-2.5 py-1 font-semibold">
+                    {o.tag}
+                  </div>
+
+                  <div className="aspect-square bg-secondary/40 flex items-center justify-center text-7xl group-hover:scale-105 transition-transform duration-500">
+                    {o.emoji}
+                  </div>
+
+                  <div className="p-4">
+                    <h3 className="font-medium text-sm line-clamp-1">{o.title}</h3>
+                    <div className="mt-2 flex items-baseline gap-2">
+                      <span className="text-xs text-muted-foreground line-through font-display">{brl(o.oldPrice)}</span>
+                    </div>
+                    <div className="font-display font-bold text-3xl leading-none mt-1" style={{ color: RED }}>
+                      {brl(o.newPrice)}
+                    </div>
+                    <div className="text-[11px] text-muted-foreground mt-1">
+                      ou 10x de {brl(o.newPrice / 10)} sem juros
+                    </div>
+                    <button className="mt-4 w-full h-11 rounded-[20px] text-white font-display uppercase text-sm tracking-wider hover:opacity-90 transition" style={{ background: RED }}>
+                      Comprar agora
+                    </button>
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      <Subfooter />
+      <Footer />
+    </div>
+  );
+}
