@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ProdutosRouteImport } from './routes/produtos'
 import { Route as OfertasRouteImport } from './routes/ofertas'
 import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -19,6 +20,11 @@ import { Route as CollectionHandleRouteImport } from './routes/collection.$handl
 import { Route as AuthenticatedFavoritosRouteImport } from './routes/_authenticated.favoritos'
 import { Route as AuthenticatedContaRouteImport } from './routes/_authenticated.conta'
 
+const ProdutosRoute = ProdutosRouteImport.update({
+  id: '/produtos',
+  path: '/produtos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OfertasRoute = OfertasRouteImport.update({
   id: '/ofertas',
   path: '/ofertas',
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/checkout': typeof CheckoutRoute
   '/ofertas': typeof OfertasRoute
+  '/produtos': typeof ProdutosRoute
   '/conta': typeof AuthenticatedContaRoute
   '/favoritos': typeof AuthenticatedFavoritosRoute
   '/collection/$handle': typeof CollectionHandleRoute
@@ -79,6 +86,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/checkout': typeof CheckoutRoute
   '/ofertas': typeof OfertasRoute
+  '/produtos': typeof ProdutosRoute
   '/conta': typeof AuthenticatedContaRoute
   '/favoritos': typeof AuthenticatedFavoritosRoute
   '/collection/$handle': typeof CollectionHandleRoute
@@ -91,6 +99,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/checkout': typeof CheckoutRoute
   '/ofertas': typeof OfertasRoute
+  '/produtos': typeof ProdutosRoute
   '/_authenticated/conta': typeof AuthenticatedContaRoute
   '/_authenticated/favoritos': typeof AuthenticatedFavoritosRoute
   '/collection/$handle': typeof CollectionHandleRoute
@@ -103,6 +112,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/checkout'
     | '/ofertas'
+    | '/produtos'
     | '/conta'
     | '/favoritos'
     | '/collection/$handle'
@@ -113,6 +123,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/checkout'
     | '/ofertas'
+    | '/produtos'
     | '/conta'
     | '/favoritos'
     | '/collection/$handle'
@@ -124,6 +135,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/checkout'
     | '/ofertas'
+    | '/produtos'
     | '/_authenticated/conta'
     | '/_authenticated/favoritos'
     | '/collection/$handle'
@@ -136,12 +148,20 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   CheckoutRoute: typeof CheckoutRoute
   OfertasRoute: typeof OfertasRoute
+  ProdutosRoute: typeof ProdutosRoute
   CollectionHandleRoute: typeof CollectionHandleRoute
   ProductHandleRoute: typeof ProductHandleRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/produtos': {
+      id: '/produtos'
+      path: '/produtos'
+      fullPath: '/produtos'
+      preLoaderRoute: typeof ProdutosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ofertas': {
       id: '/ofertas'
       path: '/ofertas'
@@ -228,6 +248,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   CheckoutRoute: CheckoutRoute,
   OfertasRoute: OfertasRoute,
+  ProdutosRoute: ProdutosRoute,
   CollectionHandleRoute: CollectionHandleRoute,
   ProductHandleRoute: ProductHandleRoute,
 }
