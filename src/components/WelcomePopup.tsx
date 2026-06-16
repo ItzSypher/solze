@@ -64,9 +64,14 @@ export function WelcomePopup() {
           className="p-7 sm:p-9 text-white"
           style={{ background: `linear-gradient(135deg, ${OLIVE} 0%, #1a1f12 100%)` }}
         >
+          <img
+            src={logoAsset.url}
+            alt="Solze"
+            className="h-10 w-auto object-contain mb-5 brightness-0 invert"
+          />
           <span
-            className="inline-flex items-center gap-1.5 text-[10px] font-display uppercase tracking-[0.25em] px-2.5 py-1 rounded-full"
-            style={{ backgroundColor: `${GOLD}30`, color: GOLD }}
+            className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.25em] px-2.5 py-1 rounded-full"
+            style={{ backgroundColor: `${GOLD}30`, color: GOLD, fontFamily: "var(--font-sora)" }}
           >
             <Tag className="h-3 w-3" /> Oferta de boas-vindas
           </span>
@@ -75,7 +80,7 @@ export function WelcomePopup() {
             <br />
             NA PRIMEIRA COMPRA
           </h2>
-          <p className="text-white/80 text-sm mt-3">
+          <p className="text-white/80 text-sm mt-3" style={{ fontFamily: "var(--font-sora)" }}>
             Entre no pelotão Solze e receba o cupom direto no seu e-mail. Drops, lançamentos e ofertas exclusivas.
           </p>
         </div>
