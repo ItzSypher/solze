@@ -6,10 +6,32 @@ const AWAY_TITLES = [
   "Volte e finalize sua compra | Solze",
 ];
 
+const GREETING_TITLES = [
+  "👋 Bem-vindo, operador! | Solze",
+  "⚡ Pronto pra missão? | Solze",
+];
+
 export function useTabTitle(originalTitle: string) {
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | null = null;
     let idx = 0;
+
+    // Greet user when they land on the page
+    let greetIdx = 0;
+    document.title = GREETING_TITLES[0];
+    const greetInterval = setInterval(() => {
+      greetIdx++;
+      if (greetIdx >= GREETING_TITLES.length) {
+        clearInterval(greetInterval);
+        document.title = originalTitle;
+      } else {
+        document.title = GREETING_TITLES[greetIdx];
+      }
+    }, 1800);
+    const greetDone = setTimeout(() => {
+      clearInterval(greetInterval);
+      document.title = originalTitle;
+    }, GREETING_TITLES.length * 1800);
 
     const onVis = () => {
       if (document.visibilityState === "hidden") {
@@ -30,6 +52,8 @@ export function useTabTitle(originalTitle: string) {
     return () => {
       document.removeEventListener("visibilitychange", onVis);
       if (interval) clearInterval(interval);
+      clearInterval(greetInterval);
+      clearTimeout(greetDone);
       document.title = originalTitle;
     };
   }, [originalTitle]);
