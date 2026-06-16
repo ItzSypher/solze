@@ -136,6 +136,15 @@ export function Header() {
     s.items.reduce((sum, i) => sum + i.quantity, 0),
   );
   const setOpen = useCartStore((s) => s.setOpen);
+  const navigate = useNavigate();
+  const [term, setTerm] = useState("");
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  function submitSearch(e: React.FormEvent) {
+    e.preventDefault();
+    const q = term.trim();
+    navigate({ to: "/busca", search: { q } });
+  }
 
   return (
     <header className="sticky top-0 z-40 w-full">
@@ -150,9 +159,9 @@ export function Header() {
               <ShieldCheck className="h-3.5 w-3.5" style={{ color: GOLD }} /> GARANTIA VITALÍCIA
             </span>
           </div>
-          <div className="flex items-center gap-4 ml-auto text-white/80">
-            <a href="#" className="hover:text-white">Atendimento</a>
-            <a href="#" className="hover:text-white">Rastrear pedido</a>
+          <div className="flex items-center gap-3 sm:gap-4 ml-auto text-white/80">
+            <a href="#" className="hidden sm:inline hover:text-white">Atendimento</a>
+            <a href="#" className="hidden sm:inline hover:text-white">Rastrear pedido</a>
             <a href="#" className="hover:text-white inline-flex items-center gap-1">
               <Phone className="h-3 w-3" /> (11) 4002-8922
             </a>
@@ -162,21 +171,31 @@ export function Header() {
 
       {/* Main header */}
       <div className="bg-white border-b border-neutral-200">
-        <div className="mx-auto flex h-20 max-w-[1400px] items-center gap-6 px-4 sm:px-6">
-          <button className="md:hidden text-neutral-900" aria-label="Menu">
+        <div className="mx-auto flex h-16 sm:h-20 max-w-[1400px] items-center gap-3 sm:gap-6 px-4 sm:px-6">
+          <button
+            className="lg:hidden text-neutral-900 shrink-0"
+            aria-label="Menu"
+            onClick={() => setMobileOpen(true)}
+          >
             <Menu className="h-6 w-6" />
           </button>
           <Link to="/" className="shrink-0">
-            <img src={logoAsset.url} alt="Solze" className="h-10 w-auto object-contain" />
+            <img src={logoAsset.url} alt="Solze" className="h-8 sm:h-10 w-auto object-contain" />
           </Link>
 
-          <div className="flex-1 max-w-2xl mx-auto hidden sm:block">
+          <form
+            onSubmit={submitSearch}
+            className="flex-1 max-w-2xl mx-auto hidden sm:block"
+          >
             <div className="relative">
               <input
+                value={term}
+                onChange={(e) => setTerm(e.target.value)}
                 placeholder="Buscar produtos, marcas, categorias..."
                 className="w-full h-12 rounded-[20px] border border-neutral-200 bg-neutral-50 pl-5 pr-12 text-sm focus:outline-none focus:border-neutral-400"
               />
               <button
+                type="submit"
                 className="absolute right-1.5 top-1.5 h-9 w-9 rounded-[20px] flex items-center justify-center text-white"
                 style={{ backgroundColor: OLIVE }}
                 aria-label="Buscar"
@@ -184,9 +203,17 @@ export function Header() {
                 <Search className="h-4 w-4" />
               </button>
             </div>
-          </div>
+          </form>
 
-          <div className="flex items-center gap-1 ml-auto text-neutral-700">
+          <div className="flex items-center gap-0 sm:gap-1 ml-auto text-neutral-700">
+            <Link
+              to="/busca"
+              search={{ q: "" }}
+              className="sm:hidden flex items-center justify-center h-10 w-10 hover:text-neutral-900"
+              aria-label="Buscar"
+            >
+              <Search className="h-5 w-5" />
+            </Link>
             <Link to="/conta" className="hidden md:flex flex-col items-center px-3 hover:text-neutral-900">
               <User className="h-5 w-5" />
               <span className="text-[10px] font-display uppercase tracking-wider mt-0.5">Conta</span>
@@ -197,14 +224,14 @@ export function Header() {
             </Link>
             <button
               onClick={() => setOpen(true)}
-              className="relative flex flex-col items-center px-3 hover:text-neutral-900"
+              className="relative flex flex-col items-center px-2 sm:px-3 hover:text-neutral-900"
               aria-label="Abrir carrinho"
             >
               <ShoppingBag className="h-5 w-5" />
-              <span className="text-[10px] font-display uppercase tracking-wider mt-0.5">Carrinho</span>
+              <span className="hidden sm:inline text-[10px] font-display uppercase tracking-wider mt-0.5">Carrinho</span>
               {totalItems > 0 && (
                 <span
-                  className="absolute top-0 right-1 h-5 min-w-5 rounded-full px-1 text-[10px] font-display font-bold flex items-center justify-center text-white"
+                  className="absolute top-0 right-0 sm:right-1 h-5 min-w-5 rounded-full px-1 text-[10px] font-display font-bold flex items-center justify-center text-white"
                   style={{ backgroundColor: RED }}
                 >
                   {totalItems}
@@ -212,6 +239,26 @@ export function Header() {
               )}
             </button>
           </div>
+        </div>
+
+        {/* Mobile search row */}
+        <div className="sm:hidden border-t border-neutral-200 px-4 py-3 bg-white">
+          <form onSubmit={submitSearch} className="relative">
+            <input
+              value={term}
+              onChange={(e) => setTerm(e.target.value)}
+              placeholder="Buscar..."
+              className="w-full h-11 rounded-[20px] border border-neutral-200 bg-neutral-50 pl-4 pr-12 text-sm focus:outline-none focus:border-neutral-400"
+            />
+            <button
+              type="submit"
+              className="absolute right-1.5 top-1.5 h-8 w-8 rounded-[20px] flex items-center justify-center text-white"
+              style={{ backgroundColor: OLIVE }}
+              aria-label="Buscar"
+            >
+              <Search className="h-4 w-4" />
+            </button>
+          </form>
         </div>
 
         {/* Departments green nav */}
