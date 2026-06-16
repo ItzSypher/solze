@@ -168,7 +168,7 @@ function ProductPage() {
                 -{discountPct}% OFF
               </span>
             )}
-            <button className="absolute right-4 top-4 h-10 w-10 rounded-full bg-white border border-neutral-200 hover:border-neutral-400 flex items-center justify-center transition-colors">
+            <button aria-label="Adicionar aos favoritos" className="absolute right-4 top-4 h-10 w-10 rounded-full bg-white border border-neutral-200 hover:border-neutral-400 flex items-center justify-center transition-colors">
               <Heart className="h-4 w-4" />
             </button>
           </div>
