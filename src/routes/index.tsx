@@ -27,6 +27,8 @@ import { useCartSync } from "@/hooks/useCartSync";
 import { useTabTitle } from "@/hooks/useTabTitle";
 import { useCartStore } from "@/stores/cartStore";
 import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
+import { CATEGORIES } from "@/lib/categories";
+import { InstagramFeed } from "@/components/InstagramFeed";
 import logoAsset from "@/assets/solze-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
@@ -47,17 +49,7 @@ const OLIVE = "#4A5A3B";
 const RED = "#E63946";
 const GOLD = "#C6A87C";
 
-const DEPARTMENTS = [
-  "Mochilas Táticas",
-  "Operator",
-  "EDC",
-  "MOLLE",
-  "Range Bags",
-  "Acessórios",
-  "Vestuário",
-  "Coldres",
-  "Outlet",
-];
+const DEPARTMENTS = CATEGORIES.filter((c) => c.handle !== "outlet");
 
 const HERO_SLIDES = [
   {
@@ -223,15 +215,8 @@ export function Header() {
                       Navegue por categoria
                     </p>
                     <ul className="grid grid-cols-2 gap-x-6 gap-y-1">
-                      {[
-                        { label: "Bolsas", handle: "bolsas", count: "32 itens" },
-                        { label: "Mochilas", handle: "mochilas", count: "28 itens" },
-                        { label: "Cintos", handle: "cintos", count: "14 itens" },
-                        { label: "Estojos", handle: "estojos", count: "19 itens" },
-                        { label: "MOLLE", handle: "bolsas", count: "22 itens" },
-                        { label: "Acessórios", handle: "bolsas", count: "41 itens" },
-                      ].map((c) => (
-                        <li key={c.label}>
+                      {DEPARTMENTS.slice(0, 6).map((c) => (
+                        <li key={c.handle}>
                           <Link
                             to="/collection/$handle"
                             params={{ handle: c.handle }}
@@ -240,20 +225,18 @@ export function Header() {
                             <span className="font-display uppercase tracking-wider text-[13px] group-hover/item:text-[color:var(--accent)] transition-colors">
                               {c.label}
                             </span>
-                            <span className="text-[11px] text-muted-foreground">
-                              {c.count}
-                            </span>
+                            <ArrowRight className="h-3.5 w-3.5 text-muted-foreground" />
                           </Link>
                         </li>
                       ))}
                     </ul>
-                    <a
-                      href="#"
+                    <Link
+                      to="/produtos"
                       className="inline-flex items-center gap-2 mt-5 font-display uppercase tracking-wider text-[12px]"
                       style={{ color: RED }}
                     >
-                      Ver todos os departamentos <ArrowRight className="h-3.5 w-3.5" />
-                    </a>
+                      Ver todos os produtos <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
                   </div>
                   {/* Featured */}
                   <a
@@ -294,21 +277,22 @@ export function Header() {
             </div>
 
             {DEPARTMENTS.map((d) => (
-              <a
-                key={d}
-                href="#"
+              <Link
+                key={d.handle}
+                to="/collection/$handle"
+                params={{ handle: d.handle }}
                 className="font-display uppercase tracking-wider text-[12.5px] px-4 h-full inline-flex items-center hover:bg-black/15 whitespace-nowrap transition-colors"
               >
-                {d}
-              </a>
+                {d.label}
+              </Link>
             ))}
-            <a
-              href="#"
+            <Link
+              to="/ofertas"
               className="ml-auto font-display uppercase tracking-wider text-[12.5px] px-4 h-full inline-flex items-center"
               style={{ color: GOLD }}
             >
               ★ Ofertas da semana
-            </a>
+            </Link>
           </div>
         </nav>
       </div>
@@ -701,48 +685,6 @@ function ProductCardRetail({
   );
 }
 
-/* ============ INSTAGRAM ============ */
-function InstagramFeed() {
-  const imgs = [
-    "https://images.unsplash.com/photo-1622260614153-03223fb72052?w=600",
-    "https://images.unsplash.com/photo-1547949003-9792a18a2601?w=600",
-    "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=600",
-    "https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?w=600",
-    "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600",
-  ];
-  return (
-    <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-16">
-      <div className="text-center mb-6">
-        <p className="font-display uppercase tracking-[0.25em] text-xs text-neutral-500">
-          Comunidade Solze no Instagram
-        </p>
-        <h2 className="font-display uppercase text-3xl lg:text-4xl mt-1">
-          #SOUFORTECOMOSOLZE
-        </h2>
-      </div>
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-        {imgs.map((src, i) => (
-          <a
-            key={i}
-            href="#"
-            className="group relative aspect-square rounded-[20px] overflow-hidden animate-fade-up"
-            style={{ animationDelay: `${i * 80}ms` }}
-          >
-            <img
-              src={src}
-              alt={`Solze Instagram ${i + 1}`}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-              loading="lazy"
-            />
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-              <Instagram className="h-7 w-7 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
-            </div>
-          </a>
-        ))}
-      </div>
-    </section>
-  );
-}
 
 /* ============ SUBFOOTER ============ */
 export function Subfooter() {
