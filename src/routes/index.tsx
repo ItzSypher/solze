@@ -175,14 +175,14 @@ export function Header() {
           </div>
 
           <div className="flex items-center gap-1 ml-auto text-neutral-700">
-            <button className="hidden md:flex flex-col items-center px-3 hover:text-neutral-900">
+            <Link to="/conta" className="hidden md:flex flex-col items-center px-3 hover:text-neutral-900">
               <User className="h-5 w-5" />
               <span className="text-[10px] font-display uppercase tracking-wider mt-0.5">Conta</span>
-            </button>
-            <button className="hidden md:flex flex-col items-center px-3 hover:text-neutral-900">
+            </Link>
+            <Link to="/favoritos" className="hidden md:flex flex-col items-center px-3 hover:text-neutral-900">
               <Heart className="h-5 w-5" />
               <span className="text-[10px] font-display uppercase tracking-wider mt-0.5">Favoritos</span>
-            </button>
+            </Link>
             <button
               onClick={() => setOpen(true)}
               className="relative flex flex-col items-center px-3 hover:text-neutral-900"
