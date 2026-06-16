@@ -286,21 +286,22 @@ export function Header() {
             </div>
 
             {DEPARTMENTS.map((d) => (
-              <a
-                key={d}
-                href="#"
+              <Link
+                key={d.handle}
+                to="/collection/$handle"
+                params={{ handle: d.handle }}
                 className="font-display uppercase tracking-wider text-[12.5px] px-4 h-full inline-flex items-center hover:bg-black/15 whitespace-nowrap transition-colors"
               >
-                {d}
-              </a>
+                {d.label}
+              </Link>
             ))}
-            <a
-              href="#"
+            <Link
+              to="/ofertas"
               className="ml-auto font-display uppercase tracking-wider text-[12.5px] px-4 h-full inline-flex items-center"
               style={{ color: GOLD }}
             >
               ★ Ofertas da semana
-            </a>
+            </Link>
           </div>
         </nav>
       </div>
