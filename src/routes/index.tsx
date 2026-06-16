@@ -101,7 +101,7 @@ function HomePage() {
           limit={8}
           query="tag:new"
         />
-        <InstagramFeed />
+        <IGFeed />
       </main>
       <Subfooter />
       <Footer />
