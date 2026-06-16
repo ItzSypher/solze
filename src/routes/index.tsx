@@ -28,7 +28,7 @@ import { useTabTitle } from "@/hooks/useTabTitle";
 import { useCartStore } from "@/stores/cartStore";
 import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
 import { CATEGORIES } from "@/lib/categories";
-import { InstagramFeed } from "@/components/InstagramFeed";
+import { InstagramFeed as IGFeed } from "@/components/InstagramFeed";
 import logoAsset from "@/assets/solze-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
