@@ -20,13 +20,9 @@ const searchSchema = z.object({
 
 export const Route = createFileRoute("/busca")({
   validateSearch: zodValidator(searchSchema),
-  head: ({ search }) => ({
+  head: () => ({
     meta: [
-      {
-        title: search.q
-          ? `Busca: ${search.q} — Solze`
-          : "Buscar produtos — Solze",
-      },
+      { title: "Buscar produtos — Solze" },
       {
         name: "description",
         content: "Encontre mochilas táticas, EDC, MOLLE e acessórios Solze.",
