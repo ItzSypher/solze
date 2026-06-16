@@ -29,6 +29,8 @@ import { useCartStore } from "@/stores/cartStore";
 import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
 import { CATEGORIES } from "@/lib/categories";
 import { InstagramFeed as IGFeed } from "@/components/InstagramFeed";
+import { WelcomePopup } from "@/components/WelcomePopup";
+import { LifestyleBanner } from "@/components/LifestyleBanner";
 import logoAsset from "@/assets/solze-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
