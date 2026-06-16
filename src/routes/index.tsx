@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -29,6 +29,8 @@ import { useCartStore } from "@/stores/cartStore";
 import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
 import { CATEGORIES } from "@/lib/categories";
 import { InstagramFeed as IGFeed } from "@/components/InstagramFeed";
+import { WelcomePopup } from "@/components/WelcomePopup";
+import { LifestyleBanner } from "@/components/LifestyleBanner";
 import logoAsset from "@/assets/solze-logo.png.asset.json";
 
 export const Route = createFileRoute("/")({
@@ -103,17 +105,27 @@ function HomePage() {
           eyebrow="Top da semana"
           limit={8}
         />
+        <LifestyleBanner variant="operator" />
         <ProductsCarousel
           title="LANÇAMENTOS"
           eyebrow="Acabou de chegar"
           limit={8}
           query="tag:new"
         />
+        <LifestyleBanner variant="edc" />
+        <ProductsCarousel
+          title="OFERTAS DA SEMANA"
+          eyebrow="Outlet Solze"
+          limit={8}
+          query="tag:sale OR tag:outlet"
+        />
+        <LifestyleBanner variant="outlet" />
         <IGFeed />
       </main>
       <Subfooter />
       <Footer />
       <CartDrawer />
+      <WelcomePopup />
     </div>
   );
 }
@@ -124,6 +136,15 @@ export function Header() {
     s.items.reduce((sum, i) => sum + i.quantity, 0),
   );
   const setOpen = useCartStore((s) => s.setOpen);
+  const navigate = useNavigate();
+  const [term, setTerm] = useState("");
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  function submitSearch(e: React.FormEvent) {
+    e.preventDefault();
+    const q = term.trim();
+    navigate({ to: "/busca", search: { q } });
+  }
 
   return (
     <header className="sticky top-0 z-40 w-full">
@@ -138,9 +159,9 @@ export function Header() {
               <ShieldCheck className="h-3.5 w-3.5" style={{ color: GOLD }} /> GARANTIA VITALÍCIA
             </span>
           </div>
-          <div className="flex items-center gap-4 ml-auto text-white/80">
-            <a href="#" className="hover:text-white">Atendimento</a>
-            <a href="#" className="hover:text-white">Rastrear pedido</a>
+          <div className="flex items-center gap-3 sm:gap-4 ml-auto text-white/80">
+            <a href="#" className="hidden sm:inline hover:text-white">Atendimento</a>
+            <a href="#" className="hidden sm:inline hover:text-white">Rastrear pedido</a>
             <a href="#" className="hover:text-white inline-flex items-center gap-1">
               <Phone className="h-3 w-3" /> (11) 4002-8922
             </a>
@@ -150,21 +171,31 @@ export function Header() {
 
       {/* Main header */}
       <div className="bg-white border-b border-neutral-200">
-        <div className="mx-auto flex h-20 max-w-[1400px] items-center gap-6 px-4 sm:px-6">
-          <button className="md:hidden text-neutral-900" aria-label="Menu">
+        <div className="mx-auto flex h-16 sm:h-20 max-w-[1400px] items-center gap-3 sm:gap-6 px-4 sm:px-6">
+          <button
+            className="lg:hidden text-neutral-900 shrink-0"
+            aria-label="Menu"
+            onClick={() => setMobileOpen(true)}
+          >
             <Menu className="h-6 w-6" />
           </button>
           <Link to="/" className="shrink-0">
-            <img src={logoAsset.url} alt="Solze" className="h-10 w-auto object-contain" />
+            <img src={logoAsset.url} alt="Solze" className="h-8 sm:h-10 w-auto object-contain" />
           </Link>
 
-          <div className="flex-1 max-w-2xl mx-auto hidden sm:block">
+          <form
+            onSubmit={submitSearch}
+            className="flex-1 max-w-2xl mx-auto hidden sm:block"
+          >
             <div className="relative">
               <input
+                value={term}
+                onChange={(e) => setTerm(e.target.value)}
                 placeholder="Buscar produtos, marcas, categorias..."
                 className="w-full h-12 rounded-[20px] border border-neutral-200 bg-neutral-50 pl-5 pr-12 text-sm focus:outline-none focus:border-neutral-400"
               />
               <button
+                type="submit"
                 className="absolute right-1.5 top-1.5 h-9 w-9 rounded-[20px] flex items-center justify-center text-white"
                 style={{ backgroundColor: OLIVE }}
                 aria-label="Buscar"
@@ -172,9 +203,17 @@ export function Header() {
                 <Search className="h-4 w-4" />
               </button>
             </div>
-          </div>
+          </form>
 
-          <div className="flex items-center gap-1 ml-auto text-neutral-700">
+          <div className="flex items-center gap-0 sm:gap-1 ml-auto text-neutral-700">
+            <Link
+              to="/busca"
+              search={{ q: "" }}
+              className="sm:hidden flex items-center justify-center h-10 w-10 hover:text-neutral-900"
+              aria-label="Buscar"
+            >
+              <Search className="h-5 w-5" />
+            </Link>
             <Link to="/conta" className="hidden md:flex flex-col items-center px-3 hover:text-neutral-900">
               <User className="h-5 w-5" />
               <span className="text-[10px] font-display uppercase tracking-wider mt-0.5">Conta</span>
@@ -185,14 +224,14 @@ export function Header() {
             </Link>
             <button
               onClick={() => setOpen(true)}
-              className="relative flex flex-col items-center px-3 hover:text-neutral-900"
+              className="relative flex flex-col items-center px-2 sm:px-3 hover:text-neutral-900"
               aria-label="Abrir carrinho"
             >
               <ShoppingBag className="h-5 w-5" />
-              <span className="text-[10px] font-display uppercase tracking-wider mt-0.5">Carrinho</span>
+              <span className="hidden sm:inline text-[10px] font-display uppercase tracking-wider mt-0.5">Carrinho</span>
               {totalItems > 0 && (
                 <span
-                  className="absolute top-0 right-1 h-5 min-w-5 rounded-full px-1 text-[10px] font-display font-bold flex items-center justify-center text-white"
+                  className="absolute top-0 right-0 sm:right-1 h-5 min-w-5 rounded-full px-1 text-[10px] font-display font-bold flex items-center justify-center text-white"
                   style={{ backgroundColor: RED }}
                 >
                   {totalItems}
@@ -202,8 +241,28 @@ export function Header() {
           </div>
         </div>
 
+        {/* Mobile search row */}
+        <div className="sm:hidden border-t border-neutral-200 px-4 py-3 bg-white">
+          <form onSubmit={submitSearch} className="relative">
+            <input
+              value={term}
+              onChange={(e) => setTerm(e.target.value)}
+              placeholder="Buscar..."
+              className="w-full h-11 rounded-[20px] border border-neutral-200 bg-neutral-50 pl-4 pr-12 text-sm focus:outline-none focus:border-neutral-400"
+            />
+            <button
+              type="submit"
+              className="absolute right-1.5 top-1.5 h-8 w-8 rounded-[20px] flex items-center justify-center text-white"
+              style={{ backgroundColor: OLIVE }}
+              aria-label="Buscar"
+            >
+              <Search className="h-4 w-4" />
+            </button>
+          </form>
+        </div>
+
         {/* Departments green nav */}
-        <nav style={{ backgroundColor: OLIVE }} className="text-white relative">
+        <nav style={{ backgroundColor: OLIVE }} className="text-white relative hidden lg:block">
           <div className="mx-auto max-w-[1400px] px-4 sm:px-6 flex items-center gap-1 h-12 overflow-visible">
             {/* Mega menu trigger */}
             <div className="relative h-full group">
@@ -304,6 +363,89 @@ export function Header() {
           </div>
         </nav>
       </div>
+
+      {/* Mobile drawer */}
+      {mobileOpen && (
+        <div
+          className="lg:hidden fixed inset-0 z-50 bg-black/60"
+          onClick={() => setMobileOpen(false)}
+        >
+          <div
+            className="absolute left-0 top-0 bottom-0 w-[85vw] max-w-sm bg-white text-neutral-900 flex flex-col animate-in slide-in-from-left"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-5 h-16 border-b border-neutral-200">
+              <img src={logoAsset.url} alt="Solze" className="h-8 w-auto object-contain" />
+              <button
+                onClick={() => setMobileOpen(false)}
+                aria-label="Fechar menu"
+                className="h-9 w-9 rounded-full flex items-center justify-center hover:bg-neutral-100"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+            </div>
+            <nav className="flex-1 overflow-y-auto py-2">
+              <p className="px-5 pt-4 pb-2 text-[10px] font-display uppercase tracking-[0.25em] text-neutral-500">
+                Departamentos
+              </p>
+              {DEPARTMENTS.map((d) => (
+                <Link
+                  key={d.handle}
+                  to="/collection/$handle"
+                  params={{ handle: d.handle }}
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center justify-between px-5 py-3.5 font-display uppercase tracking-wider text-sm border-b border-neutral-100 hover:bg-neutral-50"
+                >
+                  {d.label}
+                  <ArrowRight className="h-4 w-4 text-neutral-400" />
+                </Link>
+              ))}
+              <Link
+                to="/ofertas"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-between px-5 py-3.5 font-display uppercase tracking-wider text-sm border-b border-neutral-100"
+                style={{ color: RED }}
+              >
+                ★ Ofertas da semana
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                to="/produtos"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-between px-5 py-3.5 font-display uppercase tracking-wider text-sm border-b border-neutral-100"
+              >
+                Todos os produtos
+                <ArrowRight className="h-4 w-4 text-neutral-400" />
+              </Link>
+              <p className="px-5 pt-5 pb-2 text-[10px] font-display uppercase tracking-[0.25em] text-neutral-500">
+                Sua conta
+              </p>
+              <Link
+                to="/conta"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 px-5 py-3 text-sm hover:bg-neutral-50"
+              >
+                <User className="h-4 w-4" /> Minha conta
+              </Link>
+              <Link
+                to="/favoritos"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 px-5 py-3 text-sm hover:bg-neutral-50"
+              >
+                <Heart className="h-4 w-4" /> Favoritos
+              </Link>
+            </nav>
+            <div className="px-5 py-4 border-t border-neutral-200 text-xs text-neutral-500 space-y-1">
+              <p className="inline-flex items-center gap-2">
+                <Phone className="h-3.5 w-3.5" style={{ color: OLIVE }} /> (11) 4002-8922
+              </p>
+              <p className="inline-flex items-center gap-2">
+                <Truck className="h-3.5 w-3.5" style={{ color: OLIVE }} /> Frete grátis acima R$ 399
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
