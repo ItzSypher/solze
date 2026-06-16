@@ -363,6 +363,89 @@ export function Header() {
           </div>
         </nav>
       </div>
+
+      {/* Mobile drawer */}
+      {mobileOpen && (
+        <div
+          className="lg:hidden fixed inset-0 z-50 bg-black/60"
+          onClick={() => setMobileOpen(false)}
+        >
+          <div
+            className="absolute left-0 top-0 bottom-0 w-[85vw] max-w-sm bg-white text-neutral-900 flex flex-col animate-in slide-in-from-left"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-5 h-16 border-b border-neutral-200">
+              <img src={logoAsset.url} alt="Solze" className="h-8 w-auto object-contain" />
+              <button
+                onClick={() => setMobileOpen(false)}
+                aria-label="Fechar menu"
+                className="h-9 w-9 rounded-full flex items-center justify-center hover:bg-neutral-100"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+            </div>
+            <nav className="flex-1 overflow-y-auto py-2">
+              <p className="px-5 pt-4 pb-2 text-[10px] font-display uppercase tracking-[0.25em] text-neutral-500">
+                Departamentos
+              </p>
+              {DEPARTMENTS.map((d) => (
+                <Link
+                  key={d.handle}
+                  to="/collection/$handle"
+                  params={{ handle: d.handle }}
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center justify-between px-5 py-3.5 font-display uppercase tracking-wider text-sm border-b border-neutral-100 hover:bg-neutral-50"
+                >
+                  {d.label}
+                  <ArrowRight className="h-4 w-4 text-neutral-400" />
+                </Link>
+              ))}
+              <Link
+                to="/ofertas"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-between px-5 py-3.5 font-display uppercase tracking-wider text-sm border-b border-neutral-100"
+                style={{ color: RED }}
+              >
+                ★ Ofertas da semana
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                to="/produtos"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-between px-5 py-3.5 font-display uppercase tracking-wider text-sm border-b border-neutral-100"
+              >
+                Todos os produtos
+                <ArrowRight className="h-4 w-4 text-neutral-400" />
+              </Link>
+              <p className="px-5 pt-5 pb-2 text-[10px] font-display uppercase tracking-[0.25em] text-neutral-500">
+                Sua conta
+              </p>
+              <Link
+                to="/conta"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 px-5 py-3 text-sm hover:bg-neutral-50"
+              >
+                <User className="h-4 w-4" /> Minha conta
+              </Link>
+              <Link
+                to="/favoritos"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 px-5 py-3 text-sm hover:bg-neutral-50"
+              >
+                <Heart className="h-4 w-4" /> Favoritos
+              </Link>
+            </nav>
+            <div className="px-5 py-4 border-t border-neutral-200 text-xs text-neutral-500 space-y-1">
+              <p className="inline-flex items-center gap-2">
+                <Phone className="h-3.5 w-3.5" style={{ color: OLIVE }} /> (11) 4002-8922
+              </p>
+              <p className="inline-flex items-center gap-2">
+                <Truck className="h-3.5 w-3.5" style={{ color: OLIVE }} /> Frete grátis acima R$ 399
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
