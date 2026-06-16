@@ -379,9 +379,9 @@ function Hero() {
               <p className="font-display uppercase tracking-[0.25em] text-[10px]" style={{ color: GOLD }}>
                 Frete expresso
               </p>
-              <h3 className="font-display uppercase text-2xl leading-tight mt-2">
+              <h2 className="font-display uppercase text-2xl leading-tight mt-2">
                 ENTREGA EM<br />24 HORAS
-              </h3>
+              </h2>
             </div>
             <a href="#" className="font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
               Saiba mais <ArrowRight className="h-3 w-3" />
