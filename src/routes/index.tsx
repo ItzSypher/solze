@@ -262,7 +262,7 @@ export function Header() {
         </div>
 
         {/* Departments green nav */}
-        <nav style={{ backgroundColor: OLIVE }} className="text-white relative">
+        <nav style={{ backgroundColor: OLIVE }} className="text-white relative hidden lg:block">
           <div className="mx-auto max-w-[1400px] px-4 sm:px-6 flex items-center gap-1 h-12 overflow-visible">
             {/* Mega menu trigger */}
             <div className="relative h-full group">
