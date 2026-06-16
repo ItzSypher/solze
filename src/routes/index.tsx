@@ -215,15 +215,8 @@ export function Header() {
                       Navegue por categoria
                     </p>
                     <ul className="grid grid-cols-2 gap-x-6 gap-y-1">
-                      {[
-                        { label: "Bolsas", handle: "bolsas", count: "32 itens" },
-                        { label: "Mochilas", handle: "mochilas", count: "28 itens" },
-                        { label: "Cintos", handle: "cintos", count: "14 itens" },
-                        { label: "Estojos", handle: "estojos", count: "19 itens" },
-                        { label: "MOLLE", handle: "bolsas", count: "22 itens" },
-                        { label: "Acessórios", handle: "bolsas", count: "41 itens" },
-                      ].map((c) => (
-                        <li key={c.label}>
+                      {DEPARTMENTS.slice(0, 6).map((c) => (
+                        <li key={c.handle}>
                           <Link
                             to="/collection/$handle"
                             params={{ handle: c.handle }}
@@ -232,20 +225,18 @@ export function Header() {
                             <span className="font-display uppercase tracking-wider text-[13px] group-hover/item:text-[color:var(--accent)] transition-colors">
                               {c.label}
                             </span>
-                            <span className="text-[11px] text-muted-foreground">
-                              {c.count}
-                            </span>
+                            <ArrowRight className="h-3.5 w-3.5 text-muted-foreground" />
                           </Link>
                         </li>
                       ))}
                     </ul>
-                    <a
-                      href="#"
+                    <Link
+                      to="/produtos"
                       className="inline-flex items-center gap-2 mt-5 font-display uppercase tracking-wider text-[12px]"
                       style={{ color: RED }}
                     >
-                      Ver todos os departamentos <ArrowRight className="h-3.5 w-3.5" />
-                    </a>
+                      Ver todos os produtos <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
                   </div>
                   {/* Featured */}
                   <a
