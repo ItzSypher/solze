@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { X, Mail, Tag } from "lucide-react";
+import logoAsset from "@/assets/solze-logo.png.asset.json";
 
 const STORAGE_KEY = "solze:welcome-popup-dismissed";
 const OLIVE = "#4A5A3B";
