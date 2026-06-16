@@ -26,15 +26,27 @@ import { useCartSync } from "@/hooks/useCartSync";
 import { useTabTitle } from "@/hooks/useTabTitle";
 
 export const Route = createFileRoute("/product/$handle")({
-  head: ({ params }) => ({
-    meta: [
-      { title: `${params.handle} — Solze Tactical` },
-      {
-        name: "description",
-        content: `Conheça ${params.handle} na Solze Tactical.`,
-      },
-    ],
-  }),
+  head: ({ params }) => {
+    const name = params.handle
+      .replace(/[-_]+/g, " ")
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+    const title = `${name} — Solze Tactical`;
+    const description = `${name}: bolsa tática Solze de alta performance, construção militar em Cordura 1000D e garantia vitalícia. Compre com frete rápido e parcelamento em 10x.`;
+    const url = `https://shop-love-joy.lovable.app/product/${params.handle}`;
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "product" },
+        { property: "og:url", content: url },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    };
+  },
   component: ProductPage,
 });
 
