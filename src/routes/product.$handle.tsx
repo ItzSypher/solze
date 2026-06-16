@@ -278,6 +278,7 @@ function ProductPage() {
             <div className="inline-flex items-center rounded-[20px] border-2 border-neutral-200">
               <button
                 onClick={() => setQty((q) => Math.max(1, q - 1))}
+                aria-label="Diminuir quantidade"
                 className="h-12 w-12 flex items-center justify-center hover:bg-neutral-50 rounded-l-[18px]"
               >
                 <Minus className="h-4 w-4" />
@@ -285,6 +286,7 @@ function ProductPage() {
               <span className="font-display text-lg font-bold w-12 text-center">{qty}</span>
               <button
                 onClick={() => setQty((q) => q + 1)}
+                aria-label="Aumentar quantidade"
                 className="h-12 w-12 flex items-center justify-center hover:bg-neutral-50 rounded-r-[18px]"
               >
                 <Plus className="h-4 w-4" />
