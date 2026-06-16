@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
-import { Plus, Loader2 } from "lucide-react";
+import { Plus, Loader2, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useCartStore } from "@/stores/cartStore";
+import { useFavorites } from "@/hooks/useFavorites";
 import type { ShopifyProduct } from "@/lib/shopify";
 
 function formatPrice(amount: string, currency: string) {
@@ -21,6 +22,8 @@ function formatPrice(amount: string, currency: string) {
 export function ProductCard({ product, index = 0 }: { product: ShopifyProduct; index?: number }) {
   const addItem = useCartStore((s) => s.addItem);
   const isLoading = useCartStore((s) => s.isLoading);
+  const { isFavorite, toggle } = useFavorites();
+  const fav = isFavorite(product.node.handle);
 
   const variant = product.node.variants.edges[0]?.node;
   const image = product.node.images.edges[0]?.node;
@@ -86,6 +89,21 @@ export function ProductCard({ product, index = 0 }: { product: ShopifyProduct; i
               </Badge>
             )}
           </div>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              toggle({
+                product_handle: product.node.handle,
+                product_title: product.node.title,
+                product_image: image?.url ?? null,
+                product_price: `${price.currencyCode} ${parseFloat(price.amount).toFixed(2)}`,
+              });
+            }}
+            className="absolute top-3 right-3 h-9 w-9 rounded-full bg-background/90 backdrop-blur flex items-center justify-center hover:bg-background transition-colors"
+            aria-label="Favoritar"
+          >
+            <Heart className={`h-4 w-4 ${fav ? "fill-red-500 text-red-500" : "text-foreground"}`} />
+          </button>
           <Button
             size="icon"
             onClick={handleAdd}
