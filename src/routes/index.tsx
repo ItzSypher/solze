@@ -694,48 +694,6 @@ function ProductCardRetail({
   );
 }
 
-/* ============ INSTAGRAM ============ */
-function InstagramFeed() {
-  const imgs = [
-    "https://images.unsplash.com/photo-1622260614153-03223fb72052?w=600",
-    "https://images.unsplash.com/photo-1547949003-9792a18a2601?w=600",
-    "https://images.unsplash.com/photo-1581605405669-fcdf81165afa?w=600",
-    "https://images.unsplash.com/photo-1521223890158-f9f7c3d5d504?w=600",
-    "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600",
-  ];
-  return (
-    <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-16">
-      <div className="text-center mb-6">
-        <p className="font-display uppercase tracking-[0.25em] text-xs text-neutral-500">
-          Comunidade Solze no Instagram
-        </p>
-        <h2 className="font-display uppercase text-3xl lg:text-4xl mt-1">
-          #SOUFORTECOMOSOLZE
-        </h2>
-      </div>
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-        {imgs.map((src, i) => (
-          <a
-            key={i}
-            href="#"
-            className="group relative aspect-square rounded-[20px] overflow-hidden animate-fade-up"
-            style={{ animationDelay: `${i * 80}ms` }}
-          >
-            <img
-              src={src}
-              alt={`Solze Instagram ${i + 1}`}
-              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-              loading="lazy"
-            />
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-              <Instagram className="h-7 w-7 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
-            </div>
-          </a>
-        ))}
-      </div>
-    </section>
-  );
-}
 
 /* ============ SUBFOOTER ============ */
 export function Subfooter() {
