@@ -26,15 +26,27 @@ import { useCartSync } from "@/hooks/useCartSync";
 import { useTabTitle } from "@/hooks/useTabTitle";
 
 export const Route = createFileRoute("/product/$handle")({
-  head: ({ params }) => ({
-    meta: [
-      { title: `${params.handle} — Solze Tactical` },
-      {
-        name: "description",
-        content: `Conheça ${params.handle} na Solze Tactical.`,
-      },
-    ],
-  }),
+  head: ({ params }) => {
+    const name = params.handle
+      .replace(/[-_]+/g, " ")
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+    const title = `${name} — Solze Tactical`;
+    const description = `${name}: bolsa tática Solze de alta performance, construção militar em Cordura 1000D e garantia vitalícia. Compre com frete rápido e parcelamento em 10x.`;
+    const url = `https://shop-love-joy.lovable.app/product/${params.handle}`;
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:type", content: "product" },
+        { property: "og:url", content: url },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    };
+  },
   component: ProductPage,
 });
 
@@ -168,7 +180,7 @@ function ProductPage() {
                 -{discountPct}% OFF
               </span>
             )}
-            <button className="absolute right-4 top-4 h-10 w-10 rounded-full bg-white border border-neutral-200 hover:border-neutral-400 flex items-center justify-center transition-colors">
+            <button aria-label="Adicionar aos favoritos" className="absolute right-4 top-4 h-10 w-10 rounded-full bg-white border border-neutral-200 hover:border-neutral-400 flex items-center justify-center transition-colors">
               <Heart className="h-4 w-4" />
             </button>
           </div>
@@ -278,6 +290,7 @@ function ProductPage() {
             <div className="inline-flex items-center rounded-[20px] border-2 border-neutral-200">
               <button
                 onClick={() => setQty((q) => Math.max(1, q - 1))}
+                aria-label="Diminuir quantidade"
                 className="h-12 w-12 flex items-center justify-center hover:bg-neutral-50 rounded-l-[18px]"
               >
                 <Minus className="h-4 w-4" />
@@ -285,6 +298,7 @@ function ProductPage() {
               <span className="font-display text-lg font-bold w-12 text-center">{qty}</span>
               <button
                 onClick={() => setQty((q) => q + 1)}
+                aria-label="Aumentar quantidade"
                 className="h-12 w-12 flex items-center justify-center hover:bg-neutral-50 rounded-r-[18px]"
               >
                 <Plus className="h-4 w-4" />

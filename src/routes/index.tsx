@@ -40,7 +40,15 @@ export const Route = createFileRoute("/")({
         content:
           "Loja oficial Solze. Bolsas táticas, mochilas operacionais e acessórios profissionais. Frete rápido, garantia vitalícia.",
       },
+      { property: "og:title", content: "Solze — Bolsas táticas e profissionais premium" },
+      {
+        property: "og:description",
+        content:
+          "Loja oficial Solze. Bolsas táticas, mochilas operacionais e acessórios profissionais.",
+      },
+      { property: "og:url", content: "https://shop-love-joy.lovable.app/" },
     ],
+    links: [{ rel: "canonical", href: "https://shop-love-joy.lovable.app/" }],
   }),
   component: HomePage,
 });
@@ -143,7 +151,7 @@ export function Header() {
       {/* Main header */}
       <div className="bg-white border-b border-neutral-200">
         <div className="mx-auto flex h-20 max-w-[1400px] items-center gap-6 px-4 sm:px-6">
-          <button className="md:hidden text-neutral-900">
+          <button className="md:hidden text-neutral-900" aria-label="Menu">
             <Menu className="h-6 w-6" />
           </button>
           <Link to="/" className="shrink-0">
@@ -379,9 +387,9 @@ function Hero() {
               <p className="font-display uppercase tracking-[0.25em] text-[10px]" style={{ color: GOLD }}>
                 Frete expresso
               </p>
-              <h3 className="font-display uppercase text-2xl leading-tight mt-2">
+              <h2 className="font-display uppercase text-2xl leading-tight mt-2">
                 ENTREGA EM<br />24 HORAS
-              </h3>
+              </h2>
             </div>
             <a href="#" className="font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
               Saiba mais <ArrowRight className="h-3 w-3" />
@@ -398,9 +406,9 @@ function Hero() {
               <p className="font-display uppercase tracking-[0.25em] text-[10px]" style={{ color: RED }}>
                 Outlet Solze
               </p>
-              <h3 className="font-display uppercase text-2xl leading-tight mt-2">
+              <h2 className="font-display uppercase text-2xl leading-tight mt-2">
                 ATÉ <span style={{ color: RED }}>50% OFF</span><br />EM SELECIONADOS
-              </h3>
+              </h2>
             </div>
             <a href="#" className="font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
               Aproveitar <ArrowRight className="h-3 w-3" />

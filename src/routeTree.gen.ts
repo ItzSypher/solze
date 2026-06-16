@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ProdutosRouteImport } from './routes/produtos'
 import { Route as OfertasRouteImport } from './routes/ofertas'
 import { Route as CheckoutRouteImport } from './routes/checkout'
@@ -20,6 +21,11 @@ import { Route as CollectionHandleRouteImport } from './routes/collection.$handl
 import { Route as AuthenticatedFavoritosRouteImport } from './routes/_authenticated.favoritos'
 import { Route as AuthenticatedContaRouteImport } from './routes/_authenticated.conta'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProdutosRoute = ProdutosRouteImport.update({
   id: '/produtos',
   path: '/produtos',
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/checkout': typeof CheckoutRoute
   '/ofertas': typeof OfertasRoute
   '/produtos': typeof ProdutosRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/conta': typeof AuthenticatedContaRoute
   '/favoritos': typeof AuthenticatedFavoritosRoute
   '/collection/$handle': typeof CollectionHandleRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByTo {
   '/checkout': typeof CheckoutRoute
   '/ofertas': typeof OfertasRoute
   '/produtos': typeof ProdutosRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/conta': typeof AuthenticatedContaRoute
   '/favoritos': typeof AuthenticatedFavoritosRoute
   '/collection/$handle': typeof CollectionHandleRoute
@@ -100,6 +108,7 @@ export interface FileRoutesById {
   '/checkout': typeof CheckoutRoute
   '/ofertas': typeof OfertasRoute
   '/produtos': typeof ProdutosRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/conta': typeof AuthenticatedContaRoute
   '/_authenticated/favoritos': typeof AuthenticatedFavoritosRoute
   '/collection/$handle': typeof CollectionHandleRoute
@@ -113,6 +122,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/ofertas'
     | '/produtos'
+    | '/sitemap.xml'
     | '/conta'
     | '/favoritos'
     | '/collection/$handle'
@@ -124,6 +134,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/ofertas'
     | '/produtos'
+    | '/sitemap.xml'
     | '/conta'
     | '/favoritos'
     | '/collection/$handle'
@@ -136,6 +147,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/ofertas'
     | '/produtos'
+    | '/sitemap.xml'
     | '/_authenticated/conta'
     | '/_authenticated/favoritos'
     | '/collection/$handle'
@@ -149,12 +161,20 @@ export interface RootRouteChildren {
   CheckoutRoute: typeof CheckoutRoute
   OfertasRoute: typeof OfertasRoute
   ProdutosRoute: typeof ProdutosRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   CollectionHandleRoute: typeof CollectionHandleRoute
   ProductHandleRoute: typeof ProductHandleRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/produtos': {
       id: '/produtos'
       path: '/produtos'
@@ -249,6 +269,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutRoute: CheckoutRoute,
   OfertasRoute: OfertasRoute,
   ProdutosRoute: ProdutosRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   CollectionHandleRoute: CollectionHandleRoute,
   ProductHandleRoute: ProductHandleRoute,
 }
