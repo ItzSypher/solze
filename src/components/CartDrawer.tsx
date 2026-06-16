@@ -85,11 +85,14 @@ export function CartDrawer() {
     <Sheet open={isOpen} onOpenChange={setOpen}>
       <SheetContent className="w-full sm:max-w-md flex flex-col h-full p-0 bg-card border-l border-border">
         <SheetHeader className="px-6 pt-6">
+          <div className="flex items-center justify-between mb-2">
+            <img src={logoAsset.url} alt="Solze" className="h-7 w-auto object-contain" />
+          </div>
           <SheetTitle className="font-display text-2xl font-extrabold tracking-tight flex items-center gap-2">
             <Zap className="h-5 w-5 text-accent" />
             Seu equipamento
           </SheetTitle>
-          <SheetDescription className="text-xs uppercase tracking-[0.2em]">
+          <SheetDescription className="text-xs uppercase tracking-[0.2em]" style={{ fontFamily: "var(--font-sora)" }}>
             {totalItems === 0
               ? "Nenhum item ainda"
               : `${totalItems} ${totalItems === 1 ? "item" : "itens"} no carrinho`}
