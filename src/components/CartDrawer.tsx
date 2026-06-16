@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useCartStore } from "@/stores/cartStore";
+import logoAsset from "@/assets/solze-logo.png.asset.json";
 
 function formatBRL(amount: number) {
   try {
