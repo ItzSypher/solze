@@ -82,21 +82,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Bolsas táticas e profissionais de alta performance. Design premium, construção militar, garantia vitalícia.",
+          "Bolsas e mochilas táticas Solze: construção militar em Cordura 1000D, design premium e garantia vitalícia. Frete rápido para todo o Brasil.",
       },
       { name: "author", content: "Solze" },
+      { property: "og:site_name", content: "Solze" },
+      { property: "og:type", content: "website" },
       { property: "og:title", content: "Solze — Bolsas táticas e profissionais premium" },
       {
         property: "og:description",
-        content: "Bolsas táticas premium para profissionais que não aceitam menos.",
+        content:
+          "Bolsas e mochilas táticas Solze: construção militar, design premium e garantia vitalícia.",
       },
-      { property: "og:type", content: "website" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/861fc6e2-4137-4237-b389-da98017b5d96/id-preview-9dcccabe--6d72a4f5-116e-4e36-a93f-213b3e454c88.lovable.app-1781546197592.png" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Solze — Bolsas táticas e profissionais premium" },
-      { name: "description", content: "Shop With Joy is a headless e-commerce frontend for brands." },
-      { property: "og:description", content: "Shop With Joy is a headless e-commerce frontend for brands." },
-      { name: "twitter:description", content: "Shop With Joy is a headless e-commerce frontend for brands." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/861fc6e2-4137-4237-b389-da98017b5d96/id-preview-9dcccabe--6d72a4f5-116e-4e36-a93f-213b3e454c88.lovable.app-1781546197592.png" },
+      {
+        name: "twitter:description",
+        content:
+          "Bolsas e mochilas táticas Solze: construção militar, design premium e garantia vitalícia.",
+      },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/861fc6e2-4137-4237-b389-da98017b5d96/id-preview-9dcccabe--6d72a4f5-116e-4e36-a93f-213b3e454c88.lovable.app-1781546197592.png" },
     ],
     links: [
