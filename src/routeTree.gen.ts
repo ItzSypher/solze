@@ -11,9 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as OfertasRouteImport } from './routes/ofertas'
 import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductHandleRouteImport } from './routes/product.$handle'
 import { Route as CollectionHandleRouteImport } from './routes/collection.$handle'
+import { Route as AuthenticatedFavoritosRouteImport } from './routes/_authenticated/favoritos'
+import { Route as AuthenticatedContaRouteImport } from './routes/_authenticated/conta'
 
 const OfertasRoute = OfertasRouteImport.update({
   id: '/ofertas',
@@ -23,6 +27,15 @@ const OfertasRoute = OfertasRouteImport.update({
 const CheckoutRoute = CheckoutRouteImport.update({
   id: '/checkout',
   path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -40,26 +53,46 @@ const CollectionHandleRoute = CollectionHandleRouteImport.update({
   path: '/collection/$handle',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedFavoritosRoute = AuthenticatedFavoritosRouteImport.update({
+  id: '/favoritos',
+  path: '/favoritos',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedContaRoute = AuthenticatedContaRouteImport.update({
+  id: '/conta',
+  path: '/conta',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/checkout': typeof CheckoutRoute
   '/ofertas': typeof OfertasRoute
+  '/conta': typeof AuthenticatedContaRoute
+  '/favoritos': typeof AuthenticatedFavoritosRoute
   '/collection/$handle': typeof CollectionHandleRoute
   '/product/$handle': typeof ProductHandleRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/checkout': typeof CheckoutRoute
   '/ofertas': typeof OfertasRoute
+  '/conta': typeof AuthenticatedContaRoute
+  '/favoritos': typeof AuthenticatedFavoritosRoute
   '/collection/$handle': typeof CollectionHandleRoute
   '/product/$handle': typeof ProductHandleRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/checkout': typeof CheckoutRoute
   '/ofertas': typeof OfertasRoute
+  '/_authenticated/conta': typeof AuthenticatedContaRoute
+  '/_authenticated/favoritos': typeof AuthenticatedFavoritosRoute
   '/collection/$handle': typeof CollectionHandleRoute
   '/product/$handle': typeof ProductHandleRoute
 }
@@ -67,28 +100,40 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/checkout'
     | '/ofertas'
+    | '/conta'
+    | '/favoritos'
     | '/collection/$handle'
     | '/product/$handle'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/checkout'
     | '/ofertas'
+    | '/conta'
+    | '/favoritos'
     | '/collection/$handle'
     | '/product/$handle'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
+    | '/auth'
     | '/checkout'
     | '/ofertas'
+    | '/_authenticated/conta'
+    | '/_authenticated/favoritos'
     | '/collection/$handle'
     | '/product/$handle'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   CheckoutRoute: typeof CheckoutRoute
   OfertasRoute: typeof OfertasRoute
   CollectionHandleRoute: typeof CollectionHandleRoute
@@ -109,6 +154,20 @@ declare module '@tanstack/react-router' {
       path: '/checkout'
       fullPath: '/checkout'
       preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -132,11 +191,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CollectionHandleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/favoritos': {
+      id: '/_authenticated/favoritos'
+      path: '/favoritos'
+      fullPath: '/favoritos'
+      preLoaderRoute: typeof AuthenticatedFavoritosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/conta': {
+      id: '/_authenticated/conta'
+      path: '/conta'
+      fullPath: '/conta'
+      preLoaderRoute: typeof AuthenticatedContaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedContaRoute: typeof AuthenticatedContaRoute
+  AuthenticatedFavoritosRoute: typeof AuthenticatedFavoritosRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedContaRoute: AuthenticatedContaRoute,
+  AuthenticatedFavoritosRoute: AuthenticatedFavoritosRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   CheckoutRoute: CheckoutRoute,
   OfertasRoute: OfertasRoute,
   CollectionHandleRoute: CollectionHandleRoute,
@@ -145,13 +233,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
