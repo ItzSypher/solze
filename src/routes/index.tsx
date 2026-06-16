@@ -40,7 +40,15 @@ export const Route = createFileRoute("/")({
         content:
           "Loja oficial Solze. Bolsas táticas, mochilas operacionais e acessórios profissionais. Frete rápido, garantia vitalícia.",
       },
+      { property: "og:title", content: "Solze — Bolsas táticas e profissionais premium" },
+      {
+        property: "og:description",
+        content:
+          "Loja oficial Solze. Bolsas táticas, mochilas operacionais e acessórios profissionais.",
+      },
+      { property: "og:url", content: "https://shop-love-joy.lovable.app/" },
     ],
+    links: [{ rel: "canonical", href: "https://shop-love-joy.lovable.app/" }],
   }),
   component: HomePage,
 });
