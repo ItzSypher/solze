@@ -105,17 +105,27 @@ function HomePage() {
           eyebrow="Top da semana"
           limit={8}
         />
+        <LifestyleBanner variant="operator" />
         <ProductsCarousel
           title="LANÇAMENTOS"
           eyebrow="Acabou de chegar"
           limit={8}
           query="tag:new"
         />
+        <LifestyleBanner variant="edc" />
+        <ProductsCarousel
+          title="OFERTAS DA SEMANA"
+          eyebrow="Outlet Solze"
+          limit={8}
+          query="tag:sale OR tag:outlet"
+        />
+        <LifestyleBanner variant="outlet" />
         <IGFeed />
       </main>
       <Subfooter />
       <Footer />
       <CartDrawer />
+      <WelcomePopup />
     </div>
   );
 }
