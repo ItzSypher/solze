@@ -517,7 +517,7 @@ function Hero() {
         </div>
 
         {/* Stacked promos */}
-        <div className="grid grid-rows-2 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-1 lg:grid-rows-2 gap-3 sm:gap-4">
           <div
             className="rounded-[20px] p-7 flex flex-col justify-between text-white animate-fade-up"
             style={{
