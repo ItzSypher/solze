@@ -737,7 +737,7 @@ function ProductsCarousel({
               {products.map((p, i) => (
                 <div
                   key={p.node.id}
-                  className="snap-start shrink-0 w-[68vw] xs:w-[60vw] sm:w-[44vw] max-w-[280px]"
+                  className="snap-start shrink-0 w-[70vw] sm:w-[44vw] max-w-[280px]"
                 >
                   <ProductCardRetail product={p} index={i} />
                 </div>
