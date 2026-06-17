@@ -466,22 +466,22 @@ function Hero() {
         {/* Big slider */}
         <div
           key={idx}
-          className="relative aspect-[16/9] lg:aspect-auto lg:h-[460px] rounded-[20px] overflow-hidden text-white animate-fade-up"
+          className="relative aspect-[4/5] sm:aspect-[16/9] lg:aspect-auto lg:h-[460px] rounded-[20px] overflow-hidden text-white animate-fade-up"
           style={{ background: slide.bg }}
         >
-          <div className="absolute inset-0 p-8 lg:p-14 flex flex-col justify-end">
+          <div className="absolute inset-0 p-6 sm:p-8 lg:p-14 flex flex-col justify-end">
             <p
-              className="font-display uppercase tracking-[0.25em] text-xs mb-3"
+              className="font-display uppercase tracking-[0.25em] text-[10px] sm:text-xs mb-2 sm:mb-3"
               style={{ color: GOLD }}
             >
               {slide.eyebrow}
             </p>
-            <h1 className="font-display uppercase text-4xl lg:text-6xl leading-[0.95] whitespace-pre-line">
+            <h1 className="font-display uppercase text-3xl sm:text-4xl lg:text-6xl leading-[0.95] whitespace-pre-line">
               {slide.title}
             </h1>
-            <div className="mt-6">
+            <div className="mt-4 sm:mt-6">
               <button
-                className="bg-conversion hover:bg-conversion-hover transition-colors font-display uppercase tracking-wider text-sm px-7 h-12 rounded-[20px] inline-flex items-center gap-2"
+                className="bg-conversion hover:bg-conversion-hover transition-colors font-display uppercase tracking-wider text-xs sm:text-sm px-5 sm:px-7 h-11 sm:h-12 rounded-[20px] inline-flex items-center gap-2"
               >
                 {slide.cta} <ArrowRight className="h-4 w-4" />
               </button>
@@ -517,9 +517,9 @@ function Hero() {
         </div>
 
         {/* Stacked promos */}
-        <div className="grid grid-rows-2 gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-1 lg:grid-rows-2 gap-3 sm:gap-4">
           <div
-            className="rounded-[20px] p-7 flex flex-col justify-between text-white animate-fade-up"
+            className="rounded-[20px] p-5 sm:p-7 flex flex-col justify-between text-white animate-fade-up min-h-[160px]"
             style={{
               animationDelay: "120ms",
               background: `linear-gradient(135deg,${OLIVE} 0%,#2a3322 100%)`,
@@ -538,7 +538,7 @@ function Hero() {
             </a>
           </div>
           <div
-            className="rounded-[20px] p-7 flex flex-col justify-between text-white animate-fade-up"
+            className="rounded-[20px] p-5 sm:p-7 flex flex-col justify-between text-white animate-fade-up min-h-[160px]"
             style={{
               animationDelay: "220ms",
               background: `linear-gradient(135deg,#1a1a1a 0%,#3a3a3a 100%)`,
@@ -607,9 +607,9 @@ function BentoCollections() {
         </a>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-3 lg:grid-rows-2 lg:h-[480px]">
+      <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 lg:h-[480px]">
         <BentoCard
-          className="lg:col-span-2 lg:row-span-2 animate-fade-up"
+          className="sm:col-span-2 lg:col-span-2 lg:row-span-2 min-h-[260px] animate-fade-up"
           eyebrow="Destaque"
           title="LINHA OPERATOR"
           subtitle="Mochilas táticas profissionais"
@@ -657,7 +657,7 @@ function BentoCard({
   return (
     <a
       href="#"
-      className={`group relative rounded-[20px] overflow-hidden text-white p-7 flex flex-col justify-end transition-transform hover:-translate-y-1 ${className}`}
+      className={`group relative rounded-[20px] overflow-hidden text-white p-5 sm:p-7 flex flex-col justify-end transition-transform hover:-translate-y-1 min-h-[180px] ${className}`}
       style={{ background: bg, ...style }}
     >
       <p
@@ -668,7 +668,7 @@ function BentoCard({
       </p>
       <h3
         className={`font-display uppercase leading-[0.95] ${
-          large ? "text-5xl lg:text-7xl" : "text-2xl lg:text-3xl"
+          large ? "text-4xl sm:text-5xl lg:text-7xl" : "text-xl sm:text-2xl lg:text-3xl"
         }`}
       >
         {title}
@@ -717,7 +717,7 @@ function ProductsCarousel({
       </div>
 
       {isLoading ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
             <div key={i} className="aspect-[3/4] rounded-[20px] bg-neutral-100 animate-pulse" />
           ))}
@@ -730,11 +730,27 @@ function ProductsCarousel({
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {products.map((p, i) => (
-            <ProductCardRetail key={p.node.id} product={p} index={i} />
-          ))}
-        </div>
+        <>
+          {/* Mobile/tablet: real horizontal carousel with snap */}
+          <div className="md:hidden -mx-4 sm:-mx-6 px-4 sm:px-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide">
+            <div className="flex gap-3 pb-2">
+              {products.map((p, i) => (
+                <div
+                  key={p.node.id}
+                  className="snap-start shrink-0 w-[70vw] sm:w-[44vw] max-w-[280px]"
+                >
+                  <ProductCardRetail product={p} index={i} />
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* Desktop: grid */}
+          <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {products.map((p, i) => (
+              <ProductCardRetail key={p.node.id} product={p} index={i} />
+            ))}
+          </div>
+        </>
       )}
     </section>
   );
