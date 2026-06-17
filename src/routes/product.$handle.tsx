@@ -156,7 +156,7 @@ function ProductPage() {
       <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-6 grid gap-10 lg:grid-cols-2">
         {/* Gallery */}
         <motion.div {...fadeIn(0.05)}>
-          <div className="relative aspect-square overflow-hidden rounded-[20px] bg-neutral-50 border border-neutral-200">
+          <div className="relative aspect-square lg:aspect-[4/5] overflow-hidden rounded-[20px] bg-neutral-50 border border-neutral-200">
             {heroImg ? (
               <motion.img
                 key={imgIdx}
@@ -165,7 +165,7 @@ function ProductPage() {
                 initial={{ opacity: 0, scale: 1.02 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4 }}
-                className="h-full w-full object-contain p-8"
+                className="h-full w-full object-contain p-2 sm:p-3"
               />
             ) : (
               <div className="flex h-full w-full items-center justify-center text-neutral-400 text-sm">
