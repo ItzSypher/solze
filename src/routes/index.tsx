@@ -538,7 +538,7 @@ function Hero() {
             </a>
           </div>
           <div
-            className="rounded-[20px] p-7 flex flex-col justify-between text-white animate-fade-up"
+            className="rounded-[20px] p-5 sm:p-7 flex flex-col justify-between text-white animate-fade-up min-h-[160px]"
             style={{
               animationDelay: "220ms",
               background: `linear-gradient(135deg,#1a1a1a 0%,#3a3a3a 100%)`,
