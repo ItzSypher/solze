@@ -668,7 +668,7 @@ function BentoCard({
       </p>
       <h3
         className={`font-display uppercase leading-[0.95] ${
-          large ? "text-5xl lg:text-7xl" : "text-2xl lg:text-3xl"
+          large ? "text-4xl sm:text-5xl lg:text-7xl" : "text-xl sm:text-2xl lg:text-3xl"
         }`}
       >
         {title}
