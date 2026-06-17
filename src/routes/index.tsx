@@ -466,22 +466,22 @@ function Hero() {
         {/* Big slider */}
         <div
           key={idx}
-          className="relative aspect-[16/9] lg:aspect-auto lg:h-[460px] rounded-[20px] overflow-hidden text-white animate-fade-up"
+          className="relative aspect-[4/5] sm:aspect-[16/9] lg:aspect-auto lg:h-[460px] rounded-[20px] overflow-hidden text-white animate-fade-up"
           style={{ background: slide.bg }}
         >
-          <div className="absolute inset-0 p-8 lg:p-14 flex flex-col justify-end">
+          <div className="absolute inset-0 p-6 sm:p-8 lg:p-14 flex flex-col justify-end">
             <p
-              className="font-display uppercase tracking-[0.25em] text-xs mb-3"
+              className="font-display uppercase tracking-[0.25em] text-[10px] sm:text-xs mb-2 sm:mb-3"
               style={{ color: GOLD }}
             >
               {slide.eyebrow}
             </p>
-            <h1 className="font-display uppercase text-4xl lg:text-6xl leading-[0.95] whitespace-pre-line">
+            <h1 className="font-display uppercase text-3xl sm:text-4xl lg:text-6xl leading-[0.95] whitespace-pre-line">
               {slide.title}
             </h1>
-            <div className="mt-6">
+            <div className="mt-4 sm:mt-6">
               <button
-                className="bg-conversion hover:bg-conversion-hover transition-colors font-display uppercase tracking-wider text-sm px-7 h-12 rounded-[20px] inline-flex items-center gap-2"
+                className="bg-conversion hover:bg-conversion-hover transition-colors font-display uppercase tracking-wider text-xs sm:text-sm px-5 sm:px-7 h-11 sm:h-12 rounded-[20px] inline-flex items-center gap-2"
               >
                 {slide.cta} <ArrowRight className="h-4 w-4" />
               </button>
