@@ -657,7 +657,7 @@ function BentoCard({
   return (
     <a
       href="#"
-      className={`group relative rounded-[20px] overflow-hidden text-white p-7 flex flex-col justify-end transition-transform hover:-translate-y-1 ${className}`}
+      className={`group relative rounded-[20px] overflow-hidden text-white p-5 sm:p-7 flex flex-col justify-end transition-transform hover:-translate-y-1 min-h-[180px] ${className}`}
       style={{ background: bg, ...style }}
     >
       <p
