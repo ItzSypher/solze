@@ -717,7 +717,7 @@ function ProductsCarousel({
       </div>
 
       {isLoading ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
           {Array.from({ length: 4 }).map((_, i) => (
             <div key={i} className="aspect-[3/4] rounded-[20px] bg-neutral-100 animate-pulse" />
           ))}
@@ -730,11 +730,27 @@ function ProductsCarousel({
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {products.map((p, i) => (
-            <ProductCardRetail key={p.node.id} product={p} index={i} />
-          ))}
-        </div>
+        <>
+          {/* Mobile/tablet: real horizontal carousel with snap */}
+          <div className="md:hidden -mx-4 sm:-mx-6 px-4 sm:px-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide">
+            <div className="flex gap-3 pb-2">
+              {products.map((p, i) => (
+                <div
+                  key={p.node.id}
+                  className="snap-start shrink-0 w-[68vw] xs:w-[60vw] sm:w-[44vw] max-w-[280px]"
+                >
+                  <ProductCardRetail product={p} index={i} />
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* Desktop: grid */}
+          <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {products.map((p, i) => (
+              <ProductCardRetail key={p.node.id} product={p} index={i} />
+            ))}
+          </div>
+        </>
       )}
     </section>
   );
