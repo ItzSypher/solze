@@ -37,6 +37,51 @@ export interface ShopifyProduct {
   };
 }
 
+const LOCAL_PRODUCT_IMAGE_HANDLES = new Set([
+  "balde-para-ferramentas",
+  "bolsa-balde-g",
+  "bolsa-balde-m",
+  "bolsa-carteiro-ferramentas",
+  "bolsa-cinto-para-ferramentas",
+  "bolsa-cinto-para-ferramentas-preta",
+  "bolsa-grande-ferramentas",
+  "bolsa-operacional-para-ferramentas",
+  "bolsa-pequena-para-ferramentas",
+  "bolsa-pequena-preta-solze",
+  "cartucheira-para-ferramentas",
+  "cartucheira-para-ferramentas-preta",
+  "cinto-duplo-para-ferramentas",
+  "cinto-duplo-preto-porta-ferramentas",
+  "cinto-multifuncional",
+  "estojo-porta-ferramentas",
+  "estojo-porta-ferramentas-preto",
+  "mochila-para-ferramentas",
+  "mochila-para-ferramentas-premium",
+  "mochila-preta-para-ferramentas",
+]);
+
+function withLocalProductImages(product: ShopifyProduct): ShopifyProduct {
+  const { handle, title } = product.node;
+
+  if (!LOCAL_PRODUCT_IMAGE_HANDLES.has(handle)) {
+    return product;
+  }
+
+  return {
+    node: {
+      ...product.node,
+      images: {
+        edges: Array.from({ length: 5 }, (_, index) => ({
+          node: {
+            url: `/products/${handle}/${String(index + 1).padStart(2, "0")}.png`,
+            altText: `${title} - imagem ${index + 1}`,
+          },
+        })),
+      },
+    },
+  };
+}
+
 export async function storefrontApiRequest(query: string, variables: any = {}) {
   const response = await fetch(SHOPIFY_STOREFRONT_URL, {
     method: "POST",
@@ -108,13 +153,14 @@ const PRODUCT_QUERY = `
 
 export async function fetchProducts(first = 12, query?: string): Promise<ShopifyProduct[]> {
   const data = await storefrontApiRequest(PRODUCTS_QUERY, { first, query });
-  return data?.data?.products?.edges ?? [];
+  const products: ShopifyProduct[] = data?.data?.products?.edges ?? [];
+  return products.map(withLocalProductImages);
 }
 
 export async function fetchProduct(handle: string): Promise<ShopifyProduct | null> {
   const data = await storefrontApiRequest(PRODUCT_QUERY, { handle });
   const node = data?.data?.product;
-  return node ? { node } : null;
+  return node ? withLocalProductImages({ node }) : null;
 }
 
 // Cart mutations
