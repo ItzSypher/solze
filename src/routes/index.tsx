@@ -1071,6 +1071,7 @@ export function Footer() {
     {
       title: "Categorias",
       items: ["Bolsas", "Mochilas", "Estojos", "Cintos", "Acessórios Multiuso", "Ofertas"],
+      handles: ["bolsas", "mochilas", "estojos", "cintos", "acessorios", "outlet"],
     },
   ];
 
@@ -1110,13 +1111,26 @@ export function Footer() {
               {c.title}
             </h4>
             <ul className="space-y-2.5 text-sm">
-              {c.items.map((it) => (
-                <li key={it}>
-                  <Link to="/produtos" className="hover:text-neutral-900 transition-colors">
-                    {it}
-                  </Link>
-                </li>
-              ))}
+              {c.items.map((it, i) => {
+                const handle = (c as { handles?: string[] }).handles?.[i];
+                return (
+                  <li key={it}>
+                    {handle ? (
+                      <Link
+                        to="/collection/$handle"
+                        params={{ handle }}
+                        className="hover:text-neutral-900 transition-colors"
+                      >
+                        {it}
+                      </Link>
+                    ) : (
+                      <Link to="/produtos" className="hover:text-neutral-900 transition-colors">
+                        {it}
+                      </Link>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
             {c.title === "Atendimento" && (
               <div className="mt-5 space-y-2 text-sm">
