@@ -1068,13 +1068,13 @@ export function Footer() {
             </ul>
             {c.title === "Atendimento" && (
               <div className="mt-5 space-y-2 text-sm">
-                <p className="inline-flex items-center gap-2">
+                <p className="flex items-center gap-2">
                   <Phone className="h-4 w-4" style={{ color: OLIVE }} /> (21) 4137-5008
                 </p>
-                <p className="inline-flex items-center gap-2">
+                <p className="flex items-center gap-2">
                   <Mail className="h-4 w-4" style={{ color: OLIVE }} /> sac@solze.com.br
                 </p>
-                <p className="inline-flex items-start gap-2">
+                <p className="flex items-start gap-2">
                   <MapPin className="h-4 w-4 mt-0.5" style={{ color: OLIVE }} /> Av. Paulista, 1000 — São Paulo/SP
                 </p>
               </div>
