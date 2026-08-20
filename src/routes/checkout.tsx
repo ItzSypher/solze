@@ -22,7 +22,7 @@ function CheckoutPage() {
   const [payment, setPayment] = useState<"card" | "pix">("card");
   const [bump, setBump] = useState(true);
 
-  const product = { title: "Mochila Operator 45L", price: 899, emoji: "🎒" };
+  const product = { title: "Mochila Porta-Ferramentas", price: 899, emoji: "🎒" };
   const bumpItem = { title: "Cinto Tático Reforçado", price: 19.9, emoji: "🪖" };
   const subtotal = product.price + (bump ? bumpItem.price : 0);
 

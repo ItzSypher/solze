@@ -9,7 +9,7 @@ export const Route = createFileRoute("/ofertas")({
   head: () => ({
     meta: [
       { title: "★ Ofertas da Semana — Solze" },
-      { name: "description", content: "Promoções imperdíveis em bolsas e mochilas táticas Solze. Descontos por tempo limitado." },
+      { name: "description", content: "Promoções imperdíveis em bolsas, mochilas e acessórios para ferramentas Solze. Descontos por tempo limitado." },
     ],
   }),
   component: OfertasPage,
@@ -28,14 +28,14 @@ type Offer = {
 };
 
 const OFFERS: Offer[] = [
-  { id: 1, title: "Mochila Operator 45L", oldPrice: 1299, newPrice: 899, discount: 30, emoji: "🎒", tag: "MAIS VENDIDA" },
-  { id: 2, title: "Bolsa Tática EDC Compact", oldPrice: 599, newPrice: 359, discount: 40, emoji: "👜", tag: "ÚLTIMAS UNIDADES" },
+  { id: 1, title: "Mochila Porta-Ferramentas", oldPrice: 1299, newPrice: 899, discount: 30, emoji: "🎒", tag: "MAIS VENDIDA" },
+  { id: 2, title: "Bolsa Pequena para Ferramentas", oldPrice: 599, newPrice: 359, discount: 40, emoji: "👜", tag: "ÚLTIMAS UNIDADES" },
   { id: 3, title: "Cinto Tático Reforçado", oldPrice: 249, newPrice: 149, discount: 40, emoji: "🪖", tag: "OFERTA RELÂMPAGO" },
-  { id: 4, title: "Estojo MOLLE Modular", oldPrice: 189, newPrice: 119, discount: 37, emoji: "🧰", tag: "EXCLUSIVO ONLINE" },
-  { id: 5, title: "Mochila Range Bag Pro", oldPrice: 1499, newPrice: 999, discount: 33, emoji: "🎒", tag: "TOP VENDAS" },
+  { id: 4, title: "Estojo Porta-Ferramentas", oldPrice: 189, newPrice: 119, discount: 37, emoji: "🧰", tag: "EXCLUSIVO ONLINE" },
+  { id: 5, title: "Bolsa Operacional para Ferramentas", oldPrice: 1499, newPrice: 999, discount: 33, emoji: "🎒", tag: "TOP VENDAS" },
   { id: 6, title: "Bolsa Transversal Recon", oldPrice: 449, newPrice: 269, discount: 40, emoji: "👜", tag: "FRETE GRÁTIS" },
-  { id: 7, title: "Organizador MOLLE Kit", oldPrice: 159, newPrice: 89, discount: 44, emoji: "📦", tag: "PROMOÇÃO" },
-  { id: 8, title: "Mochila Tactical 25L", oldPrice: 799, newPrice: 549, discount: 31, emoji: "🎒", tag: "QUEIMA DE ESTOQUE" },
+  { id: 7, title: "Organizador Multiuso", oldPrice: 159, newPrice: 89, discount: 44, emoji: "📦", tag: "PROMOÇÃO" },
+  { id: 8, title: "Mochila Compacta 25L", oldPrice: 799, newPrice: 549, discount: 31, emoji: "🎒", tag: "QUEIMA DE ESTOQUE" },
 ];
 
 function useCountdown(target: Date) {
@@ -80,7 +80,7 @@ function OfertasPage() {
           </motion.h1>
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
             className="mt-6 text-lg text-white/80 max-w-2xl mx-auto">
-            Até <span className="font-bold text-white">44% OFF</span> em bolsas táticas premium. Estoque limitado.
+            Até <span className="font-bold text-white">44% OFF</span> em bolsas e acessórios para ferramentas. Estoque limitado.
           </motion.p>
 
           {/* Countdown */}

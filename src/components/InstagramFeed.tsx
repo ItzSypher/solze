@@ -16,7 +16,7 @@ const FALLBACK_IMAGES = [
 ];
 
 export function InstagramFeed({
-  handle = "@solze.tactical",
+  handle = "@solze",
   title = "#SOUFORTECOMOSOLZE",
   eyebrow = "Comunidade Solze no Instagram",
 }: {

@@ -78,28 +78,28 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Solze — Bolsas táticas e profissionais premium" },
+      { title: "Solze — Bolsas e acessórios para ferramentas" },
       {
         name: "description",
         content:
-          "Bolsas e mochilas táticas Solze: construção militar em Cordura 1000D, design premium e garantia vitalícia. Frete rápido para todo o Brasil.",
+          "Bolsas, mochilas, estojos e cintos Solze para ferramentas. Resistentes, com reforço nas costuras e garantia de 3 meses. Frete rápido para todo o Brasil.",
       },
       { name: "author", content: "Solze" },
       { property: "og:site_name", content: "Solze" },
       { property: "og:type", content: "website" },
-      { property: "og:title", content: "Solze — Bolsas táticas e profissionais premium" },
+      { property: "og:title", content: "Solze — Bolsas e acessórios para ferramentas" },
       {
         property: "og:description",
         content:
-          "Bolsas e mochilas táticas Solze: construção militar, design premium e garantia vitalícia.",
+          "Bolsas, mochilas, estojos e cintos Solze para ferramentas. Feitos pra aguentar o trabalho.",
       },
       { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/861fc6e2-4137-4237-b389-da98017b5d96/id-preview-9dcccabe--6d72a4f5-116e-4e36-a93f-213b3e454c88.lovable.app-1781546197592.png" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Solze — Bolsas táticas e profissionais premium" },
+      { name: "twitter:title", content: "Solze — Bolsas e acessórios para ferramentas" },
       {
         name: "twitter:description",
         content:
-          "Bolsas e mochilas táticas Solze: construção militar, design premium e garantia vitalícia.",
+          "Bolsas, mochilas, estojos e cintos Solze para ferramentas. Feitos pra aguentar o trabalho.",
       },
       { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/861fc6e2-4137-4237-b389-da98017b5d96/id-preview-9dcccabe--6d72a4f5-116e-4e36-a93f-213b3e454c88.lovable.app-1781546197592.png" },
     ],

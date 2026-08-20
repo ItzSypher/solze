@@ -22,37 +22,38 @@ const VARIANTS: Record<
   }
 > = {
   operator: {
-    eyebrow: "Field-tested",
-    title: "OPERATOR\nNA MISSÃO",
-    sub: "Equipamento profissional aprovado em campo por operadores reais.",
-    cta: "Ver linha Operator",
+    eyebrow: "Testado no trabalho",
+    title: "FEITO PRA QUEM\nNÃO PODE PARAR",
+    sub: "Equipamento resistente, pensado pra aguentar o ritmo de quem trabalha com ferramentas todos os dias.",
+    cta: "Ver linha profissional",
     href: "/collection/$handle",
-    handle: "operator",
+    handle: "bolsas",
     bg: `linear-gradient(115deg, #0f150a 0%, ${OLIVE} 55%, #6b7a55 100%)`,
     accent: GOLD,
     icon: Shield,
   },
   edc: {
-    eyebrow: "Every Day Carry",
-    title: "O ESSENCIAL\nNO SEU BOLSO",
-    sub: "Organização discreta para o dia a dia urbano. Carregue só o que importa.",
-    cta: "Montar meu EDC",
+    eyebrow: "Acessórios multiuso",
+    title: "O ESSENCIAL\nSEMPRE À MÃO",
+    sub: "Estojos e acessórios compactos pra organizar o que você mais usa durante o trabalho.",
+    cta: "Ver acessórios",
     href: "/collection/$handle",
-    handle: "edc",
+    handle: "acessorios",
     bg: `linear-gradient(115deg, #1a1a1a 0%, #2a2a2a 60%, ${GOLD} 130%)`,
     accent: GOLD,
     icon: Truck,
   },
   outlet: {
-    eyebrow: "Outlet Solze",
+    eyebrow: "Ofertas Solze",
     title: "ATÉ 50% OFF\nEM SELECIONADOS",
-    sub: "Produtos premium com desconto imperdível. Estoque limitado.",
+    sub: "Peças com desconto e a mesma resistência de sempre. Estoque limitado.",
     cta: "Aproveitar ofertas",
     href: "/ofertas",
     bg: `linear-gradient(115deg, #2a0e0e 0%, #5a1f1f 55%, ${RED} 120%)`,
     accent: "#fff",
     icon: Shield,
   },
+
 };
 
 export function LifestyleBanner({ variant }: { variant: Variant }) {
