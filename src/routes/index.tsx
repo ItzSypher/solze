@@ -32,6 +32,13 @@ import { InstagramFeed as IGFeed } from "@/components/InstagramFeed";
 import { WelcomePopup } from "@/components/WelcomePopup";
 import { LifestyleBanner } from "@/components/LifestyleBanner";
 import logoAsset from "@/assets/solze-logo.png.asset.json";
+import heroDurar from "@/assets/hero-durar.png.asset.json";
+import heroMochilas from "@/assets/hero-mochilas.png.asset.json";
+import heroReforco from "@/assets/hero-reforco.png.asset.json";
+import promo24h from "@/assets/promo-24h.png.asset.json";
+import promo50off from "@/assets/promo-50off.png.asset.json";
+import promo50offWide from "@/assets/promo-50off-wide.png.asset.json";
+import essencialImg from "@/assets/essencial.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
