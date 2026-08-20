@@ -2,8 +2,11 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Flame, Clock, Zap } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import { Header, Subfooter, Footer } from "./index";
 import { CartDrawer } from "@/components/CartDrawer";
+import { ProductCard } from "@/components/ProductCard";
+import { fetchProducts } from "@/lib/shopify";
 
 export const Route = createFileRoute("/ofertas")({
   head: () => ({
@@ -16,27 +19,6 @@ export const Route = createFileRoute("/ofertas")({
 });
 
 const RED = "#E63946";
-
-type Offer = {
-  id: number;
-  title: string;
-  oldPrice: number;
-  newPrice: number;
-  discount: number;
-  emoji: string;
-  tag: string;
-};
-
-const OFFERS: Offer[] = [
-  { id: 1, title: "Mochila Porta-Ferramentas", oldPrice: 1299, newPrice: 899, discount: 30, emoji: "🎒", tag: "MAIS VENDIDA" },
-  { id: 2, title: "Bolsa Pequena para Ferramentas", oldPrice: 599, newPrice: 359, discount: 40, emoji: "👜", tag: "ÚLTIMAS UNIDADES" },
-  { id: 3, title: "Cinto Tático Reforçado", oldPrice: 249, newPrice: 149, discount: 40, emoji: "🪖", tag: "OFERTA RELÂMPAGO" },
-  { id: 4, title: "Estojo Porta-Ferramentas", oldPrice: 189, newPrice: 119, discount: 37, emoji: "🧰", tag: "EXCLUSIVO ONLINE" },
-  { id: 5, title: "Bolsa Operacional para Ferramentas", oldPrice: 1499, newPrice: 999, discount: 33, emoji: "🎒", tag: "TOP VENDAS" },
-  { id: 6, title: "Bolsa Transversal Recon", oldPrice: 449, newPrice: 269, discount: 40, emoji: "👜", tag: "FRETE GRÁTIS" },
-  { id: 7, title: "Organizador Multiuso", oldPrice: 159, newPrice: 89, discount: 44, emoji: "📦", tag: "PROMOÇÃO" },
-  { id: 8, title: "Mochila Compacta 25L", oldPrice: 799, newPrice: 549, discount: 31, emoji: "🎒", tag: "QUEIMA DE ESTOQUE" },
-];
 
 function useCountdown(target: Date) {
   const [now, setNow] = useState(Date.now());
@@ -57,6 +39,10 @@ function brl(n: number) {
 }
 
 function OfertasPage() {
+  const { data: products = [], isLoading } = useQuery({
+    queryKey: ["products", { query: "ofertas-page", limit: 16 }],
+    queryFn: () => fetchProducts(16),
+  });
   const target = new Date(Date.now() + 1000 * 60 * 60 * 24 * 3 + 1000 * 60 * 60 * 12 + 1000 * 60 * 45);
   const { d, h, m, s } = useCountdown(target);
   const pad = (n: number) => n.toString().padStart(2, "0");
@@ -115,56 +101,28 @@ function OfertasPage() {
         <div className="flex items-end justify-between mb-8">
           <div>
             <h2 className="font-display uppercase text-3xl md:text-4xl font-bold">Aproveite agora</h2>
-            <p className="text-muted-foreground mt-1">{OFFERS.length} produtos em promoção</p>
+            <p className="text-muted-foreground mt-1">
+              {isLoading ? "Carregando produtos..." : `${products.length} produtos em promoção`}
+            </p>
           </div>
           <div className="hidden md:flex items-center gap-2 text-sm font-display uppercase tracking-wider px-4 py-2 rounded-full text-white" style={{ background: RED }}>
             <Zap className="h-4 w-4" /> Estoque limitado
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-          {OFFERS.map((o, i) => (
-            <motion.div
-              key={o.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: i * 0.05 }}
-            >
-              <Link to="/product/$handle" params={{ handle: String(o.id) }} className="group block">
-                <div className="relative rounded-[20px] bg-card border border-border overflow-hidden hover:shadow-2xl transition-all hover:-translate-y-1">
-                  {/* Discount badge */}
-                  <div className="absolute top-3 left-3 z-10 rounded-full text-white font-display font-bold text-sm px-3 py-1.5 shadow-lg animate-pulse"
-                    style={{ background: RED }}>
-                    -{o.discount}% OFF
-                  </div>
-                  <div className="absolute top-3 right-3 z-10 rounded-full bg-black/80 text-white text-[10px] uppercase tracking-wider px-2.5 py-1 font-semibold">
-                    {o.tag}
-                  </div>
-
-                  <div className="aspect-square bg-secondary/40 flex items-center justify-center text-7xl group-hover:scale-105 transition-transform duration-500">
-                    {o.emoji}
-                  </div>
-
-                  <div className="p-4">
-                    <h3 className="font-medium text-sm line-clamp-1">{o.title}</h3>
-                    <div className="mt-2 flex items-baseline gap-2">
-                      <span className="text-xs text-muted-foreground line-through font-display">{brl(o.oldPrice)}</span>
-                    </div>
-                    <div className="font-display font-bold text-3xl leading-none mt-1" style={{ color: RED }}>
-                      {brl(o.newPrice)}
-                    </div>
-                    <div className="text-[11px] text-muted-foreground mt-1">
-                      ou 10x de {brl(o.newPrice / 10)} sem juros
-                    </div>
-                    <button className="mt-4 w-full h-11 rounded-[20px] text-white font-display uppercase text-sm tracking-wider hover:opacity-90 transition" style={{ background: RED }}>
-                      Comprar agora
-                    </button>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <div key={i} className="rounded-[20px] bg-secondary/40 aspect-[3/4] animate-pulse" />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            {products.map((p, i) => (
+              <ProductCard key={p.node.id} product={p} index={i} />
+            ))}
+          </div>
+        )}
       </section>
 
       <Subfooter />
