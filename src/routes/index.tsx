@@ -36,17 +36,17 @@ import logoAsset from "@/assets/solze-logo.png.asset.json";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Solze — Bolsas táticas e profissionais premium" },
+      { title: "Solze — Bolsas e acessórios para ferramentas" },
       {
         name: "description",
         content:
-          "Loja oficial Solze. Bolsas táticas, mochilas operacionais e acessórios profissionais. Frete rápido, garantia vitalícia.",
+          "Loja oficial Solze. Bolsas, mochilas, estojos e cintos para ferramentas. Feitos pra aguentar o dia a dia de quem trabalha com as mãos.",
       },
-      { property: "og:title", content: "Solze — Bolsas táticas e profissionais premium" },
+      { property: "og:title", content: "Solze — Bolsas e acessórios para ferramentas" },
       {
         property: "og:description",
         content:
-          "Loja oficial Solze. Bolsas táticas, mochilas operacionais e acessórios profissionais.",
+          "Loja oficial Solze. Bolsas, mochilas, estojos e cintos para ferramentas.",
       },
       { property: "og:url", content: "https://shop-love-joy.lovable.app/" },
     ],
@@ -63,20 +63,20 @@ const DEPARTMENTS = CATEGORIES.filter((c) => c.handle !== "outlet");
 
 const HERO_SLIDES = [
   {
-    eyebrow: "Coleção Operator",
-    title: "MOCHILAS TÁTICAS\nCONSTRUÍDAS PARA DURAR",
+    eyebrow: "Linha Profissional",
+    title: "BOLSAS E MOCHILAS\nCONSTRUÍDAS PARA DURAR",
     cta: "COMPRAR AGORA",
     bg: "linear-gradient(120deg,#1f2a18 0%,#4A5A3B 60%,#6b7a55 100%)",
   },
   {
     eyebrow: "Frete grátis acima de R$ 399",
-    title: "EQUIPAMENTO\nDE ALTA PERFORMANCE",
+    title: "FEITO PRA AGUENTAR\nO TRABALHO",
     cta: "VER COLEÇÃO",
     bg: "linear-gradient(120deg,#0f0f0f 0%,#2a2a2a 60%,#4A5A3B 100%)",
   },
   {
-    eyebrow: "Garantia vitalícia",
-    title: "CORDURA® 1000D\nMOLLE OFICIAL",
+    eyebrow: "Material reforçado",
+    title: "REFORÇO DUPLO\nEM CADA COSTURA",
     cta: "EXPLORAR",
     bg: "linear-gradient(120deg,#2a1a0e 0%,#5a3a1f 60%,#C6A87C 100%)",
   },
@@ -92,7 +92,7 @@ function formatBRL(amount: string) {
 
 function HomePage() {
   useCartSync();
-  useTabTitle("Solze — Tactical Grade");
+  useTabTitle("Solze — Acessórios para Ferramentas");
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
@@ -115,7 +115,7 @@ function HomePage() {
         <LifestyleBanner variant="edc" />
         <ProductsCarousel
           title="OFERTAS DA SEMANA"
-          eyebrow="Outlet Solze"
+          eyebrow="Ofertas Solze"
           limit={8}
           query="tag:sale OR tag:outlet"
         />
@@ -156,14 +156,14 @@ export function Header() {
               <Truck className="h-3.5 w-3.5" style={{ color: GOLD }} /> FRETE GRÁTIS ACIMA DE R$ 399
             </span>
             <span className="inline-flex items-center gap-1.5">
-              <ShieldCheck className="h-3.5 w-3.5" style={{ color: GOLD }} /> GARANTIA VITALÍCIA
+              <ShieldCheck className="h-3.5 w-3.5" style={{ color: GOLD }} /> GARANTIA DE 3 MESES
             </span>
           </div>
           <div className="flex items-center gap-3 sm:gap-4 ml-auto text-white/80">
             <a href="#" className="hidden sm:inline hover:text-white">Atendimento</a>
             <a href="#" className="hidden sm:inline hover:text-white">Rastrear pedido</a>
             <a href="#" className="hover:text-white inline-flex items-center gap-1">
-              <Phone className="h-3 w-3" /> (11) 4002-8922
+              <Phone className="h-3 w-3" /> (21) 4137-5008
             </a>
           </div>
         </div>
@@ -191,7 +191,7 @@ export function Header() {
               <input
                 value={term}
                 onChange={(e) => setTerm(e.target.value)}
-                placeholder="Buscar produtos, marcas, categorias..."
+                placeholder="Buscar bolsas, mochilas, cintos e acessórios..."
                 className="w-full h-12 rounded-[20px] border border-neutral-200 bg-neutral-50 pl-5 pr-12 text-sm focus:outline-none focus:border-neutral-400"
               />
               <button
@@ -323,7 +323,7 @@ export function Header() {
                           Destaque
                         </p>
                         <h4 className="font-display uppercase text-lg leading-tight mt-1">
-                          Mochila Operator 45L
+                          Mochila Porta-Ferramentas
                         </h4>
                       </div>
                       <div className="self-end h-24 w-24 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center text-3xl transition-transform duration-500 group-hover/feat:scale-110">
@@ -437,7 +437,7 @@ export function Header() {
             </nav>
             <div className="px-5 py-4 border-t border-neutral-200 text-xs text-neutral-500 space-y-1">
               <p className="inline-flex items-center gap-2">
-                <Phone className="h-3.5 w-3.5" style={{ color: OLIVE }} /> (11) 4002-8922
+                <Phone className="h-3.5 w-3.5" style={{ color: OLIVE }} /> (21) 4137-5008
               </p>
               <p className="inline-flex items-center gap-2">
                 <Truck className="h-3.5 w-3.5" style={{ color: OLIVE }} /> Frete grátis acima R$ 399
@@ -546,7 +546,7 @@ function Hero() {
           >
             <div>
               <p className="font-display uppercase tracking-[0.25em] text-[10px]" style={{ color: RED }}>
-                Outlet Solze
+                Ofertas Solze
               </p>
               <h2 className="font-display uppercase text-2xl leading-tight mt-2">
                 ATÉ <span style={{ color: RED }}>50% OFF</span><br />EM SELECIONADOS
@@ -565,7 +565,7 @@ function Hero() {
           { icon: Truck, t: "Frete grátis", s: "Acima de R$ 399" },
           { icon: CreditCard, t: "Até 10x", s: "Sem juros" },
           { icon: RefreshCcw, t: "Troca fácil", s: "Em até 30 dias" },
-          { icon: ShieldCheck, t: "Garantia", s: "Vitalícia em toda linha" },
+          { icon: ShieldCheck, t: "Garantia", s: "3 meses em toda linha" },
         ].map((b, i) => (
           <div key={i} className="bg-white p-5 flex items-center gap-3">
             <div
@@ -592,10 +592,10 @@ function BentoCollections() {
       <div className="flex items-end justify-between mb-5">
         <div>
           <p className="font-display uppercase tracking-[0.25em] text-xs text-neutral-500">
-            Nossas coleções
+            Nossas categorias
           </p>
           <h2 className="font-display uppercase text-3xl lg:text-4xl mt-1">
-            COMPRE POR ESTILO
+            ENCONTRE O EQUIPAMENTO CERTO PRA SUA FUNÇÃO
           </h2>
         </div>
         <a
@@ -611,25 +611,25 @@ function BentoCollections() {
         <BentoCard
           className="sm:col-span-2 lg:col-span-2 lg:row-span-2 min-h-[260px] animate-fade-up"
           eyebrow="Destaque"
-          title="LINHA OPERATOR"
-          subtitle="Mochilas táticas profissionais"
+          title="MOCHILAS"
+          subtitle="Mochilas pra carregar tudo que sua função exige"
           bg={`linear-gradient(135deg,${OLIVE} 0%,#1a1f12 100%)`}
           large
         />
         <BentoCard
           className="animate-fade-up"
           style={{ animationDelay: "120ms" }}
-          eyebrow="EDC"
-          title="EVERY DAY CARRY"
-          subtitle="O essencial no seu bolso"
+          eyebrow="Organização"
+          title="ESTOJOS"
+          subtitle="O essencial sempre à mão"
           bg="linear-gradient(135deg,#2a2a2a 0%,#0a0a0a 100%)"
         />
         <BentoCard
           className="animate-fade-up"
           style={{ animationDelay: "200ms" }}
           eyebrow="Acessórios"
-          title="MOLLE & CORDURA"
-          subtitle="Customize seu setup"
+          title="CINTOS & ACESSÓRIOS"
+          subtitle="Ferramenta na mão, sem perder tempo procurando"
           bg={`linear-gradient(135deg,#3a2a1a 0%,${GOLD} 120%)`}
         />
       </div>
@@ -865,7 +865,7 @@ export function Subfooter() {
             Newsletter Solze
           </p>
           <h3 className="font-display uppercase text-3xl lg:text-4xl leading-tight">
-            ENTRE NO PELOTÃO E GANHE<br />
+            ENTRE PRA FAMÍLIA SOLZE E GANHE<br />
             <span style={{ color: RED }}>10% OFF</span> NA PRIMEIRA COMPRA
           </h3>
           <p className="text-white/70 text-sm mt-3 max-w-md">
@@ -928,15 +928,15 @@ export function Footer() {
   const cols = [
     {
       title: "Institucional",
-      items: ["Sobre a Solze", "Field Tests", "Imprensa", "Trabalhe conosco", "Lojas físicas"],
+      items: ["Sobre a Solze", "Nossa história", "Imprensa", "Trabalhe conosco", "Lojas físicas"],
     },
     {
       title: "Atendimento",
-      items: ["Central de ajuda", "Trocas e devoluções", "Rastrear pedido", "Garantia vitalícia", "FAQ"],
+      items: ["Central de ajuda", "Trocas e devoluções", "Rastrear pedido", "Garantia de 3 meses", "FAQ"],
     },
     {
       title: "Categorias",
-      items: ["Mochilas Táticas", "Operator", "EDC", "MOLLE & Acessórios", "Outlet"],
+      items: ["Bolsas", "Mochilas", "Estojos", "Cintos", "Acessórios Multiuso", "Ofertas"],
     },
   ];
 
@@ -946,7 +946,7 @@ export function Footer() {
         <div>
           <img src={logoAsset.url} alt="Solze" className="h-10 w-auto object-contain" />
           <p className="text-sm text-neutral-500 mt-4 leading-relaxed">
-            Bolsas e equipamentos táticos premium, engenheirados no Brasil para profissionais que exigem o máximo.
+            Acessórios para ferramentas feitos no Brasil para quem trabalha com as mãos: eletricistas, encanadores, técnicos e construção civil.
           </p>
           <div className="flex gap-2 mt-5">
             {[Instagram, Facebook, Youtube].map((I, i) => (
@@ -981,7 +981,7 @@ export function Footer() {
             {c.title === "Atendimento" && (
               <div className="mt-5 space-y-2 text-sm">
                 <p className="inline-flex items-center gap-2">
-                  <Phone className="h-4 w-4" style={{ color: OLIVE }} /> (11) 4002-8922
+                  <Phone className="h-4 w-4" style={{ color: OLIVE }} /> (21) 4137-5008
                 </p>
                 <p className="inline-flex items-center gap-2">
                   <Mail className="h-4 w-4" style={{ color: OLIVE }} /> sac@solze.com.br
@@ -1017,8 +1017,8 @@ export function Footer() {
 
       <div className="bg-neutral-900 text-white/70 text-[12px]">
         <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-2">
-          <p>© {new Date().getFullYear()} Solze Tactical. Todos os direitos reservados.</p>
-          <p>SOLZE EQUIPAMENTOS LTDA — CNPJ 00.000.000/0001-00</p>
+          <p>© {new Date().getFullYear()} Solze Acessórios para Ferramentas. Todos os direitos reservados.</p>
+          <p>SOLZE ACESSÓRIOS PARA FERRAMENTAS — CNPJ 00.000.000/0001-00</p>
         </div>
       </div>
     </footer>
