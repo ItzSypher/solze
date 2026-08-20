@@ -941,6 +941,24 @@ function ProductCardRetail({
 
 /* ============ SUBFOOTER ============ */
 export function Subfooter() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "ok" | "dup" | "err">("idle");
+
+  async function handleSubscribe(e: React.FormEvent) {
+    e.preventDefault();
+    if (status === "loading") return;
+    setStatus("loading");
+    const res = await subscribeEmail(email, "subfooter");
+    if (res === "ok") {
+      setStatus("ok");
+      setEmail("");
+    } else if (res === "duplicate") {
+      setStatus("dup");
+    } else {
+      setStatus("err");
+    }
+  }
+
   return (
     <section className="mt-20 bg-neutral-900 text-white">
       <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-14 grid lg:grid-cols-2 gap-10 items-center">
@@ -960,26 +978,46 @@ export function Subfooter() {
           </p>
 
           <form
-            onSubmit={(e) => e.preventDefault()}
+            onSubmit={handleSubscribe}
             className="mt-6 flex flex-col sm:flex-row gap-3 max-w-xl"
           >
             <input
               type="email"
               required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Seu melhor e-mail"
+              aria-label="Seu melhor e-mail"
               className="flex-1 h-12 rounded-[20px] bg-white text-neutral-900 px-5 text-sm focus:outline-none"
             />
             <button
               type="submit"
-              className="bg-conversion hover:bg-conversion-hover transition-colors h-12 px-7 rounded-[20px] font-display uppercase tracking-wider text-sm"
+              disabled={status === "loading"}
+              className="bg-conversion hover:bg-conversion-hover transition-colors h-12 px-7 rounded-[20px] font-display uppercase tracking-wider text-sm disabled:opacity-60"
             >
-              Quero receber
+              {status === "loading" ? "Enviando..." : "Quero receber"}
             </button>
           </form>
+          {status === "ok" && (
+            <p className="text-xs mt-3" style={{ color: GOLD }}>
+              Pronto! Seu e-mail foi cadastrado — as ofertas chegam em breve.
+            </p>
+          )}
+          {status === "dup" && (
+            <p className="text-xs mt-3" style={{ color: GOLD }}>
+              Esse e-mail já está na nossa lista. 😉
+            </p>
+          )}
+          {status === "err" && (
+            <p className="text-xs mt-3" style={{ color: RED }}>
+              Não conseguimos cadastrar agora. Tente novamente.
+            </p>
+          )}
           <p className="text-[11px] text-white/50 mt-3">
             Ao se cadastrar, você concorda com nossa Política de Privacidade.
           </p>
         </div>
+
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           {[
