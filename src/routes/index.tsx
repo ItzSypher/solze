@@ -605,7 +605,7 @@ function Hero() {
               <p className="font-display uppercase tracking-[0.25em] text-[10px]" style={{ color: RED }}>
                 Ofertas Solze
               </p>
-              <h2 className="font-display uppercase text-2xl leading-tight mt-2">
+              <h2 className="font-display uppercase text-lg sm:text-2xl leading-tight mt-2">
                 ATÉ <span style={{ color: RED }}>50% OFF</span><br />EM SELECIONADOS
               </h2>
             </div>
