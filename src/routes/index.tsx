@@ -477,7 +477,7 @@ function Hero() {
         {/* Big slider */}
         <div
           key={idx}
-          className="relative aspect-[4/5] sm:aspect-[16/9] lg:aspect-auto lg:h-[460px] rounded-[20px] overflow-hidden text-white animate-fade-up"
+          className="relative aspect-[5/4] sm:aspect-[16/9] lg:aspect-auto lg:h-[460px] rounded-[20px] overflow-hidden text-white animate-fade-up"
           style={{ background: slide.bg }}
         >
           <img
@@ -495,7 +495,7 @@ function Hero() {
                 "linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.1) 100%)",
             }}
           />
-          <div className="absolute inset-0 p-6 sm:p-8 lg:p-14 flex flex-col justify-end">
+          <div className="absolute inset-0 p-5 sm:p-8 lg:p-14 flex flex-col justify-end">
 
             <p
               className="font-display uppercase tracking-[0.25em] text-[10px] sm:text-xs mb-2 sm:mb-3"
@@ -503,7 +503,7 @@ function Hero() {
             >
               {slide.eyebrow}
             </p>
-            <h1 className="font-display uppercase text-3xl sm:text-4xl lg:text-6xl leading-[0.95] whitespace-pre-line">
+            <h1 className="font-display uppercase text-2xl sm:text-4xl lg:text-6xl leading-[1] sm:leading-[0.95] whitespace-pre-line text-balance">
               {slide.title}
             </h1>
             <div className="mt-4 sm:mt-6">
@@ -546,7 +546,7 @@ function Hero() {
         {/* Stacked promos */}
         <div className="grid grid-cols-2 lg:grid-cols-1 lg:grid-rows-2 gap-3 sm:gap-4">
           <div
-            className="relative overflow-hidden rounded-[20px] p-5 sm:p-7 flex flex-col justify-between text-white animate-fade-up min-h-[160px]"
+            className="relative overflow-hidden rounded-[20px] p-4 sm:p-7 flex flex-col justify-between gap-3 text-white animate-fade-up min-h-[140px] sm:min-h-[160px]"
             style={{
               animationDelay: "120ms",
               background: `linear-gradient(135deg,${OLIVE} 0%,#2a3322 100%)`,
@@ -571,7 +571,7 @@ function Hero() {
               <p className="font-display uppercase tracking-[0.25em] text-[10px]" style={{ color: GOLD }}>
                 Frete expresso
               </p>
-              <h2 className="font-display uppercase text-2xl leading-tight mt-2">
+              <h2 className="font-display uppercase text-lg sm:text-2xl leading-tight mt-2">
                 ENTREGA EM<br />24 HORAS
               </h2>
             </div>
@@ -580,7 +580,7 @@ function Hero() {
             </a>
           </div>
           <div
-            className="relative overflow-hidden rounded-[20px] p-5 sm:p-7 flex flex-col justify-between text-white animate-fade-up min-h-[160px]"
+            className="relative overflow-hidden rounded-[20px] p-4 sm:p-7 flex flex-col justify-between gap-3 text-white animate-fade-up min-h-[140px] sm:min-h-[160px]"
             style={{
               animationDelay: "220ms",
               background: `linear-gradient(135deg,#1a1a1a 0%,#3a3a3a 100%)`,
@@ -605,7 +605,7 @@ function Hero() {
               <p className="font-display uppercase tracking-[0.25em] text-[10px]" style={{ color: RED }}>
                 Ofertas Solze
               </p>
-              <h2 className="font-display uppercase text-2xl leading-tight mt-2">
+              <h2 className="font-display uppercase text-lg sm:text-2xl leading-tight mt-2">
                 ATÉ <span style={{ color: RED }}>50% OFF</span><br />EM SELECIONADOS
               </h2>
             </div>
@@ -981,7 +981,7 @@ export function Subfooter() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           {[
             { icon: Truck, t: "Entrega garantida", s: "Para todo o Brasil" },
             { icon: RefreshCcw, t: "Troca fácil", s: "Até 30 dias" },
@@ -990,7 +990,7 @@ export function Subfooter() {
           ].map((b, i) => (
             <div
               key={i}
-              className="rounded-[20px] border border-white/10 bg-white/5 p-5 flex items-start gap-3"
+              className="rounded-[20px] border border-white/10 bg-white/5 p-4 sm:p-5 flex items-center gap-3"
             >
               <div
                 className="h-11 w-11 rounded-[20px] flex items-center justify-center shrink-0"
@@ -998,7 +998,8 @@ export function Subfooter() {
               >
                 <b.icon className="h-5 w-5 text-white" />
               </div>
-              <div>
+              <div className="min-w-0">
+
                 <p className="font-display uppercase tracking-wider text-sm">{b.t}</p>
                 <p className="text-xs text-white/60 mt-0.5">{b.s}</p>
               </div>
@@ -1029,7 +1030,7 @@ export function Footer() {
 
   return (
     <footer className="bg-white border-t border-neutral-200 text-neutral-700">
-      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-14 grid gap-10 md:grid-cols-4">
+      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-12 sm:py-14 grid gap-8 sm:gap-10 sm:grid-cols-2 md:grid-cols-4">
         <div>
           <img src={logoAsset.url} alt="Solze" className="h-10 w-auto object-contain" />
           <p className="text-sm text-neutral-500 mt-4 leading-relaxed">
@@ -1067,13 +1068,13 @@ export function Footer() {
             </ul>
             {c.title === "Atendimento" && (
               <div className="mt-5 space-y-2 text-sm">
-                <p className="inline-flex items-center gap-2">
+                <p className="flex items-center gap-2">
                   <Phone className="h-4 w-4" style={{ color: OLIVE }} /> (21) 4137-5008
                 </p>
-                <p className="inline-flex items-center gap-2">
+                <p className="flex items-center gap-2">
                   <Mail className="h-4 w-4" style={{ color: OLIVE }} /> sac@solze.com.br
                 </p>
-                <p className="inline-flex items-start gap-2">
+                <p className="flex items-start gap-2">
                   <MapPin className="h-4 w-4 mt-0.5" style={{ color: OLIVE }} /> Av. Paulista, 1000 — São Paulo/SP
                 </p>
               </div>
@@ -1084,8 +1085,8 @@ export function Footer() {
 
       {/* Payment + CNPJ strip */}
       <div className="border-t border-neutral-200">
-        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2 flex-wrap">
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+          <div className="flex items-center justify-center md:justify-start gap-2 flex-wrap">
             {["VISA", "MASTER", "ELO", "AMEX", "PIX", "BOLETO"].map((p) => (
               <span
                 key={p}
@@ -1103,7 +1104,7 @@ export function Footer() {
       </div>
 
       <div className="bg-neutral-900 text-white/70 text-[12px]">
-        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-2">
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-2 text-center md:text-left">
           <p>© {new Date().getFullYear()} Solze Acessórios para Ferramentas. Todos os direitos reservados.</p>
           <p>SOLZE ACESSÓRIOS PARA FERRAMENTAS — CNPJ 00.000.000/0001-00</p>
         </div>
