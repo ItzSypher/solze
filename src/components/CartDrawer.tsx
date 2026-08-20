@@ -161,7 +161,7 @@ export function CartDrawer() {
                               <Plus className="h-3 w-3" />
                             </Button>
                           </div>
-                          <span className="font-display text-sm font-bold">
+                          <span className="font-display text-sm font-bold whitespace-nowrap">
                             {formatPrice(
                               parseFloat(item.price.amount) * item.quantity,
                               item.price.currencyCode,
@@ -210,7 +210,7 @@ export function CartDrawer() {
                             </span>
                           </span>
                         </span>
-                        <span className="font-display text-sm font-bold text-accent">
+                        <span className="font-display text-sm font-bold text-accent whitespace-nowrap shrink-0">
                           + {formatBRL(b.price)}
                         </span>
                       </motion.button>
