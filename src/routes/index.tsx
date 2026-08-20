@@ -477,7 +477,7 @@ function Hero() {
         {/* Big slider */}
         <div
           key={idx}
-          className="relative aspect-[4/5] sm:aspect-[16/9] lg:aspect-auto lg:h-[460px] rounded-[20px] overflow-hidden text-white animate-fade-up"
+          className="relative aspect-[5/4] sm:aspect-[16/9] lg:aspect-auto lg:h-[460px] rounded-[20px] overflow-hidden text-white animate-fade-up"
           style={{ background: slide.bg }}
         >
           <img
