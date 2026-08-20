@@ -1,5 +1,8 @@
 import { ArrowRight, Shield, Truck } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import heroReforco from "@/assets/hero-reforco.png.asset.json";
+import essencialImg from "@/assets/essencial.png.asset.json";
+import promo50off from "@/assets/promo-50off.png.asset.json";
 
 const OLIVE = "#4A5A3B";
 const GOLD = "#C6A87C";
@@ -17,6 +20,7 @@ const VARIANTS: Record<
     href: string;
     handle?: string;
     bg: string;
+    img: string;
     accent: string;
     icon: typeof Shield;
   }
@@ -29,6 +33,7 @@ const VARIANTS: Record<
     href: "/collection/$handle",
     handle: "bolsas",
     bg: `linear-gradient(115deg, #0f150a 0%, ${OLIVE} 55%, #6b7a55 100%)`,
+    img: heroReforco.url,
     accent: GOLD,
     icon: Shield,
   },
@@ -40,6 +45,7 @@ const VARIANTS: Record<
     href: "/collection/$handle",
     handle: "acessorios",
     bg: `linear-gradient(115deg, #1a1a1a 0%, #2a2a2a 60%, ${GOLD} 130%)`,
+    img: essencialImg.url,
     accent: GOLD,
     icon: Truck,
   },
@@ -50,6 +56,7 @@ const VARIANTS: Record<
     cta: "Aproveitar ofertas",
     href: "/ofertas",
     bg: `linear-gradient(115deg, #2a0e0e 0%, #5a1f1f 55%, ${RED} 120%)`,
+    img: promo50off.url,
     accent: "#fff",
     icon: Shield,
   },
@@ -70,6 +77,21 @@ export function LifestyleBanner({ variant }: { variant: Variant }) {
         className="relative overflow-hidden rounded-[20px] text-white"
         style={{ background: v.bg }}
       >
+        <img
+          src={v.img}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+          className="absolute inset-0 h-full w-full object-cover object-center"
+        />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(100deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.72) 45%, rgba(0,0,0,0.35) 100%)",
+          }}
+        />
         <div className="absolute inset-0 opacity-[0.08] pointer-events-none"
           style={{
             backgroundImage:
@@ -98,14 +120,6 @@ export function LifestyleBanner({ variant }: { variant: Variant }) {
             </Link>
           </div>
 
-          <div className="hidden lg:flex justify-end">
-            <div
-              className="h-44 w-44 xl:h-56 xl:w-56 rounded-[24px] backdrop-blur-md flex items-center justify-center text-7xl"
-              style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)" }}
-            >
-              {variant === "operator" ? "🎒" : variant === "edc" ? "🔦" : "🏷️"}
-            </div>
-          </div>
         </div>
       </div>
     </section>

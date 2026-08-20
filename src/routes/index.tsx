@@ -32,6 +32,13 @@ import { InstagramFeed as IGFeed } from "@/components/InstagramFeed";
 import { WelcomePopup } from "@/components/WelcomePopup";
 import { LifestyleBanner } from "@/components/LifestyleBanner";
 import logoAsset from "@/assets/solze-logo.png.asset.json";
+import heroDurar from "@/assets/hero-durar.png.asset.json";
+import heroMochilas from "@/assets/hero-mochilas.png.asset.json";
+import heroReforco from "@/assets/hero-reforco.png.asset.json";
+import promo24h from "@/assets/promo-24h.png.asset.json";
+import promo50off from "@/assets/promo-50off.png.asset.json";
+import promo50offWide from "@/assets/promo-50off-wide.png.asset.json";
+import essencialImg from "@/assets/essencial.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -67,20 +74,24 @@ const HERO_SLIDES = [
     title: "BOLSAS E MOCHILAS\nCONSTRUÍDAS PARA DURAR",
     cta: "COMPRAR AGORA",
     bg: "linear-gradient(120deg,#1f2a18 0%,#4A5A3B 60%,#6b7a55 100%)",
+    img: heroDurar.url,
   },
   {
     eyebrow: "Frete grátis acima de R$ 399",
     title: "FEITO PRA AGUENTAR\nO TRABALHO",
     cta: "VER COLEÇÃO",
     bg: "linear-gradient(120deg,#0f0f0f 0%,#2a2a2a 60%,#4A5A3B 100%)",
+    img: heroMochilas.url,
   },
   {
     eyebrow: "Material reforçado",
     title: "REFORÇO DUPLO\nEM CADA COSTURA",
     cta: "EXPLORAR",
     bg: "linear-gradient(120deg,#2a1a0e 0%,#5a3a1f 60%,#C6A87C 100%)",
+    img: heroReforco.url,
   },
 ];
+
 
 function formatBRL(amount: string) {
   const n = parseFloat(amount);
@@ -469,7 +480,23 @@ function Hero() {
           className="relative aspect-[4/5] sm:aspect-[16/9] lg:aspect-auto lg:h-[460px] rounded-[20px] overflow-hidden text-white animate-fade-up"
           style={{ background: slide.bg }}
         >
+          <img
+            src={slide.img}
+            alt=""
+            aria-hidden="true"
+            fetchPriority={idx === 0 ? "high" : "low"}
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.1) 100%)",
+            }}
+          />
           <div className="absolute inset-0 p-6 sm:p-8 lg:p-14 flex flex-col justify-end">
+
             <p
               className="font-display uppercase tracking-[0.25em] text-[10px] sm:text-xs mb-2 sm:mb-3"
               style={{ color: GOLD }}
@@ -519,13 +546,28 @@ function Hero() {
         {/* Stacked promos */}
         <div className="grid grid-cols-2 lg:grid-cols-1 lg:grid-rows-2 gap-3 sm:gap-4">
           <div
-            className="rounded-[20px] p-5 sm:p-7 flex flex-col justify-between text-white animate-fade-up min-h-[160px]"
+            className="relative overflow-hidden rounded-[20px] p-5 sm:p-7 flex flex-col justify-between text-white animate-fade-up min-h-[160px]"
             style={{
               animationDelay: "120ms",
               background: `linear-gradient(135deg,${OLIVE} 0%,#2a3322 100%)`,
             }}
           >
-            <div>
+            <img
+              src={promo24h.url}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover object-center"
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(150deg, rgba(31,42,24,0.88) 0%, rgba(31,42,24,0.55) 60%, rgba(0,0,0,0.35) 100%)",
+              }}
+            />
+            <div className="relative">
               <p className="font-display uppercase tracking-[0.25em] text-[10px]" style={{ color: GOLD }}>
                 Frete expresso
               </p>
@@ -533,18 +575,33 @@ function Hero() {
                 ENTREGA EM<br />24 HORAS
               </h2>
             </div>
-            <a href="#" className="font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
+            <a href="#" className="relative font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
               Saiba mais <ArrowRight className="h-3 w-3" />
             </a>
           </div>
           <div
-            className="rounded-[20px] p-5 sm:p-7 flex flex-col justify-between text-white animate-fade-up min-h-[160px]"
+            className="relative overflow-hidden rounded-[20px] p-5 sm:p-7 flex flex-col justify-between text-white animate-fade-up min-h-[160px]"
             style={{
               animationDelay: "220ms",
               background: `linear-gradient(135deg,#1a1a1a 0%,#3a3a3a 100%)`,
             }}
           >
-            <div>
+            <img
+              src={promo50off.url}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover object-center"
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(150deg, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.5) 60%, rgba(0,0,0,0.3) 100%)",
+              }}
+            />
+            <div className="relative">
               <p className="font-display uppercase tracking-[0.25em] text-[10px]" style={{ color: RED }}>
                 Ofertas Solze
               </p>
@@ -552,10 +609,11 @@ function Hero() {
                 ATÉ <span style={{ color: RED }}>50% OFF</span><br />EM SELECIONADOS
               </h2>
             </div>
-            <a href="#" className="font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
+            <a href="#" className="relative font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
               Aproveitar <ArrowRight className="h-3 w-3" />
             </a>
           </div>
+
         </div>
       </div>
 
@@ -614,6 +672,7 @@ function BentoCollections() {
           title="MOCHILAS"
           subtitle="Mochilas pra carregar tudo que sua função exige"
           bg={`linear-gradient(135deg,${OLIVE} 0%,#1a1f12 100%)`}
+          img={heroMochilas.url}
           large
         />
         <BentoCard
@@ -623,6 +682,7 @@ function BentoCollections() {
           title="ESTOJOS"
           subtitle="O essencial sempre à mão"
           bg="linear-gradient(135deg,#2a2a2a 0%,#0a0a0a 100%)"
+          img={promo50offWide.url}
         />
         <BentoCard
           className="animate-fade-up"
@@ -631,7 +691,9 @@ function BentoCollections() {
           title="CINTOS & ACESSÓRIOS"
           subtitle="Ferramenta na mão, sem perder tempo procurando"
           bg={`linear-gradient(135deg,#3a2a1a 0%,${GOLD} 120%)`}
+          img={essencialImg.url}
         />
+
       </div>
     </section>
   );
@@ -642,6 +704,7 @@ function BentoCard({
   title,
   subtitle,
   bg,
+  img,
   large = false,
   className = "",
   style,
@@ -650,6 +713,7 @@ function BentoCard({
   title: string;
   subtitle: string;
   bg: string;
+  img?: string;
   large?: boolean;
   className?: string;
   style?: React.CSSProperties;
@@ -660,12 +724,33 @@ function BentoCard({
       className={`group relative rounded-[20px] overflow-hidden text-white p-5 sm:p-7 flex flex-col justify-end transition-transform hover:-translate-y-1 min-h-[180px] ${className}`}
       style={{ background: bg, ...style }}
     >
+      {img && (
+        <>
+          <img
+            src={img}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 55%, rgba(0,0,0,0.15) 100%)",
+            }}
+          />
+        </>
+      )}
+      <div className="relative">
       <p
         className="font-display uppercase tracking-[0.25em] text-[10px] mb-2"
         style={{ color: GOLD }}
       >
         {eyebrow}
       </p>
+
       <h3
         className={`font-display uppercase leading-[0.95] ${
           large ? "text-4xl sm:text-5xl lg:text-7xl" : "text-xl sm:text-2xl lg:text-3xl"
@@ -677,7 +762,9 @@ function BentoCard({
       <span className="mt-4 inline-flex items-center gap-1.5 font-display uppercase text-xs tracking-wider">
         Explorar <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
       </span>
+      </div>
     </a>
+
   );
 }
 
