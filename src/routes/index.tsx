@@ -480,7 +480,23 @@ function Hero() {
           className="relative aspect-[4/5] sm:aspect-[16/9] lg:aspect-auto lg:h-[460px] rounded-[20px] overflow-hidden text-white animate-fade-up"
           style={{ background: slide.bg }}
         >
+          <img
+            src={slide.img}
+            alt=""
+            aria-hidden="true"
+            fetchPriority={idx === 0 ? "high" : "low"}
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover object-center"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.1) 100%)",
+            }}
+          />
           <div className="absolute inset-0 p-6 sm:p-8 lg:p-14 flex flex-col justify-end">
+
             <p
               className="font-display uppercase tracking-[0.25em] text-[10px] sm:text-xs mb-2 sm:mb-3"
               style={{ color: GOLD }}
