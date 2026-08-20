@@ -32,15 +32,8 @@ function formatBRL(amount: number) {
   }
 }
 
-function formatPrice(amount: number, currency: string) {
-  try {
-    return new Intl.NumberFormat(currency === "BRL" ? "pt-BR" : undefined, {
-      style: "currency",
-      currency,
-    }).format(amount);
-  } catch {
-    return `${currency} ${amount.toFixed(2)}`;
-  }
+function formatPrice(amount: number, _currency?: string) {
+  return formatBRL(amount);
 }
 
 const ORDER_BUMPS = [

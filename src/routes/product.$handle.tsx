@@ -669,7 +669,7 @@ function ProductPage() {
                 #SOUFORTECOMOSOLZE
               </h2>
             </div>
-            <a href="#" className="font-display uppercase tracking-wider text-xs hover:underline" style={{ color: OLIVE }}>
+            <a href="https://www.instagram.com/solzeacessorios/" target="_blank" rel="noopener noreferrer" className="font-display uppercase tracking-wider text-xs hover:underline" style={{ color: OLIVE }}>
               Ver no Instagram →
             </a>
           </div>

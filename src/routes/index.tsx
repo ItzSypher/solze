@@ -172,9 +172,9 @@ export function Header() {
             </span>
           </div>
           <div className="flex items-center gap-3 sm:gap-4 ml-auto text-white/80">
-            <a href="#" className="hidden sm:inline hover:text-white">Atendimento</a>
-            <a href="#" className="hidden sm:inline hover:text-white">Rastrear pedido</a>
-            <a href="#" className="hover:text-white inline-flex items-center gap-1">
+            <Link to="/produtos" className="hidden sm:inline hover:text-white">Atendimento</Link>
+            <Link to="/produtos" className="hidden sm:inline hover:text-white">Rastrear pedido</Link>
+            <a href="tel:+552141375008" className="hover:text-white inline-flex items-center gap-1">
               <Phone className="h-3 w-3" /> (21) 4137-5008
             </a>
           </div>
@@ -318,8 +318,9 @@ export function Header() {
                     </Link>
                   </div>
                   {/* Featured */}
-                  <a
-                    href="#"
+                  <Link
+                    to="/collection/$handle"
+                    params={{ handle: "mochilas" }}
                     className="relative block bg-secondary/60 group/feat overflow-hidden"
                   >
                     <div
@@ -350,7 +351,7 @@ export function Header() {
                         </span>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -576,9 +577,9 @@ function Hero() {
                 ENTREGA EM<br />24 HORAS
               </h2>
             </div>
-            <a href="#" className="relative font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
+            <Link to="/produtos" className="relative font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
               Saiba mais <ArrowRight className="h-3 w-3" />
-            </a>
+            </Link>
           </div>
           <div
             className="relative overflow-hidden rounded-[20px] p-4 sm:p-7 flex flex-col justify-between gap-3 text-white animate-fade-up min-h-[140px] sm:min-h-[160px]"
@@ -610,9 +611,9 @@ function Hero() {
                 ATÉ <span style={{ color: RED }}>50% OFF</span><br />EM SELECIONADOS
               </h2>
             </div>
-            <a href="#" className="relative font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
+            <Link to="/ofertas" className="relative font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
               Aproveitar <ArrowRight className="h-3 w-3" />
-            </a>
+            </Link>
           </div>
 
         </div>
@@ -657,18 +658,19 @@ function BentoCollections() {
             ENCONTRE O EQUIPAMENTO CERTO PRA SUA FUNÇÃO
           </h2>
         </div>
-        <a
-          href="#"
+        <Link
+          to="/produtos"
           className="hidden md:inline-flex font-display uppercase tracking-wider text-xs items-center gap-1.5"
           style={{ color: OLIVE }}
         >
           Ver todas as coleções <ArrowRight className="h-3.5 w-3.5" />
-        </a>
+        </Link>
       </div>
 
       <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-2 lg:h-[480px]">
         <BentoCard
           className="sm:col-span-2 lg:col-span-2 lg:row-span-2 min-h-[260px] animate-fade-up"
+          handle="mochilas"
           eyebrow="Destaque"
           title="MOCHILAS"
           subtitle="Mochilas pra carregar tudo que sua função exige"
@@ -679,6 +681,7 @@ function BentoCollections() {
         <BentoCard
           className="animate-fade-up"
           style={{ animationDelay: "120ms" }}
+          handle="estojos"
           eyebrow="Organização"
           title="ESTOJOS"
           subtitle="O essencial sempre à mão"
@@ -688,6 +691,7 @@ function BentoCollections() {
         <BentoCard
           className="animate-fade-up"
           style={{ animationDelay: "200ms" }}
+          handle="acessorios"
           eyebrow="Acessórios"
           title="CINTOS & ACESSÓRIOS"
           subtitle="Ferramenta na mão, sem perder tempo procurando"
@@ -701,6 +705,7 @@ function BentoCollections() {
 }
 
 function BentoCard({
+  handle,
   eyebrow,
   title,
   subtitle,
@@ -710,6 +715,7 @@ function BentoCard({
   className = "",
   style,
 }: {
+  handle: string;
   eyebrow: string;
   title: string;
   subtitle: string;
@@ -720,8 +726,9 @@ function BentoCard({
   style?: React.CSSProperties;
 }) {
   return (
-    <a
-      href="#"
+    <Link
+      to="/collection/$handle"
+      params={{ handle }}
       className={`group relative rounded-[20px] overflow-hidden text-white p-5 sm:p-7 flex flex-col justify-end transition-transform hover:-translate-y-1 min-h-[180px] ${className}`}
       style={{ background: bg, ...style }}
     >
@@ -764,7 +771,7 @@ function BentoCard({
         Explorar <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
       </span>
       </div>
-    </a>
+    </Link>
 
   );
 }
@@ -795,13 +802,13 @@ function ProductsCarousel({
           </p>
           <h2 className="font-display uppercase text-3xl lg:text-4xl mt-1">{title}</h2>
         </div>
-        <a
-          href="#"
+        <Link
+          to="/produtos"
           className="hidden md:inline-flex font-display uppercase tracking-wider text-xs items-center gap-1.5"
           style={{ color: OLIVE }}
         >
           Ver todos <ArrowRight className="h-3.5 w-3.5" />
-        </a>
+        </Link>
       </div>
 
       {isLoading ? (
@@ -1064,6 +1071,7 @@ export function Footer() {
     {
       title: "Categorias",
       items: ["Bolsas", "Mochilas", "Estojos", "Cintos", "Acessórios Multiuso", "Ofertas"],
+      handles: ["bolsas", "mochilas", "estojos", "cintos", "acessorios", "outlet"],
     },
   ];
 
@@ -1076,10 +1084,16 @@ export function Footer() {
             Acessórios para ferramentas feitos no Brasil para quem trabalha com as mãos: eletricistas, encanadores, técnicos e construção civil.
           </p>
           <div className="flex gap-2 mt-5">
-            {[Instagram, Facebook, Youtube].map((I, i) => (
+            {[
+              { I: Instagram, href: "https://www.instagram.com/solzeacessorios/" },
+              { I: Facebook, href: "https://www.facebook.com/solzeacessorios" },
+              { I: Youtube, href: "https://www.youtube.com/@solzeacessorios" },
+            ].map(({ I, href }, i) => (
               <a
                 key={i}
-                href="#"
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="h-10 w-10 rounded-[20px] border border-neutral-200 flex items-center justify-center hover:text-white transition-colors"
                 style={{ borderColor: "#e5e5e5" }}
                 onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = OLIVE)}
@@ -1097,13 +1111,26 @@ export function Footer() {
               {c.title}
             </h4>
             <ul className="space-y-2.5 text-sm">
-              {c.items.map((it) => (
-                <li key={it}>
-                  <a href="#" className="hover:text-neutral-900 transition-colors">
-                    {it}
-                  </a>
-                </li>
-              ))}
+              {c.items.map((it, i) => {
+                const handle = (c as { handles?: string[] }).handles?.[i];
+                return (
+                  <li key={it}>
+                    {handle ? (
+                      <Link
+                        to="/collection/$handle"
+                        params={{ handle }}
+                        className="hover:text-neutral-900 transition-colors"
+                      >
+                        {it}
+                      </Link>
+                    ) : (
+                      <Link to="/produtos" className="hover:text-neutral-900 transition-colors">
+                        {it}
+                      </Link>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
             {c.title === "Atendimento" && (
               <div className="mt-5 space-y-2 text-sm">
