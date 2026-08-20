@@ -1030,7 +1030,7 @@ export function Footer() {
 
   return (
     <footer className="bg-white border-t border-neutral-200 text-neutral-700">
-      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-14 grid gap-10 md:grid-cols-4">
+      <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-12 sm:py-14 grid gap-8 sm:gap-10 sm:grid-cols-2 md:grid-cols-4">
         <div>
           <img src={logoAsset.url} alt="Solze" className="h-10 w-auto object-contain" />
           <p className="text-sm text-neutral-500 mt-4 leading-relaxed">
@@ -1085,8 +1085,8 @@ export function Footer() {
 
       {/* Payment + CNPJ strip */}
       <div className="border-t border-neutral-200">
-        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2 flex-wrap">
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+          <div className="flex items-center justify-center md:justify-start gap-2 flex-wrap">
             {["VISA", "MASTER", "ELO", "AMEX", "PIX", "BOLETO"].map((p) => (
               <span
                 key={p}
@@ -1104,7 +1104,7 @@ export function Footer() {
       </div>
 
       <div className="bg-neutral-900 text-white/70 text-[12px]">
-        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-2">
+        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-2 text-center md:text-left">
           <p>© {new Date().getFullYear()} Solze Acessórios para Ferramentas. Todos os direitos reservados.</p>
           <p>SOLZE ACESSÓRIOS PARA FERRAMENTAS — CNPJ 00.000.000/0001-00</p>
         </div>
