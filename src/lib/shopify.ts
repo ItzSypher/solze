@@ -57,7 +57,6 @@ const LOCAL_PRODUCT_IMAGE_HANDLES = new Set([
   "estojo-porta-ferramentas-preto",
   "mochila-para-ferramentas",
   "mochila-para-ferramentas-premium",
-  "mochila-preta-para-ferramentas",
 ]);
 
 function withLocalProductImages(product: ShopifyProduct): ShopifyProduct {
