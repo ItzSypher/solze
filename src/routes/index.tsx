@@ -704,6 +704,7 @@ function BentoCard({
   title,
   subtitle,
   bg,
+  img,
   large = false,
   className = "",
   style,
@@ -712,6 +713,7 @@ function BentoCard({
   title: string;
   subtitle: string;
   bg: string;
+  img?: string;
   large?: boolean;
   className?: string;
   style?: React.CSSProperties;
@@ -722,12 +724,33 @@ function BentoCard({
       className={`group relative rounded-[20px] overflow-hidden text-white p-5 sm:p-7 flex flex-col justify-end transition-transform hover:-translate-y-1 min-h-[180px] ${className}`}
       style={{ background: bg, ...style }}
     >
+      {img && (
+        <>
+          <img
+            src={img}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background:
+                "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.45) 55%, rgba(0,0,0,0.15) 100%)",
+            }}
+          />
+        </>
+      )}
+      <div className="relative">
       <p
         className="font-display uppercase tracking-[0.25em] text-[10px] mb-2"
         style={{ color: GOLD }}
       >
         {eyebrow}
       </p>
+
       <h3
         className={`font-display uppercase leading-[0.95] ${
           large ? "text-4xl sm:text-5xl lg:text-7xl" : "text-xl sm:text-2xl lg:text-3xl"
