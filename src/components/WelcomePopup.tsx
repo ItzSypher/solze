@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { X, Mail, Tag } from "lucide-react";
 import logoAsset from "@/assets/solze-logo.png.asset.json";
+import { subscribeEmail } from "@/lib/newsletter";
 
 const STORAGE_KEY = "solze:welcome-popup-dismissed";
 const OLIVE = "#4A5A3B";
@@ -11,6 +12,8 @@ export function WelcomePopup() {
   const [open, setOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -128,12 +131,18 @@ export function WelcomePopup() {
                 placeholder="voce@email.com"
                 className="w-full h-12 rounded-[20px] border border-neutral-200 bg-neutral-50 px-4 text-sm focus:outline-none focus:border-neutral-400"
               />
+              {error && (
+                <p className="text-xs" style={{ color: RED }}>
+                  {error}
+                </p>
+              )}
               <button
                 type="submit"
-                className="w-full h-12 rounded-[20px] text-white font-display uppercase tracking-wider text-sm hover:opacity-95 transition-opacity"
+                disabled={loading}
+                className="w-full h-12 rounded-[20px] text-white font-display uppercase tracking-wider text-sm hover:opacity-95 transition-opacity disabled:opacity-60"
                 style={{ backgroundColor: RED }}
               >
-                Quero meu cupom de 10%
+                {loading ? "Enviando..." : "Quero meu cupom de 10%"}
               </button>
               <button
                 type="button"
