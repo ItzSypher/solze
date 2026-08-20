@@ -18,11 +18,11 @@ const GOLD = "#C6A87C";
 export const Route = createFileRoute("/produtos")({
   head: () => ({
     meta: [
-      { title: "Todos os Produtos — Solze Tactical" },
+      { title: "Todos os Produtos — Solze Acessórios para Ferramentas" },
       {
         name: "description",
         content:
-          "Explore toda a linha Solze: mochilas táticas, bolsas operacionais, MOLLE, EDC e acessórios. Pronta entrega e garantia vitalícia.",
+          "Explore toda a linha Solze: bolsas, mochilas, estojos, cintos e acessórios para ferramentas. Pronta entrega e garantia de 3 meses.",
       },
     ],
   }),
@@ -118,7 +118,7 @@ function ProdutosPage() {
               <input
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Buscar mochila, bolsa, MOLLE..."
+                placeholder="Buscar bolsas, mochilas, cintos e acessórios..."
                 className="w-full h-14 rounded-full bg-white text-neutral-900 pl-14 pr-6 text-base focus:outline-none focus:ring-4 focus:ring-white/30"
               />
             </div>

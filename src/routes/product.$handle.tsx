@@ -30,8 +30,8 @@ export const Route = createFileRoute("/product/$handle")({
     const name = params.handle
       .replace(/[-_]+/g, " ")
       .replace(/\b\w/g, (c) => c.toUpperCase());
-    const title = `${name} — Solze Tactical`;
-    const description = `${name}: bolsa tática Solze de alta performance, construção militar em Cordura 1000D e garantia vitalícia. Compre com frete rápido e parcelamento em 10x.`;
+    const title = `${name} — Solze`;
+    const description = `${name}: acessório Solze para ferramentas, resistente e com reforço nas costuras, garantia de 3 meses. Compre com frete rápido e parcelamento em 10x.`;
     const url = `https://shop-love-joy.lovable.app/product/${params.handle}`;
     return {
       meta: [
@@ -75,7 +75,7 @@ const fadeIn = (delay = 0) => ({
 function ProductPage() {
   const { handle } = Route.useParams();
   useCartSync();
-  useTabTitle(`${handle} — Solze Tactical`);
+  useTabTitle(`${handle} — Solze`);
 
   const { data: product, isLoading } = useQuery({
     queryKey: ["product", handle],
@@ -367,7 +367,7 @@ function ProductPage() {
           {/* trust row */}
           <div className="mt-6 grid grid-cols-3 gap-3 text-center">
             {[
-              { i: ShieldCheck, t: "Garantia\nvitalícia" },
+              { i: ShieldCheck, t: "Garantia\n3 meses" },
               { i: RefreshCcw, t: "30 dias\npara troca" },
               { i: Truck, t: "Frete grátis\nacima R$399" },
             ].map((b, i) => (
@@ -434,7 +434,7 @@ function ProductPage() {
                 ["Tecido Lona Premium 1000D", true, false],
                 ["Costura dupla militar", true, false],
                 ["Garantia Vitalícia", true, false],
-                ["Sistema MOLLE oficial", true, false],
+                ["Reforço duplo nas costuras", true, false],
                 ["Zíperes YKK®", true, false],
                 ["Fundo de Tecido fino", false, true],
                 ["Nylon comum 600D", false, true],
@@ -473,7 +473,7 @@ function ProductPage() {
               />
               <Plus className="h-6 w-6 text-neutral-400 mx-auto" />
               <BundleItem
-                title="Organizador MOLLE"
+                title="Organizador Multiuso"
                 price="R$ 149"
                 emoji="🎒"
               />
@@ -528,7 +528,7 @@ function ProductPage() {
                 "Lona militar Cordura® 1000D impermeabilizada",
                 "Fundo rígido removível em polietileno HDPE",
                 "Alças ergonômicas com reforço em couro legítimo",
-                "Compartimentos modulares MOLLE compatíveis",
+                "Compartimentos modulares para ferramentas",
                 "Zíperes YKK® com proteção contra água",
               ].map((s) => (
                 <li key={s} className="flex items-start gap-3 text-sm">
@@ -617,7 +617,7 @@ function ProductPage() {
               {
                 name: "Cap. Eduardo S.",
                 role: "Forças Especiais",
-                t: "Equipamento sério. Saí em operação na chuva, fundo rígido salvou meus equipamentos eletrônicos. Garantia vitalícia é real.",
+                t: "Equipamento sério. Peguei chuva na obra e o fundo rígido salvou minhas ferramentas. Resistência de verdade.",
                 d: "Há 1 mês",
               },
               {

@@ -44,8 +44,8 @@ function formatPrice(amount: number, currency: string) {
 }
 
 const ORDER_BUMPS = [
-  { name: "Cinto Tático Operator", price: 19.9, tag: "+ AOV" },
-  { name: "Porta-Carregador MOLLE", price: 29.9, tag: "Pro" },
+  { name: "Cinto Porta-Ferramentas", price: 19.9, tag: "+ AOV" },
+  { name: "Estojo Multiuso", price: 29.9, tag: "Pro" },
   { name: "Patch Velcro Solze", price: 9.9, tag: "Free gift" },
 ];
 

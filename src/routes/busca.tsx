@@ -25,7 +25,7 @@ export const Route = createFileRoute("/busca")({
       { title: "Buscar produtos — Solze" },
       {
         name: "description",
-        content: "Encontre mochilas táticas, EDC, MOLLE e acessórios Solze.",
+        content: "Encontre bolsas, mochilas, estojos, cintos e acessórios Solze.",
       },
       { name: "robots", content: "noindex,follow" },
     ],
@@ -110,7 +110,7 @@ function SearchPage() {
           {!trimmed ? (
             <EmptyState
               title="Digite para começar"
-              sub="Tente: mochila, operator, edc, molle..."
+              sub="Tente: bolsa, mochila, estojo, cinto..."
             />
           ) : isLoading ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
