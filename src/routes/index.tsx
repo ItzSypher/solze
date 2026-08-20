@@ -672,6 +672,7 @@ function BentoCollections() {
           title="MOCHILAS"
           subtitle="Mochilas pra carregar tudo que sua função exige"
           bg={`linear-gradient(135deg,${OLIVE} 0%,#1a1f12 100%)`}
+          img={heroMochilas.url}
           large
         />
         <BentoCard
@@ -681,6 +682,7 @@ function BentoCollections() {
           title="ESTOJOS"
           subtitle="O essencial sempre à mão"
           bg="linear-gradient(135deg,#2a2a2a 0%,#0a0a0a 100%)"
+          img={promo50offWide.url}
         />
         <BentoCard
           className="animate-fade-up"
@@ -689,7 +691,9 @@ function BentoCollections() {
           title="CINTOS & ACESSÓRIOS"
           subtitle="Ferramenta na mão, sem perder tempo procurando"
           bg={`linear-gradient(135deg,#3a2a1a 0%,${GOLD} 120%)`}
+          img={essencialImg.url}
         />
+
       </div>
     </section>
   );
