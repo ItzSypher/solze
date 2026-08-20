@@ -981,7 +981,7 @@ export function Subfooter() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           {[
             { icon: Truck, t: "Entrega garantida", s: "Para todo o Brasil" },
             { icon: RefreshCcw, t: "Troca fácil", s: "Até 30 dias" },
@@ -990,7 +990,7 @@ export function Subfooter() {
           ].map((b, i) => (
             <div
               key={i}
-              className="rounded-[20px] border border-white/10 bg-white/5 p-5 flex items-start gap-3"
+              className="rounded-[20px] border border-white/10 bg-white/5 p-4 sm:p-5 flex items-center gap-3"
             >
               <div
                 className="h-11 w-11 rounded-[20px] flex items-center justify-center shrink-0"
@@ -998,7 +998,8 @@ export function Subfooter() {
               >
                 <b.icon className="h-5 w-5 text-white" />
               </div>
-              <div>
+              <div className="min-w-0">
+
                 <p className="font-display uppercase tracking-wider text-sm">{b.t}</p>
                 <p className="text-xs text-white/60 mt-0.5">{b.s}</p>
               </div>
