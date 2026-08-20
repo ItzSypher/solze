@@ -546,13 +546,28 @@ function Hero() {
         {/* Stacked promos */}
         <div className="grid grid-cols-2 lg:grid-cols-1 lg:grid-rows-2 gap-3 sm:gap-4">
           <div
-            className="rounded-[20px] p-5 sm:p-7 flex flex-col justify-between text-white animate-fade-up min-h-[160px]"
+            className="relative overflow-hidden rounded-[20px] p-5 sm:p-7 flex flex-col justify-between text-white animate-fade-up min-h-[160px]"
             style={{
               animationDelay: "120ms",
               background: `linear-gradient(135deg,${OLIVE} 0%,#2a3322 100%)`,
             }}
           >
-            <div>
+            <img
+              src={promo24h.url}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover object-center"
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(150deg, rgba(31,42,24,0.88) 0%, rgba(31,42,24,0.55) 60%, rgba(0,0,0,0.35) 100%)",
+              }}
+            />
+            <div className="relative">
               <p className="font-display uppercase tracking-[0.25em] text-[10px]" style={{ color: GOLD }}>
                 Frete expresso
               </p>
@@ -560,18 +575,33 @@ function Hero() {
                 ENTREGA EM<br />24 HORAS
               </h2>
             </div>
-            <a href="#" className="font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
+            <a href="#" className="relative font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
               Saiba mais <ArrowRight className="h-3 w-3" />
             </a>
           </div>
           <div
-            className="rounded-[20px] p-5 sm:p-7 flex flex-col justify-between text-white animate-fade-up min-h-[160px]"
+            className="relative overflow-hidden rounded-[20px] p-5 sm:p-7 flex flex-col justify-between text-white animate-fade-up min-h-[160px]"
             style={{
               animationDelay: "220ms",
               background: `linear-gradient(135deg,#1a1a1a 0%,#3a3a3a 100%)`,
             }}
           >
-            <div>
+            <img
+              src={promo50off.url}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover object-center"
+            />
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(150deg, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.5) 60%, rgba(0,0,0,0.3) 100%)",
+              }}
+            />
+            <div className="relative">
               <p className="font-display uppercase tracking-[0.25em] text-[10px]" style={{ color: RED }}>
                 Ofertas Solze
               </p>
@@ -579,10 +609,11 @@ function Hero() {
                 ATÉ <span style={{ color: RED }}>50% OFF</span><br />EM SELECIONADOS
               </h2>
             </div>
-            <a href="#" className="font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
+            <a href="#" className="relative font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
               Aproveitar <ArrowRight className="h-3 w-3" />
             </a>
           </div>
+
         </div>
       </div>
 
