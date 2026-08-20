@@ -7,15 +7,15 @@ import { useCartStore } from "@/stores/cartStore";
 import { useFavorites } from "@/hooks/useFavorites";
 import type { ShopifyProduct } from "@/lib/shopify";
 
-function formatPrice(amount: string, currency: string) {
+function formatPrice(amount: string, _currency?: string) {
   const n = parseFloat(amount);
   try {
-    return new Intl.NumberFormat(undefined, {
+    return new Intl.NumberFormat("pt-BR", {
       style: "currency",
-      currency,
+      currency: "BRL",
     }).format(n);
   } catch {
-    return `${currency} ${n.toFixed(2)}`;
+    return `R$ ${n.toFixed(2)}`;
   }
 }
 
