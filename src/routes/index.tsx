@@ -762,7 +762,9 @@ function BentoCard({
       <span className="mt-4 inline-flex items-center gap-1.5 font-display uppercase text-xs tracking-wider">
         Explorar <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
       </span>
+      </div>
     </a>
+
   );
 }
 
