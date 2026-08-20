@@ -495,7 +495,7 @@ function Hero() {
                 "linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.1) 100%)",
             }}
           />
-          <div className="absolute inset-0 p-6 sm:p-8 lg:p-14 flex flex-col justify-end">
+          <div className="absolute inset-0 p-5 sm:p-8 lg:p-14 flex flex-col justify-end">
 
             <p
               className="font-display uppercase tracking-[0.25em] text-[10px] sm:text-xs mb-2 sm:mb-3"
@@ -503,7 +503,7 @@ function Hero() {
             >
               {slide.eyebrow}
             </p>
-            <h1 className="font-display uppercase text-3xl sm:text-4xl lg:text-6xl leading-[0.95] whitespace-pre-line">
+            <h1 className="font-display uppercase text-2xl sm:text-4xl lg:text-6xl leading-[1] sm:leading-[0.95] whitespace-pre-line text-balance">
               {slide.title}
             </h1>
             <div className="mt-4 sm:mt-6">
