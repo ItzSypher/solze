@@ -546,7 +546,7 @@ function Hero() {
         {/* Stacked promos */}
         <div className="grid grid-cols-2 lg:grid-cols-1 lg:grid-rows-2 gap-3 sm:gap-4">
           <div
-            className="relative overflow-hidden rounded-[20px] p-5 sm:p-7 flex flex-col justify-between text-white animate-fade-up min-h-[160px]"
+            className="relative overflow-hidden rounded-[20px] p-4 sm:p-7 flex flex-col justify-between gap-3 text-white animate-fade-up min-h-[140px] sm:min-h-[160px]"
             style={{
               animationDelay: "120ms",
               background: `linear-gradient(135deg,${OLIVE} 0%,#2a3322 100%)`,
