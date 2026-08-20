@@ -32,11 +32,25 @@ export function WelcomePopup() {
     }
   }
 
-  function submit(e: React.FormEvent) {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
+    if (loading) return;
+    setError(null);
+    setLoading(true);
+    const res = await subscribeEmail(email, "welcome-popup");
+    setLoading(false);
+    if (res === "invalid") {
+      setError("Digite um e-mail válido.");
+      return;
+    }
+    if (res === "error") {
+      setError("Não conseguimos cadastrar agora. Tente de novo.");
+      return;
+    }
     setSubmitted(true);
     setTimeout(close, 2400);
   }
+
 
   if (!open) return null;
 
