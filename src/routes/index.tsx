@@ -67,20 +67,24 @@ const HERO_SLIDES = [
     title: "BOLSAS E MOCHILAS\nCONSTRUÍDAS PARA DURAR",
     cta: "COMPRAR AGORA",
     bg: "linear-gradient(120deg,#1f2a18 0%,#4A5A3B 60%,#6b7a55 100%)",
+    img: heroDurar.url,
   },
   {
     eyebrow: "Frete grátis acima de R$ 399",
     title: "FEITO PRA AGUENTAR\nO TRABALHO",
     cta: "VER COLEÇÃO",
     bg: "linear-gradient(120deg,#0f0f0f 0%,#2a2a2a 60%,#4A5A3B 100%)",
+    img: heroMochilas.url,
   },
   {
     eyebrow: "Material reforçado",
     title: "REFORÇO DUPLO\nEM CADA COSTURA",
     cta: "EXPLORAR",
     bg: "linear-gradient(120deg,#2a1a0e 0%,#5a3a1f 60%,#C6A87C 100%)",
+    img: heroReforco.url,
   },
 ];
+
 
 function formatBRL(amount: string) {
   const n = parseFloat(amount);
