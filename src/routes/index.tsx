@@ -351,7 +351,7 @@ export function Header() {
                         </span>
                       </div>
                     </div>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -771,7 +771,7 @@ function BentoCard({
         Explorar <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
       </span>
       </div>
-    </a>
+    </Link>
 
   );
 }
@@ -1106,9 +1106,9 @@ export function Footer() {
             <ul className="space-y-2.5 text-sm">
               {c.items.map((it) => (
                 <li key={it}>
-                  <a href="#" className="hover:text-neutral-900 transition-colors">
+                  <Link to="/produtos" className="hover:text-neutral-900 transition-colors">
                     {it}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
