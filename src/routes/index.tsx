@@ -1083,10 +1083,16 @@ export function Footer() {
             Acessórios para ferramentas feitos no Brasil para quem trabalha com as mãos: eletricistas, encanadores, técnicos e construção civil.
           </p>
           <div className="flex gap-2 mt-5">
-            {[Instagram, Facebook, Youtube].map((I, i) => (
+            {[
+              { I: Instagram, href: "https://www.instagram.com/solzeacessorios/" },
+              { I: Facebook, href: "https://www.facebook.com/solzeacessorios" },
+              { I: Youtube, href: "https://www.youtube.com/@solzeacessorios" },
+            ].map(({ I, href }, i) => (
               <a
                 key={i}
-                href="#"
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="h-10 w-10 rounded-[20px] border border-neutral-200 flex items-center justify-center hover:text-white transition-colors"
                 style={{ borderColor: "#e5e5e5" }}
                 onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = OLIVE)}
