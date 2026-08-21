@@ -45,6 +45,9 @@ import banner50Off from "@/assets/banner-50-off.png.asset.json";
 import bentoEstojos from "@/assets/estojos-bento.png.asset.json";
 import bentoCintos from "@/assets/cintos-bento.png.asset.json";
 import banner50OffV2 from "@/assets/banner-50-off-v2.png.asset.json";
+import heroBolsaVerde from "@/assets/hero-bolsa-verde.png.asset.json";
+import promoMochilaAberta from "@/assets/promo-mochila-aberta.png.asset.json";
+import promoSolzeDetalhe from "@/assets/promo-solze-detalhe.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
