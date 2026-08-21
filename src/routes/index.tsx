@@ -40,6 +40,8 @@ import promo24h from "@/assets/promo-24h.png.asset.json";
 import promo50off from "@/assets/promo-50off.png.asset.json";
 import promo50offWide from "@/assets/promo-50off-wide.png.asset.json";
 import essencialImg from "@/assets/essencial.png.asset.json";
+import bannerPodeParar from "@/assets/banner-feito-pra-quem-nao-pode-parar.png.asset.json";
+import banner50Off from "@/assets/banner-50-off.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
