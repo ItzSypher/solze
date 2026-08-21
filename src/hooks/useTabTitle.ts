@@ -2,13 +2,13 @@ import { useEffect } from "react";
 
 const AWAY_TITLES = [
   "Ficou faltando algo? 🛒 | Solze",
-  "Sua missão está incompleta ⚡ | Solze",
+  "Ficou faltando algo? 🛒 | Solze",
   "Volte e finalize sua compra | Solze",
 ];
 
 const GREETING_TITLES = [
-  "👋 Bem-vindo, operador! | Solze",
-  "⚡ Pronto pra missão? | Solze",
+  "👋 Bem-vindo à Solze!",
+  "Pronto pra encarar o dia? | Solze",
 ];
 
 export function useTabTitle(originalTitle: string) {

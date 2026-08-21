@@ -7,7 +7,7 @@ const SLIDES = [
   {
     eyebrow: "Novo drop · Operator Series",
     title: "Engineered\nfor the field.",
-    sub: "Bolsas táticas de grau militar com sistema MOLLE, tecido CORDURA® 1000D e garantia vitalícia.",
+    sub: "Bolsas profissionais reforçadas com organização inteligente, tecido CORDURA® 1000D e garantia vitalícia.",
     cta: "Explorar coleção",
     accent: "from-[#0a0e1a] via-[#10172a] to-[#1a1f3a]",
     grid: "rgba(255,120,40,0.18)",

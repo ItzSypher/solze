@@ -8,8 +8,8 @@ export function Footer() {
         <div className="md:col-span-2">
           <img src={logoAsset.url} alt="Solze" className="h-9 w-auto object-contain" />
           <p className="mt-5 text-sm text-muted-foreground max-w-sm leading-relaxed">
-            Bolsas táticas e profissionais de alta performance. Projetadas no Brasil,
-            testadas em campo, garantidas para a vida toda.
+            Acessórios para ferramentas feitos no Brasil para quem trabalha com as mãos:
+            eletricistas, encanadores, técnicos e construção civil.
           </p>
           <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-3 py-1.5 text-xs text-accent">
             <ShieldCheck className="h-3.5 w-3.5" /> Garantia vitalícia em toda linha
@@ -54,7 +54,7 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-border py-5 text-center text-xs text-muted-foreground tracking-wider">
-        © {new Date().getFullYear()} SOLZE Tactical. Engineered in Brazil.
+        © {new Date().getFullYear()} SOLZE Acessórios para Ferramentas. Feito no Brasil.
       </div>
     </footer>
   );

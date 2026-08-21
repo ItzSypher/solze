@@ -18,7 +18,7 @@ export function Brands() {
         / Spec sheet
       </p>
       <p className="mt-2 text-center text-sm text-muted-foreground">
-        Componentes de grau militar em cada peça
+        Componentes de alta resistência em cada peça
       </p>
       <div className="mt-8 overflow-hidden border-y border-border py-6">
         <motion.div

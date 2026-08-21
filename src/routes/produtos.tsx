@@ -102,8 +102,8 @@ function ProdutosPage() {
             transition={{ delay: 0.1 }}
             className="mt-6 max-w-2xl text-base md:text-lg text-white/85"
           >
-            Equipamento tático construído em Cordura® 1000D para quem leva a missão a sério.
-            Filtre por coleção, busque por nome e encontre seu próximo setup.
+            Equipamento profissional resistente para quem trabalha com as mãos todos os dias.
+            Filtre por coleção, busque por nome e monte seu kit.
           </motion.p>
 
           {/* Search bar */}

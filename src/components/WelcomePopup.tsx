@@ -98,7 +98,7 @@ export function WelcomePopup() {
             NA PRIMEIRA COMPRA
           </h2>
           <p className="text-white/80 text-sm mt-3" style={{ fontFamily: "var(--font-sora)" }}>
-            Entre no pelotão Solze e receba o cupom direto no seu e-mail. Drops, lançamentos e ofertas exclusivas.
+            Entre pra família Solze e receba o cupom direto no seu e-mail. Drops, lançamentos e ofertas exclusivas.
           </p>
         </div>
 
