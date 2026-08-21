@@ -34,7 +34,7 @@ const VARIANTS: Record<
     href: "/collection/$handle",
     handle: "bolsas",
     bg: `linear-gradient(115deg, #0f150a 0%, ${OLIVE} 55%, #6b7a55 100%)`,
-    img: heroReforco.url,
+    img: bannerPodeParar.url,
     accent: GOLD,
     icon: Shield,
   },
