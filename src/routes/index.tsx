@@ -1,6 +1,6 @@
 import { subscribeEmail } from "@/lib/newsletter";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, lazy, Suspense } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   Search,
@@ -23,15 +23,25 @@ import {
   ArrowRight,
   Loader2,
 } from "lucide-react";
-import { CartDrawer } from "@/components/CartDrawer";
 import { useCartSync } from "@/hooks/useCartSync";
 import { useTabTitle } from "@/hooks/useTabTitle";
 import { useCartStore } from "@/stores/cartStore";
 import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
 import { CATEGORIES } from "@/lib/categories";
-import { InstagramFeed as IGFeed } from "@/components/InstagramFeed";
-import { WelcomePopup } from "@/components/WelcomePopup";
-import { LifestyleBanner } from "@/components/LifestyleBanner";
+
+const CartDrawer = lazy(() =>
+  import("@/components/CartDrawer").then((m) => ({ default: m.CartDrawer })),
+);
+const IGFeed = lazy(() =>
+  import("@/components/InstagramFeed").then((m) => ({ default: m.InstagramFeed })),
+);
+const WelcomePopup = lazy(() =>
+  import("@/components/WelcomePopup").then((m) => ({ default: m.WelcomePopup })),
+);
+const LifestyleBanner = lazy(() =>
+  import("@/components/LifestyleBanner").then((m) => ({ default: m.LifestyleBanner })),
+);
+
 import logoAsset from "@/assets/solze-logo.png.asset.json";
 import heroDurar from "@/assets/hero-durar.png.asset.json";
 import heroMochilas from "@/assets/hero-mochilas.png.asset.json";
@@ -110,9 +120,54 @@ function formatBRL(amount: string) {
   }).format(n);
 }
 
+function Defer({
+  children,
+  minHeight = 240,
+}: {
+  children: React.ReactNode;
+  minHeight?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    if (show || !ref.current) return;
+    const el = ref.current;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setShow(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "400px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [show]);
+
+  return (
+    <div ref={ref} style={show ? undefined : { minHeight }}>
+      {show ? <Suspense fallback={null}>{children}</Suspense> : null}
+    </div>
+  );
+}
+
 function HomePage() {
   useCartSync();
   useTabTitle("Solze — Acessórios para Ferramentas");
+  const [idle, setIdle] = useState(false);
+  const cartOpen = useCartStore((s) => s.isOpen);
+
+  useEffect(() => {
+    const w = window as any;
+    const run = () => setIdle(true);
+    const id = w.requestIdleCallback ? w.requestIdleCallback(run, { timeout: 3000 }) : setTimeout(run, 2000);
+    return () => {
+      if (w.cancelIdleCallback) w.cancelIdleCallback(id);
+      else clearTimeout(id);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
@@ -125,30 +180,46 @@ function HomePage() {
           eyebrow="Os mais pedidos"
           limit={8}
         />
-        <LifestyleBanner variant="operator" />
-        <ProductsCarousel
-          title="LANÇAMENTOS"
-          eyebrow="Acabou de chegar"
-          limit={20}
-        />
-
-        <LifestyleBanner variant="edc" />
-        <ProductsCarousel
-          title="OFERTAS DA SEMANA"
-          eyebrow="Ofertas Solze"
-          limit={8}
-          query="tag:sale OR tag:outlet"
-        />
-        <LifestyleBanner variant="outlet" />
-        <IGFeed />
+        <Defer minHeight={320}>
+          <LifestyleBanner variant="operator" />
+        </Defer>
+        <Defer minHeight={420}>
+          <ProductsCarousel
+            title="LANÇAMENTOS"
+            eyebrow="Acabou de chegar"
+            limit={20}
+          />
+        </Defer>
+        <Defer minHeight={320}>
+          <LifestyleBanner variant="edc" />
+        </Defer>
+        <Defer minHeight={420}>
+          <ProductsCarousel
+            title="OFERTAS DA SEMANA"
+            eyebrow="Ofertas Solze"
+            limit={8}
+            query="tag:sale OR tag:outlet"
+          />
+        </Defer>
+        <Defer minHeight={320}>
+          <LifestyleBanner variant="outlet" />
+        </Defer>
+        <Defer minHeight={420}>
+          <IGFeed />
+        </Defer>
       </main>
       <Subfooter />
       <Footer />
-      <CartDrawer />
-      <WelcomePopup />
+      {(idle || cartOpen) && (
+        <Suspense fallback={null}>
+          <CartDrawer />
+          <WelcomePopup />
+        </Suspense>
+      )}
     </div>
   );
 }
+
 
 /* ============ HEADER ============ */
 export function Header() {
@@ -836,27 +907,19 @@ function ProductsCarousel({
           </p>
         </div>
       ) : (
-        <>
-          {/* Mobile/tablet: real horizontal carousel with snap */}
-          <div className="md:hidden -mx-4 sm:-mx-6 px-4 sm:px-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide">
-            <div className="flex gap-3 pb-2">
-              {products.map((p, i) => (
-                <div
-                  key={p.node.id}
-                  className="snap-start shrink-0 w-[70vw] sm:w-[44vw] max-w-[280px]"
-                >
-                  <ProductCardRetail product={p} index={i} />
-                </div>
-              ))}
-            </div>
-          </div>
-          {/* Desktop: grid */}
-          <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="-mx-4 sm:-mx-6 px-4 sm:px-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide md:mx-0 md:px-0 md:overflow-visible">
+          <div className="flex gap-3 pb-2 md:grid md:grid-cols-3 lg:grid-cols-4 md:gap-4 md:pb-0">
             {products.map((p, i) => (
-              <ProductCardRetail key={p.node.id} product={p} index={i} />
+              <div
+                key={p.node.id}
+                className="snap-start shrink-0 w-[70vw] sm:w-[44vw] max-w-[280px] md:w-auto md:max-w-none md:shrink"
+              >
+                <ProductCardRetail product={p} index={i} />
+              </div>
             ))}
           </div>
-        </>
+        </div>
+
       )}
     </section>
   );
