@@ -120,16 +120,16 @@ function HomePage() {
         <Hero />
         <BentoCollections />
         <ProductsCarousel
+          title="MAIS VENDIDOS"
+          eyebrow="Top da semana"
+          limit={8}
+        />
+        <LifestyleBanner variant="operator" />
+        <ProductsCarousel
           title="LANÇAMENTOS"
           eyebrow="Acabou de chegar"
           limit={20}
           query="tag:lancamentos OR tag:new"
-        />
-        <LifestyleBanner variant="operator" />
-        <ProductsCarousel
-          title="MAIS VENDIDOS"
-          eyebrow="Top da semana"
-          limit={8}
         />
         <LifestyleBanner variant="operator" />
         <LifestyleBanner variant="edc" />
