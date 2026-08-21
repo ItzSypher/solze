@@ -42,6 +42,8 @@ import promo50offWide from "@/assets/promo-50off-wide.png.asset.json";
 import essencialImg from "@/assets/essencial.png.asset.json";
 import bannerPodeParar from "@/assets/banner-feito-pra-quem-nao-pode-parar.png.asset.json";
 import banner50Off from "@/assets/banner-50-off.png.asset.json";
+import bentoEstojos from "@/assets/estojos-bento.png.asset.json";
+import bentoCintos from "@/assets/cintos-bento.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -695,7 +697,7 @@ function BentoCollections() {
           title="ESTOJOS"
           subtitle="O essencial sempre à mão"
           bg="linear-gradient(135deg,#2a2a2a 0%,#0a0a0a 100%)"
-          img={promo50offWide.url}
+          img={bentoEstojos.url}
         />
         <BentoCard
           className="animate-fade-up"
@@ -705,7 +707,7 @@ function BentoCollections() {
           title="CINTOS & ACESSÓRIOS"
           subtitle="Ferramenta na mão, sem perder tempo procurando"
           bg={`linear-gradient(135deg,#3a2a1a 0%,${GOLD} 120%)`}
-          img={essencialImg.url}
+          img={bentoCintos.url}
         />
 
       </div>
