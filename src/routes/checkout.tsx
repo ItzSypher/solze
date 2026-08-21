@@ -7,7 +7,7 @@ import { useCartStore } from "@/stores/cartStore";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
-    meta: [{ title: "Checkout Seguro — Solze" }],
+    meta: [{ title: "Pagamento Seguro — Solze" }],
   }),
   component: CheckoutPage,
 });

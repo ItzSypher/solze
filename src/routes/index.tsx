@@ -114,7 +114,7 @@ function HomePage() {
         <BentoCollections />
         <ProductsCarousel
           title="MAIS VENDIDOS"
-          eyebrow="Top da semana"
+          eyebrow="Os mais pedidos"
           limit={8}
         />
         <LifestyleBanner variant="operator" />
@@ -985,7 +985,7 @@ export function Subfooter() {
             <span style={{ color: RED }}>10% OFF</span> NA PRIMEIRA COMPRA
           </h3>
           <p className="text-white/70 text-sm mt-3 max-w-md">
-            Cadastre seu e-mail e receba ofertas exclusivas, lançamentos e drops antes de todo mundo.
+            Cadastre seu e-mail e receba ofertas exclusivas, lançamentos e novidades antes de todo mundo.
           </p>
 
           <form

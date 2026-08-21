@@ -449,7 +449,7 @@ function ProductPage() {
                 "Manutenção",
                 "Técnicos",
                 "Mecânicos",
-                "Field Tech",
+                "Manutenção Predial",
               ].map((t) => (
 
                 <span
@@ -478,7 +478,7 @@ function ProductPage() {
               </div>
               {[
                 ["Fundo Rígido reforçado", true, false],
-                ["Tecido Lona Premium 1000D", true, false],
+                ["Tecido Lona Reforçada 1000D", true, false],
                 ["Costura dupla reforçada", true, false],
                 ["Garantia Vitalícia", true, false],
                 ["Reforço duplo nas costuras", true, false],
