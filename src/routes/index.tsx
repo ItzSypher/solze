@@ -76,7 +76,7 @@ const HERO_SLIDES = [
     cta: "COMPRAR AGORA",
     bg: "linear-gradient(120deg,#1f2a18 0%,#4A5A3B 60%,#6b7a55 100%)",
     img: heroDurar.url,
-    link: "/produtos",
+    link: "/collection/lancamentos",
   },
   {
     eyebrow: "Frete grátis acima de R$ 399",
@@ -92,7 +92,7 @@ const HERO_SLIDES = [
     cta: "EXPLORAR",
     bg: "linear-gradient(120deg,#2a1a0e 0%,#5a3a1f 60%,#C6A87C 100%)",
     img: heroReforco.url,
-    link: "/produtos",
+    link: "/collection/bolsas",
   },
 ];
 
@@ -116,17 +116,18 @@ function HomePage() {
         <Hero />
         <BentoCollections />
         <ProductsCarousel
-          title="MAIS VENDIDOS"
-          eyebrow="Top da semana"
-          limit={8}
-        />
-        <LifestyleBanner variant="operator" />
-        <ProductsCarousel
           title="LANÇAMENTOS"
           eyebrow="Acabou de chegar"
           limit={20}
           query="tag:lancamentos OR tag:new"
         />
+        <LifestyleBanner variant="operator" />
+        <ProductsCarousel
+          title="MAIS VENDIDOS"
+          eyebrow="Top da semana"
+          limit={8}
+        />
+        <LifestyleBanner variant="operator" />
         <LifestyleBanner variant="edc" />
         <ProductsCarousel
           title="OFERTAS DA SEMANA"
