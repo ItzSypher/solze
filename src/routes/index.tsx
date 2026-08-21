@@ -560,7 +560,7 @@ function Hero() {
             }}
           >
             <img
-              src={promo24h.url}
+              src={promoMochilaAberta.url}
               alt=""
               aria-hidden="true"
               loading="lazy"
@@ -595,7 +595,7 @@ function Hero() {
             }}
           >
             <img
-              src={banner50OffV2.url}
+              src={promoSolzeDetalhe.url}
               alt=""
               aria-hidden="true"
               loading="lazy"
