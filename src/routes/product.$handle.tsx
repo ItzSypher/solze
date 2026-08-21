@@ -82,6 +82,12 @@ function ProductPage() {
     queryFn: () => fetchProduct(handle),
   });
 
+  const { data: allProducts = [] } = useQuery({
+    queryKey: ["products", { query: undefined, limit: 12 }],
+    queryFn: () => fetchProducts(12),
+    staleTime: 5 * 60 * 1000,
+  });
+
   const addItem = useCartStore((s) => s.addItem);
   const isAdding = useCartStore((s) => s.isLoading);
 
@@ -90,6 +96,7 @@ function ProductPage() {
   const [qty, setQty] = useState(1);
   const [cep, setCep] = useState("");
   const [shippingShown, setShippingShown] = useState(false);
+
 
   const variant = useMemo(() => {
     if (!product) return null;
