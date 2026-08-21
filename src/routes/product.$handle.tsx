@@ -247,7 +247,7 @@ function ProductPage() {
         </motion.div>
 
         {/* Info */}
-        <motion.div {...fadeIn(0.15)}>
+        <motion.div {...fadeIn(0.15)} className="min-w-0 w-full">
           <p className="text-[11px] font-display uppercase tracking-[0.25em]" style={{ color: OLIVE }}>
             / SOLZE TACTICAL
           </p>
