@@ -120,9 +120,53 @@ function formatBRL(amount: string) {
   }).format(n);
 }
 
+function Defer({
+  children,
+  minHeight = 240,
+}: {
+  children: React.ReactNode;
+  minHeight?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    if (show || !ref.current) return;
+    const el = ref.current;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setShow(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "400px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [show]);
+
+  return (
+    <div ref={ref} style={show ? undefined : { minHeight }}>
+      {show ? <Suspense fallback={null}>{children}</Suspense> : null}
+    </div>
+  );
+}
+
 function HomePage() {
   useCartSync();
   useTabTitle("Solze — Acessórios para Ferramentas");
+  const [idle, setIdle] = useState(false);
+
+  useEffect(() => {
+    const w = window as any;
+    const run = () => setIdle(true);
+    const id = w.requestIdleCallback ? w.requestIdleCallback(run, { timeout: 3000 }) : setTimeout(run, 2000);
+    return () => {
+      if (w.cancelIdleCallback) w.cancelIdleCallback(id);
+      else clearTimeout(id);
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans">
@@ -135,30 +179,46 @@ function HomePage() {
           eyebrow="Os mais pedidos"
           limit={8}
         />
-        <LifestyleBanner variant="operator" />
-        <ProductsCarousel
-          title="LANÇAMENTOS"
-          eyebrow="Acabou de chegar"
-          limit={20}
-        />
-
-        <LifestyleBanner variant="edc" />
-        <ProductsCarousel
-          title="OFERTAS DA SEMANA"
-          eyebrow="Ofertas Solze"
-          limit={8}
-          query="tag:sale OR tag:outlet"
-        />
-        <LifestyleBanner variant="outlet" />
-        <IGFeed />
+        <Defer minHeight={320}>
+          <LifestyleBanner variant="operator" />
+        </Defer>
+        <Defer minHeight={420}>
+          <ProductsCarousel
+            title="LANÇAMENTOS"
+            eyebrow="Acabou de chegar"
+            limit={20}
+          />
+        </Defer>
+        <Defer minHeight={320}>
+          <LifestyleBanner variant="edc" />
+        </Defer>
+        <Defer minHeight={420}>
+          <ProductsCarousel
+            title="OFERTAS DA SEMANA"
+            eyebrow="Ofertas Solze"
+            limit={8}
+            query="tag:sale OR tag:outlet"
+          />
+        </Defer>
+        <Defer minHeight={320}>
+          <LifestyleBanner variant="outlet" />
+        </Defer>
+        <Defer minHeight={420}>
+          <IGFeed />
+        </Defer>
       </main>
       <Subfooter />
       <Footer />
-      <CartDrawer />
-      <WelcomePopup />
+      {idle && (
+        <Suspense fallback={null}>
+          <CartDrawer />
+          <WelcomePopup />
+        </Suspense>
+      )}
     </div>
   );
 }
+
 
 /* ============ HEADER ============ */
 export function Header() {
