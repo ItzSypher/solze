@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { Header, Subfooter, Footer } from "@/routes/index";
 import { CartDrawer } from "@/components/CartDrawer";
-import { fetchProduct } from "@/lib/shopify";
+import { fetchProduct, fetchProducts } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { useCartSync } from "@/hooks/useCartSync";
 import { useTabTitle } from "@/hooks/useTabTitle";
