@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "asset_id": "cf676f56-b428-4f76-b1f9-56c17aabc809",
+  "asset_id": "05d42860-4e02-4ce4-9ae9-956f592d6462",
   "project_id": "6d72a4f5-116e-4e36-a93f-213b3e454c88",
-  "url": "/__l5e/assets-v1/cf676f56-b428-4f76-b1f9-56c17aabc809/hero-durar.png",
-  "r2_key": "a/v1/6d72a4f5-116e-4e36-a93f-213b3e454c88/cf676f56-b428-4f76-b1f9-56c17aabc809/hero-durar.png",
-  "original_filename": "hero-durar.png",
-  "size": 2823550,
-  "content_type": "image/png",
-  "created_at": "2026-08-20T19:52:43Z"
+  "url": "/__l5e/assets-v1/05d42860-4e02-4ce4-9ae9-956f592d6462/hero-durar.webp",
+  "r2_key": "a/v1/6d72a4f5-116e-4e36-a93f-213b3e454c88/05d42860-4e02-4ce4-9ae9-956f592d6462/hero-durar.webp",
+  "original_filename": "hero-durar.webp",
+  "size": 149666,
+  "content_type": "image/webp",
+  "created_at": "2026-08-21T19:51:53Z"
 }

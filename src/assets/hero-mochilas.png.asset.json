@@ -1,11 +1,11 @@
 {
   "version": 1,
-  "asset_id": "17db259d-36a2-438e-81e7-d9fb23a98c14",
+  "asset_id": "851301c5-b1b9-4d35-ad02-cd80a9862c44",
   "project_id": "6d72a4f5-116e-4e36-a93f-213b3e454c88",
-  "url": "/__l5e/assets-v1/17db259d-36a2-438e-81e7-d9fb23a98c14/hero-mochilas.png",
-  "r2_key": "a/v1/6d72a4f5-116e-4e36-a93f-213b3e454c88/17db259d-36a2-438e-81e7-d9fb23a98c14/hero-mochilas.png",
-  "original_filename": "hero-mochilas.png",
-  "size": 2466402,
-  "content_type": "image/png",
-  "created_at": "2026-08-20T19:52:38Z"
+  "url": "/__l5e/assets-v1/851301c5-b1b9-4d35-ad02-cd80a9862c44/hero-mochilas.webp",
+  "r2_key": "a/v1/6d72a4f5-116e-4e36-a93f-213b3e454c88/851301c5-b1b9-4d35-ad02-cd80a9862c44/hero-mochilas.webp",
+  "original_filename": "hero-mochilas.webp",
+  "size": 96936,
+  "content_type": "image/webp",
+  "created_at": "2026-08-21T19:51:56Z"
 }
