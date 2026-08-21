@@ -598,7 +598,7 @@ function Hero() {
             }}
           >
             <img
-              src={promo50off.url}
+              src={banner50Off.url}
               alt=""
               aria-hidden="true"
               loading="lazy"
