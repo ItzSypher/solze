@@ -124,7 +124,6 @@ function HomePage() {
           eyebrow="Top da semana"
           limit={8}
         />
-        <LifestyleBanner variant="operator" />
         <ProductsCarousel
           title="LANÇAMENTOS"
           eyebrow="Acabou de chegar"
