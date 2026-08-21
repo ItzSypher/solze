@@ -2,7 +2,7 @@ import { ArrowRight, Shield, Truck } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import heroReforco from "@/assets/hero-reforco.png.asset.json";
 import essencialImg from "@/assets/essencial.png.asset.json";
-import promo50off from "@/assets/promo-50off.png.asset.json";
+import promo50off from "@/assets/banner-50-off-v3.png.asset.json";
 import bannerPodeParar from "@/assets/banner-feito-pra-quem-nao-pode-parar.png.asset.json";
 
 const OLIVE = "#4A5A3B";
