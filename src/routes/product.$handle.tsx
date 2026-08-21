@@ -455,58 +455,59 @@ function ProductPage() {
       </section>
 
       {/* ============ SECTION 3: COMPRE JUNTO ============ */}
-      <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-24">
-        <motion.div {...fade()}>
-          <p className="font-display uppercase tracking-[0.25em] text-xs mb-2" style={{ color: RED }}>
-            Economize comprando o kit
-          </p>
-          <h2 className="font-display uppercase text-3xl lg:text-4xl font-bold">COMPRE JUNTO</h2>
+      {bundleExtras.length > 0 && (
+        <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-24">
+          <motion.div {...fade()}>
+            <p className="font-display uppercase tracking-[0.25em] text-xs mb-2" style={{ color: RED }}>
+              Economize comprando o kit
+            </p>
+            <h2 className="font-display uppercase text-3xl lg:text-4xl font-bold">COMPRE JUNTO</h2>
 
-          <div className="mt-8 rounded-[20px] border-2 border-neutral-200 p-6 lg:p-10">
-            <div className="grid lg:grid-cols-[1fr_auto_1fr_auto_1fr_auto_auto] items-center gap-4 lg:gap-6">
-              {/* Main */}
-              <BundleItem
-                img={firstImage?.url}
-                title={product.node.title}
-                price={formatBRL(price.amount)}
-                main
-              />
-              <Plus className="h-6 w-6 text-neutral-400 mx-auto" />
-              <BundleItem
-                title="Organizador Multiuso"
-                price="R$ 149"
-                emoji="🎒"
-              />
-              <Plus className="h-6 w-6 text-neutral-400 mx-auto" />
-              <BundleItem
-                title="Cinto Tático Solze"
-                price="R$ 199"
-                emoji="🪢"
-              />
-              <div className="h-px lg:h-24 lg:w-px bg-neutral-200 mx-auto" />
-              {/* Total */}
-              <div className="text-center lg:text-left">
-                <p className="text-xs font-display uppercase tracking-wider text-neutral-500">Total do kit</p>
-                <p className="text-sm line-through text-neutral-400">
-                  {formatBRL((parseFloat(price.amount) + 348).toString())}
-                </p>
-                <p className="font-display text-3xl font-bold" style={{ color: RED }}>
-                  {formatBRL((parseFloat(price.amount) + 348 - 80).toString())}
-                </p>
-                <p className="text-[11px] font-display uppercase tracking-wider mt-1" style={{ color: OLIVE }}>
-                  Economize R$ 80
-                </p>
+            <div className="mt-8 rounded-[20px] border-2 border-neutral-200 p-4 sm:p-6 lg:p-10">
+              <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6">
+                <div className="grid grid-cols-3 gap-2 sm:gap-4 lg:flex lg:items-center lg:gap-6 lg:flex-1">
+                  <BundleItem
+                    img={firstImage?.url}
+                    title={product.node.title}
+                    price={formatBRL(price.amount)}
+                    main
+                  />
+                  {bundleExtras.map((p) => (
+                    <BundleItem
+                      key={p.node.id}
+                      img={p.node.images.edges[0]?.node?.url}
+                      title={p.node.title}
+                      price={formatBRL(
+                        (p.node.variants.edges[0]?.node?.price ?? p.node.priceRange.minVariantPrice).amount,
+                      )}
+                    />
+                  ))}
+                </div>
+                <div className="h-px w-full lg:h-24 lg:w-px bg-neutral-200 shrink-0" />
+                <div className="text-center lg:text-left shrink-0">
+                  <p className="text-xs font-display uppercase tracking-wider text-neutral-500">Total do kit</p>
+                  <p className="text-sm line-through text-neutral-400">{formatBRL(bundleTotal.toString())}</p>
+                  <p className="font-display text-3xl font-bold" style={{ color: RED }}>
+                    {formatBRL((bundleTotal - bundleDiscount).toString())}
+                  </p>
+                  <p className="text-[11px] font-display uppercase tracking-wider mt-1" style={{ color: OLIVE }}>
+                    Economize {formatBRL(bundleDiscount.toString())}
+                  </p>
+                </div>
               </div>
+              <button
+                onClick={handleAddBundle}
+                disabled={isAdding}
+                className="mt-8 w-full h-14 rounded-[20px] font-display uppercase tracking-wider text-base sm:text-lg font-bold text-white transition-transform hover:scale-[1.01] disabled:opacity-50"
+                style={{ backgroundColor: RED }}
+              >
+                ADICIONAR KIT AO CARRINHO
+              </button>
             </div>
-            <button
-              className="mt-8 w-full h-14 rounded-[20px] font-display uppercase tracking-wider text-lg font-bold text-white transition-transform hover:scale-[1.01]"
-              style={{ backgroundColor: RED }}
-            >
-              ADICIONAR KIT AO CARRINHO
-            </button>
-          </div>
-        </motion.div>
-      </section>
+          </motion.div>
+        </section>
+      )}
+
 
       {/* ============ SECTION 4: DESCRIPTION ============ */}
       <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-24">
