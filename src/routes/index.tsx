@@ -76,6 +76,7 @@ const HERO_SLIDES = [
     cta: "COMPRAR AGORA",
     bg: "linear-gradient(120deg,#1f2a18 0%,#4A5A3B 60%,#6b7a55 100%)",
     img: heroDurar.url,
+    link: "/produtos",
   },
   {
     eyebrow: "Frete grátis acima de R$ 399",
@@ -83,6 +84,7 @@ const HERO_SLIDES = [
     cta: "VER COLEÇÃO",
     bg: "linear-gradient(120deg,#0f0f0f 0%,#2a2a2a 60%,#4A5A3B 100%)",
     img: heroMochilas.url,
+    link: "/collection/mochilas",
   },
   {
     eyebrow: "Material reforçado",
@@ -90,6 +92,7 @@ const HERO_SLIDES = [
     cta: "EXPLORAR",
     bg: "linear-gradient(120deg,#2a1a0e 0%,#5a3a1f 60%,#C6A87C 100%)",
     img: heroReforco.url,
+    link: "/produtos",
   },
 ];
 
@@ -121,8 +124,8 @@ function HomePage() {
         <ProductsCarousel
           title="LANÇAMENTOS"
           eyebrow="Acabou de chegar"
-          limit={8}
-          query="tag:new"
+          limit={20}
+          query="tag:lancamentos OR tag:new"
         />
         <LifestyleBanner variant="edc" />
         <ProductsCarousel
@@ -477,9 +480,10 @@ function Hero() {
     <section className="mx-auto max-w-[1400px] px-4 sm:px-6 pt-6">
       <div className="grid gap-4 lg:grid-cols-[2fr_1fr]">
         {/* Big slider */}
-        <div
+        <Link
           key={idx}
-          className="relative aspect-[5/4] sm:aspect-[16/9] lg:aspect-auto lg:h-[460px] rounded-[20px] overflow-hidden text-white animate-fade-up"
+          to={slide.link || "/produtos"}
+          className="relative aspect-[5/4] sm:aspect-[16/9] lg:aspect-auto lg:h-[460px] rounded-[20px] overflow-hidden text-white animate-fade-up group/hero"
           style={{ background: slide.bg }}
         >
           <img
@@ -488,7 +492,7 @@ function Hero() {
             aria-hidden="true"
             fetchPriority={idx === 0 ? "high" : "low"}
             decoding="async"
-            className="absolute inset-0 h-full w-full object-cover object-center"
+            className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 group-hover/hero:scale-105"
           />
           <div
             className="absolute inset-0"
@@ -509,46 +513,47 @@ function Hero() {
               {slide.title}
             </h1>
             <div className="mt-4 sm:mt-6">
-              <button
+              <div
                 className="bg-conversion hover:bg-conversion-hover transition-colors font-display uppercase tracking-wider text-xs sm:text-sm px-5 sm:px-7 h-11 sm:h-12 rounded-[20px] inline-flex items-center gap-2"
               >
                 {slide.cta} <ArrowRight className="h-4 w-4" />
-              </button>
+              </div>
             </div>
           </div>
 
           {/* Controls */}
           <button
-            onClick={() => setIdx((i) => (i - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)}
-            className="absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-[20px] bg-white/15 hover:bg-white/25 backdrop-blur flex items-center justify-center"
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIdx((i) => (i - 1 + HERO_SLIDES.length) % HERO_SLIDES.length); }}
+            className="hidden sm:flex absolute left-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-[20px] bg-white/15 hover:bg-white/25 backdrop-blur flex items-center justify-center z-10"
             aria-label="Anterior"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
           <button
-            onClick={() => setIdx((i) => (i + 1) % HERO_SLIDES.length)}
-            className="absolute right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-[20px] bg-white/15 hover:bg-white/25 backdrop-blur flex items-center justify-center"
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIdx((i) => (i + 1) % HERO_SLIDES.length); }}
+            className="hidden sm:flex absolute right-4 top-1/2 -translate-y-1/2 h-10 w-10 rounded-[20px] bg-white/15 hover:bg-white/25 backdrop-blur flex items-center justify-center z-10"
             aria-label="Próximo"
           >
             <ChevronRight className="h-5 w-5" />
           </button>
-          <div className="absolute bottom-5 right-6 flex gap-1.5">
+          <div className="absolute bottom-5 right-6 flex gap-1.5 z-10">
             {HERO_SLIDES.map((_, i) => (
               <button
                 key={i}
-                onClick={() => setIdx(i)}
+                onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIdx(i); }}
                 className={`h-1.5 rounded-full transition-all ${
                   i === idx ? "w-8 bg-white" : "w-3 bg-white/40"
                 }`}
               />
             ))}
           </div>
-        </div>
+        </Link>
 
         {/* Stacked promos */}
         <div className="grid grid-cols-2 lg:grid-cols-1 lg:grid-rows-2 gap-3 sm:gap-4">
-          <div
-            className="relative overflow-hidden rounded-[20px] p-4 sm:p-7 flex flex-col justify-between gap-3 text-white animate-fade-up min-h-[140px] sm:min-h-[160px]"
+          <Link
+            to="/produtos"
+            className="relative overflow-hidden rounded-[20px] p-4 sm:p-7 flex flex-col justify-between gap-3 text-white animate-fade-up min-h-[140px] sm:min-h-[160px] group/promo1"
             style={{
               animationDelay: "120ms",
               background: `linear-gradient(135deg,${OLIVE} 0%,#2a3322 100%)`,
@@ -560,7 +565,7 @@ function Hero() {
               aria-hidden="true"
               loading="lazy"
               decoding="async"
-              className="absolute inset-0 h-full w-full object-cover object-center"
+              className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 group-hover/promo1:scale-105"
             />
             <div
               className="absolute inset-0"
@@ -577,12 +582,13 @@ function Hero() {
                 ENTREGA EM<br />24 HORAS
               </h2>
             </div>
-            <Link to="/produtos" className="relative font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
+            <div className="relative font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
               Saiba mais <ArrowRight className="h-3 w-3" />
-            </Link>
-          </div>
-          <div
-            className="relative overflow-hidden rounded-[20px] p-4 sm:p-7 flex flex-col justify-between gap-3 text-white animate-fade-up min-h-[140px] sm:min-h-[160px]"
+            </div>
+          </Link>
+          <Link
+            to="/ofertas"
+            className="relative overflow-hidden rounded-[20px] p-4 sm:p-7 flex flex-col justify-between gap-3 text-white animate-fade-up min-h-[140px] sm:min-h-[160px] group/promo2"
             style={{
               animationDelay: "220ms",
               background: `linear-gradient(135deg,#1a1a1a 0%,#3a3a3a 100%)`,
@@ -594,7 +600,7 @@ function Hero() {
               aria-hidden="true"
               loading="lazy"
               decoding="async"
-              className="absolute inset-0 h-full w-full object-cover object-center"
+              className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 group-hover/promo2:scale-105"
             />
             <div
               className="absolute inset-0"
@@ -611,10 +617,10 @@ function Hero() {
                 ATÉ <span style={{ color: RED }}>50% OFF</span><br />EM SELECIONADOS
               </h2>
             </div>
-            <Link to="/ofertas" className="relative font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
+            <div className="relative font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
               Aproveitar <ArrowRight className="h-3 w-3" />
-            </Link>
-          </div>
+            </div>
+          </Link>
 
         </div>
       </div>
