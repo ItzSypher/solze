@@ -181,3 +181,7 @@
   scrollbar-width: none;
   &::-webkit-scrollbar { display: none; }
 }
+
+#lovable-badge {
+  display: none !important;
+}
