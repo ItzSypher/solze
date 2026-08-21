@@ -36,15 +36,15 @@ import logoAsset from "@/assets/solze-logo.png.asset.json";
 import heroDurar from "@/assets/hero-durar.png.asset.json";
 import heroMochilas from "@/assets/hero-mochilas.png.asset.json";
 import heroReforco from "@/assets/hero-reforco.png.asset.json";
-import promo24h from "@/assets/promo-24h.png.asset.json";
 import promo50off from "@/assets/promo-50off.png.asset.json";
 import promo50offWide from "@/assets/promo-50off-wide.png.asset.json";
 import essencialImg from "@/assets/essencial.png.asset.json";
-import bannerPodeParar from "@/assets/banner-feito-pra-quem-nao-pode-parar.png.asset.json";
 import banner50Off from "@/assets/banner-50-off.png.asset.json";
 import bentoEstojos from "@/assets/estojos-bento.png.asset.json";
 import bentoCintos from "@/assets/cintos-bento.png.asset.json";
-import banner50OffV2 from "@/assets/banner-50-off-v2.png.asset.json";
+import heroBolsaVerde from "@/assets/hero-bolsa-verde.png.asset.json";
+import promoMochilaAberta from "@/assets/promo-mochila-aberta.png.asset.json";
+import promoSolzeDetalhe from "@/assets/promo-solze-detalhe.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -80,16 +80,8 @@ const HERO_SLIDES = [
     title: "FEITO PRA QUEM\nNÃO PODE PARAR",
     cta: "COMPRAR AGORA",
     bg: "linear-gradient(120deg,#1f2a18 0%,#4A5A3B 60%,#6b7a55 100%)",
-    img: bannerPodeParar.url,
+    img: heroBolsaVerde.url,
     link: "/collection/lancamentos",
-  },
-  {
-    eyebrow: "Frete grátis acima de R$ 399",
-    title: "FEITO PRA AGUENTAR\nO TRABALHO",
-    cta: "VER COLEÇÃO",
-    bg: "linear-gradient(120deg,#0f0f0f 0%,#2a2a2a 60%,#4A5A3B 100%)",
-    img: heroMochilas.url,
-    link: "/collection/mochilas",
   },
   {
     eyebrow: "Material reforçado",
@@ -565,7 +557,7 @@ function Hero() {
             }}
           >
             <img
-              src={promo24h.url}
+              src={promoMochilaAberta.url}
               alt=""
               aria-hidden="true"
               loading="lazy"
@@ -600,7 +592,7 @@ function Hero() {
             }}
           >
             <img
-              src={banner50OffV2.url}
+              src={promoSolzeDetalhe.url}
               alt=""
               aria-hidden="true"
               loading="lazy"
