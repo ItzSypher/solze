@@ -157,6 +157,7 @@ function HomePage() {
   useCartSync();
   useTabTitle("Solze — Acessórios para Ferramentas");
   const [idle, setIdle] = useState(false);
+  const cartOpen = useCartStore((s) => s.isOpen);
 
   useEffect(() => {
     const w = window as any;
@@ -209,7 +210,7 @@ function HomePage() {
       </main>
       <Subfooter />
       <Footer />
-      {idle && (
+      {(idle || cartOpen) && (
         <Suspense fallback={null}>
           <CartDrawer />
           <WelcomePopup />
