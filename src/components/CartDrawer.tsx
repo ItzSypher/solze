@@ -18,8 +18,11 @@ import {
   Zap,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
 import { useCartStore } from "@/stores/cartStore";
+import { fetchProducts } from "@/lib/shopify";
 import logoAsset from "@/assets/solze-logo.png.asset.json";
+
 
 function formatBRL(amount: number) {
   try {
