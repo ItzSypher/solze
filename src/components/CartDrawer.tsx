@@ -279,7 +279,7 @@ export function CartDrawer() {
                   </span>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Frete e impostos calculados no checkout.
+                  Frete e impostos calculados na finalização.
                 </p>
                 <Button
                   onClick={handleCheckout}

@@ -79,7 +79,7 @@ function CollectionPage() {
             animate={{ opacity: 1, y: 0 }}
             className="flex items-center gap-2 text-xs uppercase tracking-[0.18em] text-white/70 mb-6"
           >
-            <Link to="/" className="hover:text-white">Home</Link>
+            <Link to="/" className="hover:text-white">Início</Link>
             <ChevronRight className="h-3 w-3" />
             <Link to="/produtos" className="hover:text-white">Produtos</Link>
             <ChevronRight className="h-3 w-3" />

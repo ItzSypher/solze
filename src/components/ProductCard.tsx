@@ -109,7 +109,7 @@ export function ProductCard({ product, index = 0 }: { product: ShopifyProduct; i
             onClick={handleAdd}
             disabled={isLoading || !variant}
             className="absolute bottom-3 right-3 h-10 w-10 rounded-full bg-foreground text-background opacity-0 transition-opacity group-hover:opacity-100 hover:bg-foreground/90"
-            aria-label="Add to cart"
+            aria-label="Adicionar ao carrinho"
           >
             {isLoading ? (
               <Loader2 className="h-4 w-4 animate-spin" />
