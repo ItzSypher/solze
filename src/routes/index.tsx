@@ -124,13 +124,13 @@ function HomePage() {
           eyebrow="Top da semana"
           limit={8}
         />
+        <LifestyleBanner variant="operator" />
         <ProductsCarousel
           title="LANÇAMENTOS"
           eyebrow="Acabou de chegar"
           limit={20}
           query="tag:lancamentos OR tag:new"
         />
-        <LifestyleBanner variant="operator" />
         <LifestyleBanner variant="edc" />
         <ProductsCarousel
           title="OFERTAS DA SEMANA"
