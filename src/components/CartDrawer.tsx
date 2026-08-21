@@ -67,11 +67,15 @@ export function CartDrawer() {
     removeItem,
     getCheckoutUrl,
     syncCart,
+    addItem,
   } = useCartStore();
+
+  const bumps = useOrderBumps(items.map((i) => i.product.node.handle));
 
   useEffect(() => {
     if (isOpen) syncCart();
   }, [isOpen, syncCart]);
+
 
   const totalItems = items.reduce((s, i) => s + i.quantity, 0);
   const currency = items[0]?.price.currencyCode || "BRL";
