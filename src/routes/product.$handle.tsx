@@ -252,7 +252,7 @@ function ProductPage() {
           <p className="text-[11px] font-display uppercase tracking-[0.25em]" style={{ color: OLIVE }}>
             / SOLZE TACTICAL
           </p>
-          <h1 className="font-display uppercase mt-3 text-3xl sm:text-5xl font-bold break-words leading-[1.05] text-balance">
+          <h1 className="font-display uppercase mt-3 text-2xl sm:text-4xl lg:text-5xl font-bold break-words leading-[1.05] text-balance">
             {product.node.title}
           </h1>
 
@@ -280,7 +280,7 @@ function ProductPage() {
               </p>
             )}
             <div className="flex items-baseline gap-3">
-              <span className="font-display text-4xl sm:text-5xl font-bold" style={{ color: RED }}>
+              <span className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold whitespace-nowrap" style={{ color: RED }}>
                 {formatBRL(price.amount)}
               </span>
               {onSale && (
