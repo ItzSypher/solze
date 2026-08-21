@@ -83,16 +83,8 @@ const HERO_SLIDES = [
     title: "FEITO PRA QUEM\nNÃO PODE PARAR",
     cta: "COMPRAR AGORA",
     bg: "linear-gradient(120deg,#1f2a18 0%,#4A5A3B 60%,#6b7a55 100%)",
-    img: bannerPodeParar.url,
+    img: heroBolsaVerde.url,
     link: "/collection/lancamentos",
-  },
-  {
-    eyebrow: "Frete grátis acima de R$ 399",
-    title: "FEITO PRA AGUENTAR\nO TRABALHO",
-    cta: "VER COLEÇÃO",
-    bg: "linear-gradient(120deg,#0f0f0f 0%,#2a2a2a 60%,#4A5A3B 100%)",
-    img: heroMochilas.url,
-    link: "/collection/mochilas",
   },
   {
     eyebrow: "Material reforçado",
