@@ -359,7 +359,7 @@ function ProductPage() {
             className="mt-6 w-full h-16 rounded-[20px] font-display uppercase tracking-wider text-base sm:text-lg font-bold text-white transition-transform hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center gap-2 px-4"
             style={{ backgroundColor: RED }}
           >
-            {isAdding ? <Loader2 className="h-5 w-5 animate-spin" /> : <>🛒 COMPRAR AGORA</>}
+            {isAdding ? <Loader2 className="h-5 w-5 animate-spin" /> : <>COMPRAR AGORA</>}
           </button>
           <button
             onClick={handleAdd}
