@@ -23,15 +23,25 @@ import {
   ArrowRight,
   Loader2,
 } from "lucide-react";
-import { CartDrawer } from "@/components/CartDrawer";
 import { useCartSync } from "@/hooks/useCartSync";
 import { useTabTitle } from "@/hooks/useTabTitle";
 import { useCartStore } from "@/stores/cartStore";
 import { fetchProducts, type ShopifyProduct } from "@/lib/shopify";
 import { CATEGORIES } from "@/lib/categories";
-import { InstagramFeed as IGFeed } from "@/components/InstagramFeed";
-import { WelcomePopup } from "@/components/WelcomePopup";
-import { LifestyleBanner } from "@/components/LifestyleBanner";
+
+const CartDrawer = lazy(() =>
+  import("@/components/CartDrawer").then((m) => ({ default: m.CartDrawer })),
+);
+const IGFeed = lazy(() =>
+  import("@/components/InstagramFeed").then((m) => ({ default: m.InstagramFeed })),
+);
+const WelcomePopup = lazy(() =>
+  import("@/components/WelcomePopup").then((m) => ({ default: m.WelcomePopup })),
+);
+const LifestyleBanner = lazy(() =>
+  import("@/components/LifestyleBanner").then((m) => ({ default: m.LifestyleBanner })),
+);
+
 import logoAsset from "@/assets/solze-logo.png.asset.json";
 import heroDurar from "@/assets/hero-durar.png.asset.json";
 import heroMochilas from "@/assets/hero-mochilas.png.asset.json";
