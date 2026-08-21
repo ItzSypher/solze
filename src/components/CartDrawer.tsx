@@ -18,8 +18,11 @@ import {
   Zap,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
 import { useCartStore } from "@/stores/cartStore";
+import { fetchProducts } from "@/lib/shopify";
 import logoAsset from "@/assets/solze-logo.png.asset.json";
+
 
 function formatBRL(amount: number) {
   try {
@@ -36,11 +39,22 @@ function formatPrice(amount: number, _currency?: string) {
   return formatBRL(amount);
 }
 
-const ORDER_BUMPS = [
-  { name: "Cinto Porta-Ferramentas", price: 19.9, tag: "+ AOV" },
-  { name: "Estojo Multiuso", price: 29.9, tag: "Pro" },
-  { name: "Patch Velcro Solze", price: 9.9, tag: "Free gift" },
-];
+function useOrderBumps(excludeHandles: string[]) {
+  const { data = [] } = useQuery({
+    queryKey: ["products", { query: undefined, limit: 12 }],
+    queryFn: () => fetchProducts(12),
+    staleTime: 5 * 60 * 1000,
+  });
+  return data
+    .filter((p) => !excludeHandles.includes(p.node.handle))
+    .sort(
+      (a, b) =>
+        parseFloat(a.node.priceRange.minVariantPrice.amount) -
+        parseFloat(b.node.priceRange.minVariantPrice.amount),
+    )
+    .slice(0, 3);
+}
+
 
 export function CartDrawer() {
   const {
@@ -53,11 +67,15 @@ export function CartDrawer() {
     removeItem,
     getCheckoutUrl,
     syncCart,
+    addItem,
   } = useCartStore();
+
+  const bumps = useOrderBumps(items.map((i) => i.product.node.handle));
 
   useEffect(() => {
     if (isOpen) syncCart();
   }, [isOpen, syncCart]);
+
 
   const totalItems = items.reduce((s, i) => s + i.quantity, 0);
   const currency = items[0]?.price.currencyCode || "BRL";
@@ -181,42 +199,74 @@ export function CartDrawer() {
                   );
                 })}
 
-                {/* Order Bump */}
-                <div className="mt-6 rounded-2xl border border-accent/30 bg-accent/5 p-4">
-                  <p className="text-[11px] uppercase tracking-[0.22em] text-accent flex items-center gap-1.5">
-                    <Zap className="h-3 w-3" /> Adicione agora
-                  </p>
-                  <p className="mt-1 font-display text-sm font-bold">
-                    Complete seu loadout
-                  </p>
-                  <div className="mt-3 space-y-2">
-                    {ORDER_BUMPS.map((b) => (
-                      <motion.button
-                        key={b.name}
-                        whileHover={{ x: 2 }}
-                        whileTap={{ scale: 0.98 }}
-                        className="w-full flex items-center justify-between gap-3 rounded-xl bg-card border border-border p-3 hover:border-accent/40 transition-colors text-left group"
-                      >
-                        <span className="flex items-center gap-2.5 min-w-0">
-                          <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent/15 text-accent group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
-                            <PlusIcon className="h-4 w-4" />
-                          </span>
-                          <span className="min-w-0">
-                            <span className="block text-sm font-medium truncate">
-                              {b.name}
+                {/* Order Bump — produtos reais da loja */}
+                {bumps.length > 0 && (
+                  <div className="mt-6 rounded-2xl border border-accent/30 bg-accent/5 p-4">
+                    <p className="text-[11px] uppercase tracking-[0.22em] text-accent flex items-center gap-1.5">
+                      <Zap className="h-3 w-3" /> Adicione agora
+                    </p>
+                    <p className="mt-1 font-display text-sm font-bold">
+                      Complete seu kit
+                    </p>
+                    <div className="mt-3 space-y-2">
+                      {bumps.map((p) => {
+                        const v = p.node.variants.edges[0]?.node;
+                        const img = p.node.images.edges[0]?.node;
+                        return (
+                          <motion.button
+                            key={p.node.id}
+                            whileHover={{ x: 2 }}
+                            whileTap={{ scale: 0.98 }}
+                            disabled={!v || isLoading}
+                            onClick={() =>
+                              v &&
+                              addItem({
+                                product: p,
+                                variantId: v.id,
+                                variantTitle: v.title,
+                                price: v.price,
+                                quantity: 1,
+                                selectedOptions: v.selectedOptions || [],
+                              })
+                            }
+                            className="w-full flex items-center justify-between gap-3 rounded-xl bg-card border border-border p-3 hover:border-accent/40 transition-colors text-left group disabled:opacity-60"
+                          >
+                            <span className="flex items-center gap-2.5 min-w-0">
+                              <span className="h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-secondary">
+                                {img && (
+                                  <img
+                                    src={img.url}
+                                    alt={p.node.title}
+                                    className="h-full w-full object-contain"
+                                    loading="lazy"
+                                  />
+                                )}
+                              </span>
+                              <span className="min-w-0">
+                                <span className="block text-sm font-medium truncate">
+                                  {p.node.title}
+                                </span>
+                                <span className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-muted-foreground">
+                                  <PlusIcon className="h-3 w-3" /> Adicionar
+                                </span>
+                              </span>
                             </span>
-                            <span className="block text-[10px] uppercase tracking-wider text-muted-foreground">
-                              {b.tag}
+                            <span className="font-display text-sm font-bold text-accent whitespace-nowrap shrink-0">
+                              +{" "}
+                              {formatBRL(
+                                parseFloat(
+                                  (v?.price ?? p.node.priceRange.minVariantPrice)
+                                    .amount,
+                                ),
+                              )}
                             </span>
-                          </span>
-                        </span>
-                        <span className="font-display text-sm font-bold text-accent whitespace-nowrap shrink-0">
-                          + {formatBRL(b.price)}
-                        </span>
-                      </motion.button>
-                    ))}
+                          </motion.button>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
+                )}
+
               </div>
 
               <div className="border-t border-border px-6 py-5 space-y-3 bg-card">

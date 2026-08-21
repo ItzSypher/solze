@@ -12,7 +12,6 @@ import {
   X,
   Plus,
   Star,
-  Play,
   Minus,
   Package,
   Award,
@@ -20,7 +19,7 @@ import {
 } from "lucide-react";
 import { Header, Subfooter, Footer } from "@/routes/index";
 import { CartDrawer } from "@/components/CartDrawer";
-import { fetchProduct } from "@/lib/shopify";
+import { fetchProduct, fetchProducts } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { useCartSync } from "@/hooks/useCartSync";
 import { useTabTitle } from "@/hooks/useTabTitle";
@@ -82,6 +81,12 @@ function ProductPage() {
     queryFn: () => fetchProduct(handle),
   });
 
+  const { data: allProducts = [] } = useQuery({
+    queryKey: ["products", { query: undefined, limit: 12 }],
+    queryFn: () => fetchProducts(12),
+    staleTime: 5 * 60 * 1000,
+  });
+
   const addItem = useCartStore((s) => s.addItem);
   const isAdding = useCartStore((s) => s.isLoading);
 
@@ -90,6 +95,7 @@ function ProductPage() {
   const [qty, setQty] = useState(1);
   const [cep, setCep] = useState("");
   const [shippingShown, setShippingShown] = useState(false);
+
 
   const variant = useMemo(() => {
     if (!product) return null;
@@ -138,11 +144,49 @@ function ProductPage() {
     }
   };
 
+  const bundleExtras = allProducts
+    .filter((p) => p.node.handle !== handle)
+    .sort(
+      (a, b) =>
+        parseFloat(a.node.priceRange.minVariantPrice.amount) -
+        parseFloat(b.node.priceRange.minVariantPrice.amount),
+    )
+    .slice(0, 2);
+
+  const bundleTotal =
+    parseFloat(price.amount) +
+    bundleExtras.reduce(
+      (s, p) =>
+        s +
+        parseFloat(
+          (p.node.variants.edges[0]?.node?.price ?? p.node.priceRange.minVariantPrice).amount,
+        ),
+      0,
+    );
+  const bundleDiscount = Math.round(bundleTotal * 0.1);
+
+  const handleAddBundle = async () => {
+    await handleAdd();
+    for (const p of bundleExtras) {
+      const v = p.node.variants.edges[0]?.node;
+      if (!v) continue;
+      await addItem({
+        product: p,
+        variantId: v.id,
+        variantTitle: v.title,
+        price: v.price,
+        quantity: 1,
+        selectedOptions: v.selectedOptions || [],
+      });
+    }
+  };
+
   const firstImage = images[0]?.node;
   const heroImg = images[imgIdx]?.node ?? firstImage;
 
+
   return (
-    <div className="min-h-screen bg-white text-neutral-900 font-sans pb-24">
+    <div className="min-h-screen bg-white text-neutral-900 font-sans pb-32 sm:pb-24 overflow-x-hidden">
       <Header />
 
       {/* Breadcrumb */}
@@ -207,7 +251,7 @@ function ProductPage() {
           <p className="text-[11px] font-display uppercase tracking-[0.25em]" style={{ color: OLIVE }}>
             / SOLZE TACTICAL
           </p>
-          <h1 className="font-display uppercase mt-3 text-4xl sm:text-5xl font-bold leading-[1.05] text-balance">
+          <h1 className="font-display uppercase mt-3 text-3xl sm:text-5xl font-bold break-words leading-[1.05] text-balance">
             {product.node.title}
           </h1>
 
@@ -455,81 +499,81 @@ function ProductPage() {
       </section>
 
       {/* ============ SECTION 3: COMPRE JUNTO ============ */}
-      <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-24">
-        <motion.div {...fade()}>
-          <p className="font-display uppercase tracking-[0.25em] text-xs mb-2" style={{ color: RED }}>
-            Economize comprando o kit
-          </p>
-          <h2 className="font-display uppercase text-3xl lg:text-4xl font-bold">COMPRE JUNTO</h2>
+      {bundleExtras.length > 0 && (
+        <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-24">
+          <motion.div {...fade()}>
+            <p className="font-display uppercase tracking-[0.25em] text-xs mb-2" style={{ color: RED }}>
+              Economize comprando o kit
+            </p>
+            <h2 className="font-display uppercase text-3xl lg:text-4xl font-bold">COMPRE JUNTO</h2>
 
-          <div className="mt-8 rounded-[20px] border-2 border-neutral-200 p-6 lg:p-10">
-            <div className="grid lg:grid-cols-[1fr_auto_1fr_auto_1fr_auto_auto] items-center gap-4 lg:gap-6">
-              {/* Main */}
-              <BundleItem
-                img={firstImage?.url}
-                title={product.node.title}
-                price={formatBRL(price.amount)}
-                main
-              />
-              <Plus className="h-6 w-6 text-neutral-400 mx-auto" />
-              <BundleItem
-                title="Organizador Multiuso"
-                price="R$ 149"
-                emoji="🎒"
-              />
-              <Plus className="h-6 w-6 text-neutral-400 mx-auto" />
-              <BundleItem
-                title="Cinto Tático Solze"
-                price="R$ 199"
-                emoji="🪢"
-              />
-              <div className="h-px lg:h-24 lg:w-px bg-neutral-200 mx-auto" />
-              {/* Total */}
-              <div className="text-center lg:text-left">
-                <p className="text-xs font-display uppercase tracking-wider text-neutral-500">Total do kit</p>
-                <p className="text-sm line-through text-neutral-400">
-                  {formatBRL((parseFloat(price.amount) + 348).toString())}
-                </p>
-                <p className="font-display text-3xl font-bold" style={{ color: RED }}>
-                  {formatBRL((parseFloat(price.amount) + 348 - 80).toString())}
-                </p>
-                <p className="text-[11px] font-display uppercase tracking-wider mt-1" style={{ color: OLIVE }}>
-                  Economize R$ 80
-                </p>
+            <div className="mt-8 rounded-[20px] border-2 border-neutral-200 p-4 sm:p-6 lg:p-10">
+              <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-6">
+                <div className="grid grid-cols-3 gap-2 sm:gap-4 lg:flex lg:items-center lg:gap-6 lg:flex-1">
+                  <BundleItem
+                    img={firstImage?.url}
+                    title={product.node.title}
+                    price={formatBRL(price.amount)}
+                    main
+                  />
+                  {bundleExtras.map((p) => (
+                    <BundleItem
+                      key={p.node.id}
+                      img={p.node.images.edges[0]?.node?.url}
+                      title={p.node.title}
+                      price={formatBRL(
+                        (p.node.variants.edges[0]?.node?.price ?? p.node.priceRange.minVariantPrice).amount,
+                      )}
+                    />
+                  ))}
+                </div>
+                <div className="h-px w-full lg:h-24 lg:w-px bg-neutral-200 shrink-0" />
+                <div className="text-center lg:text-left shrink-0">
+                  <p className="text-xs font-display uppercase tracking-wider text-neutral-500">Total do kit</p>
+                  <p className="text-sm line-through text-neutral-400">{formatBRL(bundleTotal.toString())}</p>
+                  <p className="font-display text-3xl font-bold" style={{ color: RED }}>
+                    {formatBRL((bundleTotal - bundleDiscount).toString())}
+                  </p>
+                  <p className="text-[11px] font-display uppercase tracking-wider mt-1" style={{ color: OLIVE }}>
+                    Economize {formatBRL(bundleDiscount.toString())}
+                  </p>
+                </div>
               </div>
+              <button
+                onClick={handleAddBundle}
+                disabled={isAdding}
+                className="mt-8 w-full h-14 rounded-[20px] font-display uppercase tracking-wider text-base sm:text-lg font-bold text-white transition-transform hover:scale-[1.01] disabled:opacity-50"
+                style={{ backgroundColor: RED }}
+              >
+                ADICIONAR KIT AO CARRINHO
+              </button>
             </div>
-            <button
-              className="mt-8 w-full h-14 rounded-[20px] font-display uppercase tracking-wider text-lg font-bold text-white transition-transform hover:scale-[1.01]"
-              style={{ backgroundColor: RED }}
-            >
-              ADICIONAR KIT AO CARRINHO
-            </button>
-          </div>
-        </motion.div>
-      </section>
+          </motion.div>
+        </section>
+      )}
 
-      {/* ============ SECTION 4: DESCRIPTION + VIDEO ============ */}
+
+      {/* ============ SECTION 4: DESCRIPTION ============ */}
       <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-24">
         <motion.div {...fade()} className="grid lg:grid-cols-2 gap-10 items-center">
           <div>
             <p className="font-display uppercase tracking-[0.25em] text-xs mb-2" style={{ color: OLIVE }}>
               Engenharia Solze
             </p>
-            <h2 className="font-display uppercase text-4xl lg:text-5xl font-bold leading-[1.05]">
+            <h2 className="font-display uppercase text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.05]">
               CONSTRUÍDA<br />PARA NÃO FALHAR<br /><span style={{ color: RED }}>QUANDO IMPORTA.</span>
             </h2>
             <p className="text-neutral-600 leading-relaxed mt-6">
-              Cada costura, cada zíper, cada milímetro de tecido foi pensado para suportar as condições mais brutais.
-              Desenvolvida em parceria com profissionais que confiam suas vidas ao equipamento, a {product.node.title} é mais
-              do que uma bolsa — é uma ferramenta de combate ao caos do dia a dia.
+              Cada costura, cada zíper, cada milímetro de tecido foi pensado para suportar a rotina pesada de quem
+              trabalha com as mãos. A {product.node.title} é feita para aguentar o dia a dia na obra, na oficina e na rua.
             </p>
             <ul className="mt-6 space-y-3">
               {[
-                "Lona militar Cordura® 1000D impermeabilizada",
-                "Fundo rígido removível em polietileno HDPE",
-                "Alças ergonômicas com reforço em couro legítimo",
-                "Compartimentos modulares para ferramentas",
-                "Zíperes YKK® com proteção contra água",
+                "Lona resistente impermeabilizada",
+                "Fundo rígido reforçado",
+                "Alças ergonômicas com reforço",
+                "Compartimentos organizadores para ferramentas",
+                "Zíperes reforçados",
               ].map((s) => (
                 <li key={s} className="flex items-start gap-3 text-sm">
                   <Check className="h-5 w-5 mt-0.5 shrink-0" style={{ color: OLIVE }} />
@@ -540,37 +584,25 @@ function ProductPage() {
             <div className="mt-8 inline-flex items-center gap-3 rounded-[20px] border border-neutral-200 px-5 py-3">
               <Award className="h-5 w-5" style={{ color: GOLD }} />
               <span className="text-sm">
-                <strong className="font-display uppercase tracking-wider">Field-tested</strong>
-                <span className="text-neutral-500"> em mais de 30 operações reais</span>
+                <strong className="font-display uppercase tracking-wider">Testado no trabalho</strong>
+                <span className="text-neutral-500"> por profissionais todos os dias</span>
               </span>
             </div>
           </div>
 
-          {/* Video / lifestyle */}
-          <div className="relative aspect-[4/5] rounded-[20px] overflow-hidden group cursor-pointer">
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(160deg, #1a1f12 0%, #4A5A3B 60%, #6b7a55 100%)",
-              }}
-            />
-            <div className="absolute inset-0 flex items-center justify-center text-9xl opacity-30">
-              🎒
+          {firstImage && (
+            <div className="relative aspect-[4/5] rounded-[20px] overflow-hidden bg-neutral-50 border border-neutral-200">
+              <img
+                src={firstImage.url}
+                alt={product.node.title}
+                loading="lazy"
+                className="h-full w-full object-contain p-6"
+              />
             </div>
-            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
-            <button className="absolute inset-0 flex items-center justify-center">
-              <div className="h-24 w-24 rounded-full bg-white/95 backdrop-blur flex items-center justify-center shadow-2xl transition-transform group-hover:scale-110">
-                <Play className="h-10 w-10 ml-1" style={{ color: RED }} fill={RED} />
-              </div>
-            </button>
-            <div className="absolute bottom-6 left-6 right-6 text-white">
-              <p className="font-display uppercase tracking-wider text-xs opacity-80">Field test</p>
-              <p className="font-display uppercase text-2xl font-bold mt-1">VEJA EM AÇÃO — 3 MIN</p>
-            </div>
-          </div>
+          )}
         </motion.div>
       </section>
+
 
       {/* ============ SECTION 5: REVIEWS + INSTAGRAM ============ */}
       <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-24">
@@ -701,16 +733,16 @@ function ProductPage() {
 
       {/* ============ STICKY BUY BAR ============ */}
       <div className="fixed bottom-0 inset-x-0 z-40 bg-white border-t border-neutral-200 shadow-[0_-8px_30px_rgba(0,0,0,0.08)]">
-        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 h-20 flex items-center gap-4">
+        <div className="mx-auto max-w-[1400px] px-3 sm:px-6 h-auto min-h-16 sm:h-20 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] flex items-center gap-3 sm:gap-4">
           {firstImage && (
             <div className="h-14 w-14 rounded-[20px] bg-neutral-50 border border-neutral-200 overflow-hidden shrink-0 hidden sm:block">
               <img src={firstImage.url} alt="" className="h-full w-full object-contain p-1" />
             </div>
           )}
           <div className="flex-1 min-w-0">
-            <p className="font-display uppercase text-sm font-bold truncate">{product.node.title}</p>
+            <p className="font-display uppercase text-xs sm:text-sm font-bold truncate">{product.node.title}</p>
             <div className="flex items-baseline gap-2">
-              <span className="font-display text-xl font-bold" style={{ color: RED }}>
+              <span className="font-display text-lg sm:text-xl font-bold" style={{ color: RED }}>
                 {formatBRL(price.amount)}
               </span>
               <span className="text-xs text-neutral-500 hidden sm:inline">
@@ -721,7 +753,7 @@ function ProductPage() {
           <button
             onClick={handleAdd}
             disabled={isAdding || !variant?.availableForSale}
-            className="h-12 px-6 sm:px-10 rounded-[20px] font-display uppercase tracking-wider text-sm font-bold text-white transition-transform hover:scale-[1.02] disabled:opacity-50 inline-flex items-center gap-2"
+            className="h-11 sm:h-12 px-4 sm:px-10 shrink-0 rounded-[20px] font-display uppercase tracking-wider text-xs sm:text-sm font-bold text-white transition-transform hover:scale-[1.02] disabled:opacity-50 inline-flex items-center gap-2"
             style={{ backgroundColor: RED }}
           >
             {isAdding ? <Loader2 className="h-4 w-4 animate-spin" /> : "COMPRAR AGORA"}
