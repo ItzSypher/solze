@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { Header, Subfooter, Footer } from "@/routes/index";
 import { CartDrawer } from "@/components/CartDrawer";
+import { ProductReviews } from "@/components/ProductReviews";
 import { fetchProduct, fetchProducts } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { useCartSync } from "@/hooks/useCartSync";
@@ -199,7 +200,7 @@ function ProductPage() {
       {/* ============ SECTION 1: BUY BOX ============ */}
       <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-6 grid gap-10 lg:grid-cols-2">
         {/* Gallery */}
-        <motion.div {...fadeIn(0.05)}>
+        <motion.div {...fadeIn(0.05)} className="min-w-0 w-full">
           <div className="relative aspect-square lg:aspect-[4/5] overflow-hidden rounded-[20px] bg-neutral-50 border border-neutral-200">
             {heroImg ? (
               <motion.img
@@ -247,7 +248,7 @@ function ProductPage() {
         </motion.div>
 
         {/* Info */}
-        <motion.div {...fadeIn(0.15)}>
+        <motion.div {...fadeIn(0.15)} className="min-w-0 w-full">
           <p className="text-[11px] font-display uppercase tracking-[0.25em]" style={{ color: OLIVE }}>
             / SOLZE TACTICAL
           </p>
@@ -256,14 +257,15 @@ function ProductPage() {
           </h1>
 
           {/* rating row */}
-          <div className="mt-4 flex items-center gap-3 text-sm">
+          <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
             <div className="flex items-center gap-0.5" style={{ color: GOLD }}>
               {[1, 2, 3, 4, 5].map((s) => (
                 <Star key={s} className="h-4 w-4 fill-current" />
               ))}
             </div>
-            <span className="font-display font-bold">4.9</span>
-            <span className="text-neutral-500">(287 avaliações)</span>
+            <a href="#avaliacoes" className="text-neutral-500 hover:text-neutral-900 underline-offset-2 hover:underline">
+              Avaliações
+            </a>
             <span className="text-neutral-300">|</span>
             <span className="inline-flex items-center gap-1 text-neutral-500">
               <Package className="h-3.5 w-3.5" /> Em estoque
@@ -278,7 +280,7 @@ function ProductPage() {
               </p>
             )}
             <div className="flex items-baseline gap-3">
-              <span className="font-display text-5xl font-bold" style={{ color: RED }}>
+              <span className="font-display text-4xl sm:text-5xl font-bold" style={{ color: RED }}>
                 {formatBRL(price.amount)}
               </span>
               {onSale && (
@@ -605,89 +607,9 @@ function ProductPage() {
 
 
       {/* ============ SECTION 5: REVIEWS + INSTAGRAM ============ */}
-      <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-24">
-        <motion.div {...fade()} className="rounded-[20px] border border-neutral-200 p-8 lg:p-12 grid lg:grid-cols-[280px_1fr] gap-10">
-          {/* Score */}
-          <div className="text-center lg:text-left border-b lg:border-b-0 lg:border-r border-neutral-200 lg:pr-10 pb-8 lg:pb-0">
-            <p className="font-display uppercase tracking-[0.25em] text-xs text-neutral-500">Avaliações</p>
-            <p className="font-display text-7xl font-bold leading-none mt-2">4.9</p>
-            <div className="flex items-center justify-center lg:justify-start gap-0.5 mt-3" style={{ color: GOLD }}>
-              {[1, 2, 3, 4, 5].map((s) => (
-                <Star key={s} className="h-5 w-5 fill-current" />
-              ))}
-            </div>
-            <p className="text-sm text-neutral-500 mt-2">Baseado em 287 avaliações</p>
-            <div className="mt-6 space-y-2">
-              {[
-                [5, 92],
-                [4, 6],
-                [3, 1],
-                [2, 0],
-                [1, 1],
-              ].map(([s, p]) => (
-                <div key={s} className="flex items-center gap-2 text-xs">
-                  <span className="w-3 font-display font-bold">{s}</span>
-                  <Star className="h-3 w-3" style={{ color: GOLD }} fill={GOLD} />
-                  <div className="flex-1 h-1.5 rounded-full bg-neutral-100 overflow-hidden">
-                    <div className="h-full rounded-full" style={{ width: `${p}%`, backgroundColor: OLIVE }} />
-                  </div>
-                  <span className="w-8 text-right text-neutral-500">{p}%</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Reviews list */}
-          <div className="space-y-6">
-            {[
-              {
-                name: "Rafael M.",
-                role: "Eletricista Industrial",
-                t: "Uso essa bolsa todo dia há 8 meses. Carrega alicate, multímetro, ferramentas pesadas — nem um arranhão. Vale cada centavo.",
-                d: "Há 2 semanas",
-              },
-              {
-                name: "Cap. Eduardo S.",
-                role: "Forças Especiais",
-                t: "Equipamento sério. Peguei chuva na obra e o fundo rígido salvou minhas ferramentas. Resistência de verdade.",
-                d: "Há 1 mês",
-              },
-              {
-                name: "Bruno K.",
-                role: "Bombeiro Civil",
-                t: "Comparei com outras 3 marcas. A diferença na qualidade do tecido e do fundo é absurda. Recomendo de olhos fechados.",
-                d: "Há 1 mês",
-              },
-            ].map((r, i) => (
-              <motion.div
-                key={i}
-                {...fade(i * 0.1)}
-                className="border-b border-neutral-100 last:border-0 pb-6 last:pb-0"
-              >
-                <div className="flex items-center gap-3">
-                  <div
-                    className="h-11 w-11 rounded-full flex items-center justify-center text-white font-display font-bold"
-                    style={{ backgroundColor: OLIVE }}
-                  >
-                    {r.name[0]}
-                  </div>
-                  <div>
-                    <p className="font-display uppercase tracking-wider text-sm font-bold">{r.name}</p>
-                    <p className="text-xs text-neutral-500">{r.role} · {r.d}</p>
-                  </div>
-                  <div className="ml-auto flex items-center gap-0.5" style={{ color: GOLD }}>
-                    {[1, 2, 3, 4, 5].map((s) => (
-                      <Star key={s} className="h-3.5 w-3.5 fill-current" />
-                    ))}
-                  </div>
-                </div>
-                <p className="text-neutral-700 mt-3 text-sm leading-relaxed">"{r.t}"</p>
-              </motion.div>
-            ))}
-            <button className="w-full h-12 rounded-[20px] border-2 border-neutral-900 font-display uppercase tracking-wider text-sm font-bold hover:bg-neutral-900 hover:text-white transition-colors">
-              Ver todas as 287 avaliações
-            </button>
-          </div>
+      <section id="avaliacoes" className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-24 scroll-mt-24">
+        <motion.div {...fade()}>
+          <ProductReviews handle={handle} />
         </motion.div>
 
         {/* Instagram UGC */}

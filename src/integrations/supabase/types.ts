@@ -62,6 +62,39 @@ export type Database = {
         }
         Relationships: []
       }
+      product_reviews: {
+        Row: {
+          author_name: string
+          author_role: string | null
+          body: string
+          created_at: string
+          id: string
+          product_handle: string
+          rating: number
+          user_id: string
+        }
+        Insert: {
+          author_name: string
+          author_role?: string | null
+          body: string
+          created_at?: string
+          id?: string
+          product_handle: string
+          rating: number
+          user_id: string
+        }
+        Update: {
+          author_name?: string
+          author_role?: string | null
+          body?: string
+          created_at?: string
+          id?: string
+          product_handle?: string
+          rating?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
