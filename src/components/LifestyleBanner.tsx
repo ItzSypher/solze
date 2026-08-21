@@ -5,9 +5,7 @@ import essencialImg from "@/assets/essencial.png.asset.json";
 import promo50off from "@/assets/banner-50-off-v3.png.asset.json";
 import bannerPodeParar from "@/assets/banner-feito-pra-quem-nao-pode-parar.png.asset.json";
 
-const OLIVE = "#4A5A3B";
 const GOLD = "#C6A87C";
-const RED = "#E63946";
 
 type Variant = "operator" | "edc" | "outlet";
 
