@@ -1,6 +1,6 @@
 import { subscribeEmail } from "@/lib/newsletter";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, lazy, Suspense } from "react";
 import { useQuery } from "@tanstack/react-query";
 import {
   Search,
