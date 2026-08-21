@@ -67,7 +67,7 @@ const OLIVE = "#4A5A3B";
 const RED = "#E63946";
 const GOLD = "#C6A87C";
 
-const DEPARTMENTS = CATEGORIES.filter((c) => c.handle !== "outlet");
+const DEPARTMENTS = CATEGORIES.filter((c) => c.handle !== "outlet" && c.handle !== "lancamentos");
 
 const HERO_SLIDES = [
   {
