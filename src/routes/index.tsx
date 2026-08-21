@@ -63,7 +63,15 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:url", content: "https://shop-love-joy.lovable.app/" },
     ],
-    links: [{ rel: "canonical", href: "https://shop-love-joy.lovable.app/" }],
+    links: [
+      { rel: "canonical", href: "https://shop-love-joy.lovable.app/" },
+      {
+        rel: "preload",
+        as: "image",
+        href: heroBolsaVerde.url,
+        fetchpriority: "high",
+      },
+    ],
   }),
   component: HomePage,
 });
