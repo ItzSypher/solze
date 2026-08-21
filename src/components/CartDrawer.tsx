@@ -36,11 +36,22 @@ function formatPrice(amount: number, _currency?: string) {
   return formatBRL(amount);
 }
 
-const ORDER_BUMPS = [
-  { name: "Cinto Porta-Ferramentas", price: 19.9, tag: "+ AOV" },
-  { name: "Estojo Multiuso", price: 29.9, tag: "Pro" },
-  { name: "Patch Velcro Solze", price: 9.9, tag: "Free gift" },
-];
+function useOrderBumps(excludeHandles: string[]) {
+  const { data = [] } = useQuery({
+    queryKey: ["products", { query: undefined, limit: 12 }],
+    queryFn: () => fetchProducts(12),
+    staleTime: 5 * 60 * 1000,
+  });
+  return data
+    .filter((p) => !excludeHandles.includes(p.node.handle))
+    .sort(
+      (a, b) =>
+        parseFloat(a.node.priceRange.minVariantPrice.amount) -
+        parseFloat(b.node.priceRange.minVariantPrice.amount),
+    )
+    .slice(0, 3);
+}
+
 
 export function CartDrawer() {
   const {
