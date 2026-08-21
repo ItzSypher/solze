@@ -199,7 +199,7 @@ function ProductPage() {
       {/* ============ SECTION 1: BUY BOX ============ */}
       <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-6 grid gap-10 lg:grid-cols-2">
         {/* Gallery */}
-        <motion.div {...fadeIn(0.05)}>
+        <motion.div {...fadeIn(0.05)} className="min-w-0 w-full">
           <div className="relative aspect-square lg:aspect-[4/5] overflow-hidden rounded-[20px] bg-neutral-50 border border-neutral-200">
             {heroImg ? (
               <motion.img
