@@ -5,9 +5,7 @@ import essencialImg from "@/assets/essencial.png.asset.json";
 import promo50off from "@/assets/banner-50-off-v3.png.asset.json";
 import bannerPodeParar from "@/assets/banner-feito-pra-quem-nao-pode-parar.png.asset.json";
 
-const OLIVE = "#4A5A3B";
 const GOLD = "#C6A87C";
-const RED = "#E63946";
 
 type Variant = "operator" | "edc" | "outlet";
 
@@ -33,7 +31,7 @@ const VARIANTS: Record<
     cta: "Ver linha profissional",
     href: "/collection/$handle",
     handle: "bolsas",
-    bg: `linear-gradient(115deg, #0f150a 0%, ${OLIVE} 55%, #6b7a55 100%)`,
+    bg: "linear-gradient(115deg, #101010 0%, #1c1c1c 60%, #2a2a2a 100%)",
     img: bannerPodeParar.url,
     accent: GOLD,
     icon: Shield,
@@ -45,7 +43,7 @@ const VARIANTS: Record<
     cta: "Ver acessórios",
     href: "/collection/$handle",
     handle: "acessorios",
-    bg: `linear-gradient(115deg, #1a1a1a 0%, #2a2a2a 60%, ${GOLD} 130%)`,
+    bg: "linear-gradient(115deg, #101010 0%, #1c1c1c 60%, #2a2a2a 100%)",
     img: essencialImg.url,
     accent: GOLD,
     icon: Truck,
@@ -56,7 +54,7 @@ const VARIANTS: Record<
     sub: "Peças com desconto e a mesma resistência de sempre. Estoque limitado.",
     cta: "Aproveitar ofertas",
     href: "/ofertas",
-    bg: `linear-gradient(115deg, #2a0e0e 0%, #5a1f1f 55%, ${RED} 120%)`,
+    bg: "linear-gradient(115deg, #101010 0%, #1c1c1c 60%, #2a2a2a 100%)",
     img: promo50off.url,
     accent: "#fff",
     icon: Shield,
@@ -90,13 +88,7 @@ export function LifestyleBanner({ variant }: { variant: Variant }) {
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "linear-gradient(100deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.72) 45%, rgba(0,0,0,0.35) 100%)",
-          }}
-        />
-        <div className="absolute inset-0 opacity-[0.08] pointer-events-none"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(45deg, #fff 0 1px, transparent 1px 14px)",
+              "linear-gradient(100deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.42) 45%, rgba(0,0,0,0.15) 100%)",
           }}
         />
         <div className="relative grid lg:grid-cols-[1.4fr_1fr] gap-6 lg:gap-10 items-center p-7 sm:p-10 lg:p-14 min-h-[260px] lg:min-h-[320px]">
