@@ -550,8 +550,9 @@ function Hero() {
 
         {/* Stacked promos */}
         <div className="grid grid-cols-2 lg:grid-cols-1 lg:grid-rows-2 gap-3 sm:gap-4">
-          <div
-            className="relative overflow-hidden rounded-[20px] p-4 sm:p-7 flex flex-col justify-between gap-3 text-white animate-fade-up min-h-[140px] sm:min-h-[160px]"
+          <Link
+            to="/produtos"
+            className="relative overflow-hidden rounded-[20px] p-4 sm:p-7 flex flex-col justify-between gap-3 text-white animate-fade-up min-h-[140px] sm:min-h-[160px] group/promo1"
             style={{
               animationDelay: "120ms",
               background: `linear-gradient(135deg,${OLIVE} 0%,#2a3322 100%)`,
@@ -563,7 +564,7 @@ function Hero() {
               aria-hidden="true"
               loading="lazy"
               decoding="async"
-              className="absolute inset-0 h-full w-full object-cover object-center"
+              className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 group-hover/promo1:scale-105"
             />
             <div
               className="absolute inset-0"
@@ -580,12 +581,13 @@ function Hero() {
                 ENTREGA EM<br />24 HORAS
               </h2>
             </div>
-            <Link to="/produtos" className="relative font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
+            <div className="relative font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
               Saiba mais <ArrowRight className="h-3 w-3" />
-            </Link>
-          </div>
-          <div
-            className="relative overflow-hidden rounded-[20px] p-4 sm:p-7 flex flex-col justify-between gap-3 text-white animate-fade-up min-h-[140px] sm:min-h-[160px]"
+            </div>
+          </Link>
+          <Link
+            to="/ofertas"
+            className="relative overflow-hidden rounded-[20px] p-4 sm:p-7 flex flex-col justify-between gap-3 text-white animate-fade-up min-h-[140px] sm:min-h-[160px] group/promo2"
             style={{
               animationDelay: "220ms",
               background: `linear-gradient(135deg,#1a1a1a 0%,#3a3a3a 100%)`,
@@ -597,7 +599,7 @@ function Hero() {
               aria-hidden="true"
               loading="lazy"
               decoding="async"
-              className="absolute inset-0 h-full w-full object-cover object-center"
+              className="absolute inset-0 h-full w-full object-cover object-center transition-transform duration-700 group-hover/promo2:scale-105"
             />
             <div
               className="absolute inset-0"
@@ -614,10 +616,10 @@ function Hero() {
                 ATÉ <span style={{ color: RED }}>50% OFF</span><br />EM SELECIONADOS
               </h2>
             </div>
-            <Link to="/ofertas" className="relative font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
+            <div className="relative font-display uppercase tracking-wider text-xs inline-flex items-center gap-1">
               Aproveitar <ArrowRight className="h-3 w-3" />
-            </Link>
-          </div>
+            </div>
+          </Link>
 
         </div>
       </div>
