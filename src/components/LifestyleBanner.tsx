@@ -90,13 +90,7 @@ export function LifestyleBanner({ variant }: { variant: Variant }) {
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "linear-gradient(100deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.72) 45%, rgba(0,0,0,0.35) 100%)",
-          }}
-        />
-        <div className="absolute inset-0 opacity-[0.08] pointer-events-none"
-          style={{
-            backgroundImage:
-              "repeating-linear-gradient(45deg, #fff 0 1px, transparent 1px 14px)",
+              "linear-gradient(100deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.42) 45%, rgba(0,0,0,0.15) 100%)",
           }}
         />
         <div className="relative grid lg:grid-cols-[1.4fr_1fr] gap-6 lg:gap-10 items-center p-7 sm:p-10 lg:p-14 min-h-[260px] lg:min-h-[320px]">
