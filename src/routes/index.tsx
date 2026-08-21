@@ -40,6 +40,8 @@ import promo24h from "@/assets/promo-24h.png.asset.json";
 import promo50off from "@/assets/promo-50off.png.asset.json";
 import promo50offWide from "@/assets/promo-50off-wide.png.asset.json";
 import essencialImg from "@/assets/essencial.png.asset.json";
+import bannerPodeParar from "@/assets/banner-feito-pra-quem-nao-pode-parar.png.asset.json";
+import banner50Off from "@/assets/banner-50-off.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -72,10 +74,10 @@ const DEPARTMENTS = CATEGORIES.filter((c) => c.handle !== "outlet" && c.handle !
 const HERO_SLIDES = [
   {
     eyebrow: "Linha Profissional",
-    title: "BOLSAS E MOCHILAS\nCONSTRUÍDAS PARA DURAR",
+    title: "FEITO PRA QUEM\nNÃO PODE PARAR",
     cta: "COMPRAR AGORA",
     bg: "linear-gradient(120deg,#1f2a18 0%,#4A5A3B 60%,#6b7a55 100%)",
-    img: heroDurar.url,
+    img: bannerPodeParar.url,
     link: "/collection/lancamentos",
   },
   {
@@ -596,7 +598,7 @@ function Hero() {
             }}
           >
             <img
-              src={promo50off.url}
+              src={banner50Off.url}
               alt=""
               aria-hidden="true"
               loading="lazy"
