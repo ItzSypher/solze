@@ -655,27 +655,29 @@ function ProductPage() {
 
       {/* ============ STICKY BUY BAR ============ */}
       <div className="fixed bottom-0 inset-x-0 z-40 bg-white border-t border-neutral-200 shadow-[0_-8px_30px_rgba(0,0,0,0.08)]">
-        <div className="mx-auto max-w-[1400px] px-3 sm:px-6 h-auto min-h-16 sm:h-20 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] flex items-center gap-3 sm:gap-4">
-          {firstImage && (
-            <div className="h-14 w-14 rounded-[20px] bg-neutral-50 border border-neutral-200 overflow-hidden shrink-0 hidden sm:block">
-              <img src={firstImage.url} alt="" className="h-full w-full object-contain p-1" />
-            </div>
-          )}
-          <div className="flex-1 min-w-0">
-            <p className="font-display uppercase text-xs sm:text-sm font-bold truncate">{product.node.title}</p>
-            <div className="flex items-baseline gap-2">
-              <span className="font-display text-lg sm:text-xl font-bold" style={{ color: RED }}>
-                {formatBRL(price.amount)}
-              </span>
-              <span className="text-xs text-neutral-500 hidden sm:inline">
-                ou 10x R$ {installment}
-              </span>
+        <div className="mx-auto max-w-[1400px] px-3 sm:px-6 h-auto min-h-16 sm:h-20 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] flex items-center justify-between gap-3 sm:gap-4">
+          <div className="flex items-center gap-3 sm:gap-4 overflow-hidden">
+            {firstImage && (
+              <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-[20px] bg-neutral-50 border border-neutral-200 overflow-hidden shrink-0 hidden sm:block">
+                <img src={firstImage.url} alt="" className="h-full w-full object-contain p-1" />
+              </div>
+            )}
+            <div className="min-w-0">
+              <p className="font-display uppercase text-[11px] sm:text-sm font-bold truncate leading-tight">{product.node.title}</p>
+              <div className="flex items-baseline gap-1.5 sm:gap-2 mt-0.5">
+                <span className="font-display text-base sm:text-xl font-bold whitespace-nowrap" style={{ color: RED }}>
+                  {formatBRL(price.amount)}
+                </span>
+                <span className="text-[10px] text-neutral-500 hidden md:inline">
+                  ou 10x R$ {installment}
+                </span>
+              </div>
             </div>
           </div>
           <button
             onClick={handleAdd}
             disabled={isAdding || !variant?.availableForSale}
-            className="h-11 sm:h-12 px-4 sm:px-10 shrink-0 rounded-[20px] font-display uppercase tracking-wider text-xs sm:text-sm font-bold text-white transition-transform hover:scale-[1.02] disabled:opacity-50 inline-flex items-center gap-2"
+            className="h-11 sm:h-12 px-4 sm:px-10 shrink-0 rounded-[20px] font-display uppercase tracking-wider text-[11px] sm:text-sm font-bold text-white transition-transform hover:scale-[1.02] disabled:opacity-50 inline-flex items-center justify-center gap-2"
             style={{ backgroundColor: RED }}
           >
             {isAdding ? <Loader2 className="h-4 w-4 animate-spin" /> : "COMPRAR AGORA"}
