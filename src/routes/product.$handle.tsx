@@ -263,8 +263,9 @@ function ProductPage() {
                 <Star key={s} className="h-4 w-4 fill-current" />
               ))}
             </div>
-            <span className="font-display font-bold">4.9</span>
-            <span className="text-neutral-500">(287 avaliações)</span>
+            <a href="#avaliacoes" className="text-neutral-500 hover:text-neutral-900 underline-offset-2 hover:underline">
+              Avaliações
+            </a>
             <span className="text-neutral-300">|</span>
             <span className="inline-flex items-center gap-1 text-neutral-500">
               <Package className="h-3.5 w-3.5" /> Em estoque
