@@ -131,7 +131,6 @@ function HomePage() {
           limit={20}
           query="tag:lancamentos OR tag:new"
         />
-        <LifestyleBanner variant="operator" />
         <LifestyleBanner variant="edc" />
         <ProductsCarousel
           title="OFERTAS DA SEMANA"
