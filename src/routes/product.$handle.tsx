@@ -508,28 +508,27 @@ function ProductPage() {
         </motion.div>
       </section>
 
-      {/* ============ SECTION 4: DESCRIPTION + VIDEO ============ */}
+      {/* ============ SECTION 4: DESCRIPTION ============ */}
       <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-24">
         <motion.div {...fade()} className="grid lg:grid-cols-2 gap-10 items-center">
           <div>
             <p className="font-display uppercase tracking-[0.25em] text-xs mb-2" style={{ color: OLIVE }}>
               Engenharia Solze
             </p>
-            <h2 className="font-display uppercase text-4xl lg:text-5xl font-bold leading-[1.05]">
+            <h2 className="font-display uppercase text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.05]">
               CONSTRUÍDA<br />PARA NÃO FALHAR<br /><span style={{ color: RED }}>QUANDO IMPORTA.</span>
             </h2>
             <p className="text-neutral-600 leading-relaxed mt-6">
-              Cada costura, cada zíper, cada milímetro de tecido foi pensado para suportar as condições mais brutais.
-              Desenvolvida em parceria com profissionais que confiam suas vidas ao equipamento, a {product.node.title} é mais
-              do que uma bolsa — é uma ferramenta de combate ao caos do dia a dia.
+              Cada costura, cada zíper, cada milímetro de tecido foi pensado para suportar a rotina pesada de quem
+              trabalha com as mãos. A {product.node.title} é feita para aguentar o dia a dia na obra, na oficina e na rua.
             </p>
             <ul className="mt-6 space-y-3">
               {[
-                "Lona militar Cordura® 1000D impermeabilizada",
-                "Fundo rígido removível em polietileno HDPE",
-                "Alças ergonômicas com reforço em couro legítimo",
-                "Compartimentos modulares para ferramentas",
-                "Zíperes YKK® com proteção contra água",
+                "Lona resistente impermeabilizada",
+                "Fundo rígido reforçado",
+                "Alças ergonômicas com reforço",
+                "Compartimentos organizadores para ferramentas",
+                "Zíperes reforçados",
               ].map((s) => (
                 <li key={s} className="flex items-start gap-3 text-sm">
                   <Check className="h-5 w-5 mt-0.5 shrink-0" style={{ color: OLIVE }} />
@@ -540,37 +539,25 @@ function ProductPage() {
             <div className="mt-8 inline-flex items-center gap-3 rounded-[20px] border border-neutral-200 px-5 py-3">
               <Award className="h-5 w-5" style={{ color: GOLD }} />
               <span className="text-sm">
-                <strong className="font-display uppercase tracking-wider">Field-tested</strong>
-                <span className="text-neutral-500"> em mais de 30 operações reais</span>
+                <strong className="font-display uppercase tracking-wider">Testado no trabalho</strong>
+                <span className="text-neutral-500"> por profissionais todos os dias</span>
               </span>
             </div>
           </div>
 
-          {/* Video / lifestyle */}
-          <div className="relative aspect-[4/5] rounded-[20px] overflow-hidden group cursor-pointer">
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(160deg, #1a1f12 0%, #4A5A3B 60%, #6b7a55 100%)",
-              }}
-            />
-            <div className="absolute inset-0 flex items-center justify-center text-9xl opacity-30">
-              🎒
+          {firstImage && (
+            <div className="relative aspect-[4/5] rounded-[20px] overflow-hidden bg-neutral-50 border border-neutral-200">
+              <img
+                src={firstImage.url}
+                alt={product.node.title}
+                loading="lazy"
+                className="h-full w-full object-contain p-6"
+              />
             </div>
-            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
-            <button className="absolute inset-0 flex items-center justify-center">
-              <div className="h-24 w-24 rounded-full bg-white/95 backdrop-blur flex items-center justify-center shadow-2xl transition-transform group-hover:scale-110">
-                <Play className="h-10 w-10 ml-1" style={{ color: RED }} fill={RED} />
-              </div>
-            </button>
-            <div className="absolute bottom-6 left-6 right-6 text-white">
-              <p className="font-display uppercase tracking-wider text-xs opacity-80">Field test</p>
-              <p className="font-display uppercase text-2xl font-bold mt-1">VEJA EM AÇÃO — 3 MIN</p>
-            </div>
-          </div>
+          )}
         </motion.div>
       </section>
+
 
       {/* ============ SECTION 5: REVIEWS + INSTAGRAM ============ */}
       <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-24">
