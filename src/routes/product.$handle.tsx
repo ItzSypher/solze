@@ -615,38 +615,44 @@ function ProductPage() {
 
         {/* Instagram UGC */}
         <motion.div {...fade()} className="mt-16">
-          <div className="flex items-end justify-between mb-6">
-            <div>
+          <div className="flex flex-col gap-2 mb-6 sm:flex-row sm:items-end sm:justify-between">
+            <div className="min-w-0">
               <p className="font-display uppercase tracking-[0.25em] text-xs" style={{ color: RED }}>
                 Comunidade Solze
               </p>
-              <h2 className="font-display uppercase text-3xl lg:text-4xl font-bold mt-1">
+              <h2 className="font-display uppercase text-2xl sm:text-3xl lg:text-4xl font-bold mt-1 break-words">
                 #SOUFORTECOMOSOLZE
               </h2>
             </div>
-            <a href="https://www.instagram.com/solzeacessorios/" target="_blank" rel="noopener noreferrer" className="font-display uppercase tracking-wider text-xs hover:underline" style={{ color: OLIVE }}>
+            <a href="https://www.instagram.com/solzeacessorios/" target="_blank" rel="noopener noreferrer" className="shrink-0 font-display uppercase tracking-wider text-xs hover:underline" style={{ color: OLIVE }}>
               Ver no Instagram →
             </a>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <motion.div
-                key={i}
-                {...fade(i * 0.05)}
-                className="aspect-square rounded-[20px] overflow-hidden relative group cursor-pointer"
-                style={{
-                  background: `linear-gradient(${135 + i * 20}deg, ${i % 2 ? OLIVE : "#1f2a18"} 0%, ${i % 2 ? "#6b7a55" : OLIVE} 100%)`,
-                }}
-              >
-                <div className="absolute inset-0 flex items-center justify-center text-5xl opacity-40">
-                  {["🎒", "🪖", "🔧", "🥾", "⚙️", "🧰"][i]}
-                </div>
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
-                  <Heart className="h-6 w-6 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
-                </div>
-              </motion.div>
-            ))}
+            {Array.from({ length: 6 }).map((_, i) => {
+              const ugc = images[i % Math.max(images.length, 1)]?.node;
+              return (
+                <motion.div
+                  key={i}
+                  {...fade(i * 0.05)}
+                  className="aspect-square rounded-[20px] overflow-hidden relative group cursor-pointer bg-neutral-100"
+                >
+                  {ugc && (
+                    <img
+                      src={ugc.url}
+                      alt={ugc.altText ?? product.node.title}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
+                  )}
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center">
+                    <Heart className="h-6 w-6 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
+
         </motion.div>
       </section>
 
