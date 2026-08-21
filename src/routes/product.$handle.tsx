@@ -256,7 +256,7 @@ function ProductPage() {
           </h1>
 
           {/* rating row */}
-          <div className="mt-4 flex items-center gap-3 text-sm">
+          <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm">
             <div className="flex items-center gap-0.5" style={{ color: GOLD }}>
               {[1, 2, 3, 4, 5].map((s) => (
                 <Star key={s} className="h-4 w-4 fill-current" />
