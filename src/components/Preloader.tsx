@@ -6,17 +6,14 @@ export function Preloader() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Hide preloader after initial load (or when data is ready)
-    const handleLoad = () => {
-      setTimeout(() => setLoading(false), 800);
+    // Hide quickly so the hero can paint (LCP): fade out on next frame,
+    // with a short safety cap regardless of pending network work.
+    const raf = requestAnimationFrame(() => setLoading(false));
+    const cap = setTimeout(() => setLoading(false), 600);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(cap);
     };
-
-    if (document.readyState === "complete") {
-      handleLoad();
-    } else {
-      window.addEventListener("load", handleLoad);
-      return () => window.removeEventListener("load", handleLoad);
-    }
   }, []);
 
   return (
