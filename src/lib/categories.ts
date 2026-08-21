@@ -66,6 +66,14 @@ export const CATEGORIES: CategoryDef[] = [
     description: "Peças com desconto e a mesma resistência de sempre. Estoque limitado.",
     query: "tag:outlet OR tag:sale",
   },
+  {
+    handle: "lancamentos",
+    label: "Lançamentos",
+    eyebrow: "Novidades",
+    title: "LANÇAMENTOS",
+    description: "Confira as últimas novidades e os novos equipamentos profissionais da Solze.",
+    query: "tag:lancamentos OR tag:new",
+  },
 ];
 
 export function findCategory(handle: string): CategoryDef {

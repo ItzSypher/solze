@@ -119,15 +119,15 @@ export function ProductCard({ product, index = 0 }: { product: ShopifyProduct; i
           </Button>
         </div>
         <div className="mt-3 px-1">
-          <h3 className="text-sm font-medium text-foreground line-clamp-1">
+          <h3 className="text-[13px] sm:text-sm font-medium text-foreground line-clamp-2 min-h-[2.5em] leading-tight">
             {product.node.title}
           </h3>
-          <div className="mt-1 flex items-baseline gap-2">
-            <span className="text-sm font-semibold">
+          <div className="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+            <span className="text-sm font-semibold whitespace-nowrap">
               {formatPrice(price.amount, price.currencyCode)}
             </span>
             {onSale && (
-              <span className="text-xs text-muted-foreground line-through">
+              <span className="text-[11px] text-muted-foreground line-through whitespace-nowrap">
                 {formatPrice(compareAt!.amount, compareAt!.currencyCode)}
               </span>
             )}
