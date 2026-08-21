@@ -76,6 +76,7 @@ const HERO_SLIDES = [
     cta: "COMPRAR AGORA",
     bg: "linear-gradient(120deg,#1f2a18 0%,#4A5A3B 60%,#6b7a55 100%)",
     img: heroDurar.url,
+    link: "/produtos",
   },
   {
     eyebrow: "Frete grátis acima de R$ 399",
@@ -83,6 +84,7 @@ const HERO_SLIDES = [
     cta: "VER COLEÇÃO",
     bg: "linear-gradient(120deg,#0f0f0f 0%,#2a2a2a 60%,#4A5A3B 100%)",
     img: heroMochilas.url,
+    link: "/collection/mochilas",
   },
   {
     eyebrow: "Material reforçado",
@@ -90,6 +92,7 @@ const HERO_SLIDES = [
     cta: "EXPLORAR",
     bg: "linear-gradient(120deg,#2a1a0e 0%,#5a3a1f 60%,#C6A87C 100%)",
     img: heroReforco.url,
+    link: "/produtos",
   },
 ];
 
@@ -121,8 +124,8 @@ function HomePage() {
         <ProductsCarousel
           title="LANÇAMENTOS"
           eyebrow="Acabou de chegar"
-          limit={8}
-          query="tag:new"
+          limit={20}
+          query="tag:lancamentos OR tag:new"
         />
         <LifestyleBanner variant="edc" />
         <ProductsCarousel
