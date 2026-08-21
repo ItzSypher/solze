@@ -72,7 +72,7 @@ function withLocalProductImages(product: ShopifyProduct): ShopifyProduct {
       images: {
         edges: Array.from({ length: 5 }, (_, index) => ({
           node: {
-            url: `/products/${handle}/${String(index + 1).padStart(2, "0")}.png`,
+            url: `/products/${handle}/${String(index + 1).padStart(2, "0")}.webp`,
             altText: `${title} - imagem ${index + 1}`,
           },
         })),
