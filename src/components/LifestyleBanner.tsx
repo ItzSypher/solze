@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import heroReforco from "@/assets/hero-reforco.png.asset.json";
 import essencialImg from "@/assets/essencial.png.asset.json";
 import promo50off from "@/assets/promo-50off.png.asset.json";
+import bannerPodeParar from "@/assets/banner-feito-pra-quem-nao-pode-parar.png.asset.json";
 
 const OLIVE = "#4A5A3B";
 const GOLD = "#C6A87C";
@@ -33,7 +34,7 @@ const VARIANTS: Record<
     href: "/collection/$handle",
     handle: "bolsas",
     bg: `linear-gradient(115deg, #0f150a 0%, ${OLIVE} 55%, #6b7a55 100%)`,
-    img: heroReforco.url,
+    img: bannerPodeParar.url,
     accent: GOLD,
     icon: Shield,
   },
