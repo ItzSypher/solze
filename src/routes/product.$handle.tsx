@@ -278,7 +278,7 @@ function ProductPage() {
               </p>
             )}
             <div className="flex items-baseline gap-3">
-              <span className="font-display text-5xl font-bold" style={{ color: RED }}>
+              <span className="font-display text-4xl sm:text-5xl font-bold" style={{ color: RED }}>
                 {formatBRL(price.amount)}
               </span>
               {onSale && (
