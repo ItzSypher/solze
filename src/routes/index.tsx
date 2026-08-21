@@ -74,10 +74,10 @@ const DEPARTMENTS = CATEGORIES.filter((c) => c.handle !== "outlet" && c.handle !
 const HERO_SLIDES = [
   {
     eyebrow: "Linha Profissional",
-    title: "BOLSAS E MOCHILAS\nCONSTRUÍDAS PARA DURAR",
+    title: "FEITO PRA QUEM\nNÃO PODE PARAR",
     cta: "COMPRAR AGORA",
     bg: "linear-gradient(120deg,#1f2a18 0%,#4A5A3B 60%,#6b7a55 100%)",
-    img: heroDurar.url,
+    img: bannerPodeParar.url,
     link: "/collection/lancamentos",
   },
   {
