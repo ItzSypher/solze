@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { Header, Subfooter, Footer } from "@/routes/index";
 import { CartDrawer } from "@/components/CartDrawer";
+import { ProductReviews } from "@/components/ProductReviews";
 import { fetchProduct, fetchProducts } from "@/lib/shopify";
 import { useCartStore } from "@/stores/cartStore";
 import { useCartSync } from "@/hooks/useCartSync";
