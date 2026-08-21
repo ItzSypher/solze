@@ -145,8 +145,46 @@ function ProductPage() {
     }
   };
 
+  const bundleExtras = allProducts
+    .filter((p) => p.node.handle !== handle)
+    .sort(
+      (a, b) =>
+        parseFloat(a.node.priceRange.minVariantPrice.amount) -
+        parseFloat(b.node.priceRange.minVariantPrice.amount),
+    )
+    .slice(0, 2);
+
+  const bundleTotal =
+    parseFloat(price.amount) +
+    bundleExtras.reduce(
+      (s, p) =>
+        s +
+        parseFloat(
+          (p.node.variants.edges[0]?.node?.price ?? p.node.priceRange.minVariantPrice).amount,
+        ),
+      0,
+    );
+  const bundleDiscount = Math.round(bundleTotal * 0.1);
+
+  const handleAddBundle = async () => {
+    await handleAdd();
+    for (const p of bundleExtras) {
+      const v = p.node.variants.edges[0]?.node;
+      if (!v) continue;
+      await addItem({
+        product: p,
+        variantId: v.id,
+        variantTitle: v.title,
+        price: v.price,
+        quantity: 1,
+        selectedOptions: v.selectedOptions || [],
+      });
+    }
+  };
+
   const firstImage = images[0]?.node;
   const heroImg = images[imgIdx]?.node ?? firstImage;
+
 
   return (
     <div className="min-h-screen bg-white text-neutral-900 font-sans pb-24">
