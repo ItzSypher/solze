@@ -250,7 +250,7 @@ function ProductPage() {
         {/* Info */}
         <motion.div {...fadeIn(0.15)} className="min-w-0 w-full">
           <p className="text-[11px] font-display uppercase tracking-[0.25em]" style={{ color: OLIVE }}>
-            / SOLZE TACTICAL
+            / SOLZE
           </p>
           <h1 className="font-display uppercase mt-3 text-2xl sm:text-4xl lg:text-5xl font-bold break-words leading-[1.05] text-balance">
             {product.node.title}
