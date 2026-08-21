@@ -836,27 +836,19 @@ function ProductsCarousel({
           </p>
         </div>
       ) : (
-        <>
-          {/* Mobile/tablet: real horizontal carousel with snap */}
-          <div className="md:hidden -mx-4 sm:-mx-6 px-4 sm:px-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide">
-            <div className="flex gap-3 pb-2">
-              {products.map((p, i) => (
-                <div
-                  key={p.node.id}
-                  className="snap-start shrink-0 w-[70vw] sm:w-[44vw] max-w-[280px]"
-                >
-                  <ProductCardRetail product={p} index={i} />
-                </div>
-              ))}
-            </div>
-          </div>
-          {/* Desktop: grid */}
-          <div className="hidden md:grid md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="-mx-4 sm:-mx-6 px-4 sm:px-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide md:mx-0 md:px-0 md:overflow-visible">
+          <div className="flex gap-3 pb-2 md:grid md:grid-cols-3 lg:grid-cols-4 md:gap-4 md:pb-0">
             {products.map((p, i) => (
-              <ProductCardRetail key={p.node.id} product={p} index={i} />
+              <div
+                key={p.node.id}
+                className="snap-start shrink-0 w-[70vw] sm:w-[44vw] max-w-[280px] md:w-auto md:max-w-none md:shrink"
+              >
+                <ProductCardRetail product={p} index={i} />
+              </div>
             ))}
           </div>
-        </>
+        </div>
+
       )}
     </section>
   );
