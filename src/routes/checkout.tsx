@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Lock, CreditCard, QrCode, ShieldCheck, Check } from "lucide-react";
+import { Lock, CreditCard, QrCode, ShieldCheck, Check, ShoppingBag } from "lucide-react";
 import logoAsset from "@/assets/solze-logo.png.asset.json";
+import { useCartStore } from "@/stores/cartStore";
 
 export const Route = createFileRoute("/checkout")({
   head: () => ({
@@ -22,9 +23,14 @@ function CheckoutPage() {
   const [payment, setPayment] = useState<"card" | "pix">("card");
   const [bump, setBump] = useState(true);
 
-  const product = { title: "Mochila Porta-Ferramentas", price: 899, emoji: "🎒" };
-  const bumpItem = { title: "Cinto Tático Reforçado", price: 19.9, emoji: "🪖" };
-  const subtotal = product.price + (bump ? bumpItem.price : 0);
+  const items = useCartStore((s) => s.items);
+  const checkoutUrl = useCartStore((s) => s.checkoutUrl);
+  const bumpItem = { title: "Cinto para Ferramentas Solze", price: 19.9 };
+  const itemsTotal = items.reduce(
+    (acc, i) => acc + parseFloat(i.price.amount) * i.quantity,
+    0,
+  );
+  const subtotal = itemsTotal + (bump && items.length > 0 ? bumpItem.price : 0);
 
   return (
     <div className="min-h-screen bg-secondary/30">
@@ -106,18 +112,41 @@ function CheckoutPage() {
             <div className="bg-white rounded-[20px] p-6 border border-border">
               <h2 className="font-display uppercase text-lg font-bold mb-5">Resumo do pedido</h2>
 
-              <div className="flex gap-4 pb-5 border-b border-border">
-                <div className="w-20 h-20 rounded-[16px] bg-secondary flex items-center justify-center text-4xl shrink-0">{product.emoji}</div>
-                <div className="flex-1">
-                  <h3 className="font-medium text-sm">{product.title}</h3>
-                  <p className="text-xs text-muted-foreground mt-1">Qtd: 1</p>
-                  <p className="font-display font-bold mt-1">{brl(product.price)}</p>
+              {items.length === 0 ? (
+                <div className="pb-5 border-b border-border text-center">
+                  <ShoppingBag className="h-8 w-8 mx-auto text-muted-foreground" />
+                  <p className="mt-3 text-sm text-muted-foreground">Seu carrinho está vazio.</p>
+                  <Link to="/produtos" className="mt-3 inline-flex h-11 items-center rounded-[20px] px-5 text-sm font-display uppercase tracking-wider text-white" style={{ background: RED }}>
+                    Ver produtos
+                  </Link>
                 </div>
-              </div>
+              ) : (
+                <div className="space-y-4 pb-5 border-b border-border">
+                  {items.map((item) => {
+                    const img = item.product.node.images.edges[0]?.node;
+                    return (
+                      <div key={item.variantId} className="flex gap-4">
+                        <div className="w-20 h-20 rounded-[16px] bg-secondary overflow-hidden shrink-0">
+                          {img && (
+                            <img src={img.url} alt={img.altText ?? item.product.node.title} className="h-full w-full object-cover" loading="lazy" />
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-medium text-sm line-clamp-2">{item.product.node.title}</h3>
+                          <p className="text-xs text-muted-foreground mt-1">Qtd: {item.quantity}</p>
+                          <p className="font-display font-bold mt-1">{brl(parseFloat(item.price.amount) * item.quantity)}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
 
-              {bump && (
+              {bump && items.length > 0 && (
                 <div className="flex gap-4 py-4 border-b border-border">
-                  <div className="w-16 h-16 rounded-[16px] bg-secondary flex items-center justify-center text-3xl shrink-0">{bumpItem.emoji}</div>
+                  <div className="w-16 h-16 rounded-[16px] bg-secondary flex items-center justify-center shrink-0">
+                    <ShieldCheck className="h-6 w-6 text-muted-foreground" />
+                  </div>
                   <div className="flex-1">
                     <h3 className="font-medium text-sm">{bumpItem.title}</h3>
                     <p className="font-display font-bold text-sm mt-1" style={{ color: RED }}>+ {brl(bumpItem.price)}</p>
@@ -140,12 +169,14 @@ function CheckoutPage() {
             <motion.div animate={{ scale: [1, 1.01, 1] }} transition={{ duration: 2, repeat: Infinity }}
               className="rounded-[20px] p-5 border-2 border-dashed border-yellow-500 bg-yellow-50">
               <h3 className="font-display uppercase font-bold text-base text-yellow-900">
-                ★ Oferta Exclusiva: Leve também o Cinto Tático por apenas <span style={{ color: RED }}>R$ 19,90</span>
+                ★ Oferta Exclusiva: Leve também o Cinto Solze por apenas <span style={{ color: RED }}>R$ 19,90</span>
               </h3>
               <div className="mt-4 flex items-center gap-3">
-                <div className="w-14 h-14 rounded-[14px] bg-white border border-yellow-300 flex items-center justify-center text-3xl shrink-0">🪖</div>
+                <div className="w-14 h-14 rounded-[14px] bg-white border border-yellow-300 flex items-center justify-center shrink-0">
+                  <ShieldCheck className="h-6 w-6 text-yellow-700" />
+                </div>
                 <div className="flex-1 text-xs text-yellow-900/80">
-                  Cinto reforçado nylon 1000D — fivela em aço. <span className="line-through">R$ 149,00</span>{" "}
+                  Cinto reforçado em nylon — fivela em aço. <span className="line-through">R$ 149,00</span>{" "}
                   <span className="font-bold">por R$ 19,90</span>
                 </div>
                 <button
@@ -162,9 +193,13 @@ function CheckoutPage() {
 
             {/* CTA */}
             <motion.button
-              animate={{ scale: [1, 1.02, 1] }}
+              animate={items.length > 0 ? { scale: [1, 1.02, 1] } : undefined}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-full h-16 rounded-[20px] text-white font-display uppercase text-lg tracking-wider shadow-2xl hover:opacity-95 transition flex items-center justify-center gap-2"
+              disabled={items.length === 0}
+              onClick={() => {
+                if (checkoutUrl) window.location.href = checkoutUrl;
+              }}
+              className="w-full h-16 rounded-[20px] text-white font-display uppercase text-lg tracking-wider shadow-2xl hover:opacity-95 transition flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
               style={{ background: WHATS, boxShadow: `0 10px 40px -10px ${WHATS}` }}
             >
               <Lock className="h-5 w-5" /> Finalizar Compra Segura
