@@ -444,13 +444,14 @@ function ProductPage() {
               {[
                 "Eletricistas",
                 "Obra Pesada",
-                "Bombeiros",
-                "Forças Especiais",
-                "Tiro Esportivo",
-                "Aventureiros",
+                "Encanadores",
+                "Marceneiros",
+                "Manutenção",
+                "Técnicos",
                 "Mecânicos",
                 "Field Tech",
               ].map((t) => (
+
                 <span
                   key={t}
                   className="rounded-[20px] border border-white/20 bg-white/10 backdrop-blur px-4 py-2 text-sm font-display uppercase tracking-wider hover:bg-white/20 transition-colors"
