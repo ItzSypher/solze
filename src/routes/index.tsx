@@ -122,8 +122,8 @@ function HomePage() {
           title="LANÇAMENTOS"
           eyebrow="Acabou de chegar"
           limit={20}
-          query="tag:lancamentos OR tag:new"
         />
+
         <LifestyleBanner variant="edc" />
         <ProductsCarousel
           title="OFERTAS DA SEMANA"
