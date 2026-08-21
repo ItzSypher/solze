@@ -12,7 +12,6 @@ import {
   X,
   Plus,
   Star,
-  Play,
   Minus,
   Package,
   Award,
@@ -187,7 +186,7 @@ function ProductPage() {
 
 
   return (
-    <div className="min-h-screen bg-white text-neutral-900 font-sans pb-24">
+    <div className="min-h-screen bg-white text-neutral-900 font-sans pb-32 sm:pb-24 overflow-x-hidden">
       <Header />
 
       {/* Breadcrumb */}
@@ -252,7 +251,7 @@ function ProductPage() {
           <p className="text-[11px] font-display uppercase tracking-[0.25em]" style={{ color: OLIVE }}>
             / SOLZE TACTICAL
           </p>
-          <h1 className="font-display uppercase mt-3 text-4xl sm:text-5xl font-bold leading-[1.05] text-balance">
+          <h1 className="font-display uppercase mt-3 text-3xl sm:text-5xl font-bold break-words leading-[1.05] text-balance">
             {product.node.title}
           </h1>
 
@@ -734,16 +733,16 @@ function ProductPage() {
 
       {/* ============ STICKY BUY BAR ============ */}
       <div className="fixed bottom-0 inset-x-0 z-40 bg-white border-t border-neutral-200 shadow-[0_-8px_30px_rgba(0,0,0,0.08)]">
-        <div className="mx-auto max-w-[1400px] px-4 sm:px-6 h-20 flex items-center gap-4">
+        <div className="mx-auto max-w-[1400px] px-3 sm:px-6 h-auto min-h-16 sm:h-20 py-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] flex items-center gap-3 sm:gap-4">
           {firstImage && (
             <div className="h-14 w-14 rounded-[20px] bg-neutral-50 border border-neutral-200 overflow-hidden shrink-0 hidden sm:block">
               <img src={firstImage.url} alt="" className="h-full w-full object-contain p-1" />
             </div>
           )}
           <div className="flex-1 min-w-0">
-            <p className="font-display uppercase text-sm font-bold truncate">{product.node.title}</p>
+            <p className="font-display uppercase text-xs sm:text-sm font-bold truncate">{product.node.title}</p>
             <div className="flex items-baseline gap-2">
-              <span className="font-display text-xl font-bold" style={{ color: RED }}>
+              <span className="font-display text-lg sm:text-xl font-bold" style={{ color: RED }}>
                 {formatBRL(price.amount)}
               </span>
               <span className="text-xs text-neutral-500 hidden sm:inline">
@@ -754,7 +753,7 @@ function ProductPage() {
           <button
             onClick={handleAdd}
             disabled={isAdding || !variant?.availableForSale}
-            className="h-12 px-6 sm:px-10 rounded-[20px] font-display uppercase tracking-wider text-sm font-bold text-white transition-transform hover:scale-[1.02] disabled:opacity-50 inline-flex items-center gap-2"
+            className="h-11 sm:h-12 px-4 sm:px-10 shrink-0 rounded-[20px] font-display uppercase tracking-wider text-xs sm:text-sm font-bold text-white transition-transform hover:scale-[1.02] disabled:opacity-50 inline-flex items-center gap-2"
             style={{ backgroundColor: RED }}
           >
             {isAdding ? <Loader2 className="h-4 w-4 animate-spin" /> : "COMPRAR AGORA"}
