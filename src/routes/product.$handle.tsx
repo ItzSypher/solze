@@ -607,7 +607,7 @@ function ProductPage() {
 
 
       {/* ============ SECTION 5: REVIEWS + INSTAGRAM ============ */}
-      <section className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-24">
+      <section id="avaliacoes" className="mx-auto max-w-[1400px] px-4 sm:px-6 mt-24 scroll-mt-24">
         <motion.div {...fade()}>
           <ProductReviews handle={handle} />
         </motion.div>
